@@ -1,0 +1,59 @@
+{
+  "players": [
+    {
+      "id": 38370545,
+      "name": "player1",
+      "list": [
+        "mot1",
+        "mot2",
+        "mot3",
+        "mot4"
+      ],
+      "team": "1"
+    },
+    {
+      "id": 5741980,
+      "name": "fff",
+      "list": [
+        "mot",
+        "2",
+        "3",
+        "4"
+      ],
+      "team": "1"
+    },
+    {
+      "id": 329593,
+      "name": "toto",
+      "list": [
+        "chat",
+        "chien",
+        "perroquet",
+        "aligator"
+      ],
+      "team": "1"
+    },
+    {
+      "id": 7752903,
+      "name": "to1",
+      "list": [
+        "rr",
+        "rat",
+        "pigeon",
+        "ratte"
+      ],
+      "team": "2"
+    },
+    {
+      "id": 3706219,
+      "name": "lolo",
+      "list": [
+        "requin",
+        "dorade",
+        "raie",
+        "pingouin"
+      ],
+      "team": "2"
+    }
+  ]
+}
