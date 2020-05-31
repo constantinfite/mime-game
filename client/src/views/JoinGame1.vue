@@ -10,8 +10,8 @@
       </v-col>
       <v-col cols="5">
         <v-radio-group v-model="player.team" column>
-          <v-radio label="Equipe 1" value="1"></v-radio>
-          <v-radio label="Equipe 2" value="2"></v-radio>
+          <v-radio label="Equipe Rouge" value="1"></v-radio>
+          <v-radio label="Equipe Bleue" value="2"></v-radio>
         </v-radio-group>
       </v-col>
     </v-row>

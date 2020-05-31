@@ -1,15 +1,17 @@
 <template>
-  <v-container class="full-height flex-column d-flex ">
+  <v-container class="full-height flex-column d-flex">
+    <v-row justify="center">Team {{ currentTeam }}</v-row>
+    <v-row justify="center">Joueur {{ currentPlayer }}</v-row>
     <v-row justify="center" class="mt-10">
-      <p class="display-3">{{ oneWord }}</p>
+      <p v-if="this.resetButton" class="display-3">{{ oneWord }}</p>
     </v-row>
-    <v-row justify="center" class="">
+    <v-row justify="center" class>
       <v-btn small color="#E71D36" class="white--text mr-5">Passe</v-btn>
-      <v-btn small color="#2E294E" @click="nextWord" class=" white--text"
+      <v-btn small color="#2E294E" @click="nextWord" class="white--text"
         >Suivant</v-btn
       >
     </v-row>
-    <v-row justify="center" align="center" class="mt-10 flex-column d-flex ">
+    <v-row justify="center" align="center" class="mt-10 flex-column d-flex">
       <div class="display-2 mb-5">
         <span id="minutes">{{ minutes }}</span>
         <span id="middle">:</span>
@@ -17,7 +19,7 @@
       </div>
       <div>
         <!--     Start Timer -->
-        <v-icon x-large v-if="!timer" class="" @click="startTimer"
+        <v-icon x-large v-if="!timer" class @click="startTimer"
           >mdi-play-circle-outline</v-icon
         >
         <!--     Pause Timer -->
@@ -30,10 +32,14 @@
         >
       </div>
     </v-row>
-    <v-row justify="center" class="mb-5"> </v-row>
     <v-row justify="center" class="div-bottom">
-      <v-btn small v-if="finish" color="#f46036" class="mb-5 white--text "
-        >Prochaine personne</v-btn
+      <v-btn
+        small
+        v-if="finish"
+        color="#f46036"
+        @click="switchTeam"
+        class="mb-5 white--text"
+        >Switch Team</v-btn
       >
     </v-row>
   </v-container>
@@ -45,26 +51,34 @@ export default {
   data() {
     return {
       timer: null,
-      totalTime: 30,
+      totalTime: 3,
       resetButton: false,
-      finish: true
+      finish: false,
+      color: ["Bleue", "Rouge"],
+      round: 2
     };
   },
   created() {
     this.$store.dispatch("fetchPlayers");
   },
   computed: {
-    listWord() {
-      var list = [];
-      this.players.map(item => {
-        item.list.map(word => {
-          list.push(word);
-        });
-      });
-      return list;
-    },
     oneWord() {
-      return this.listWord[Math.floor(Math.random() * this.listWord.length)];
+      return this.$store.getters.word;
+    },
+    currentTeam() {
+      if (this.round % 2 == 0) {
+        return this.color[0];
+      } else {
+        return this.color[1];
+      }
+    },
+    currentPlayer() {
+      var i = 0;
+      if (this.round % 2 == 0) {
+        return this.$store.getters.blueTeam[i];
+      } else {
+        return this.$store.getters.redTeam[i];
+      }
     },
     minutes: function() {
       const minutes = Math.floor(this.totalTime / 60);
@@ -87,7 +101,7 @@ export default {
       this.resetButton = true;
     },
     resetTimer() {
-      this.totalTime = 30;
+      this.totalTime = 3;
       clearInterval(this.timer);
       this.timer = null;
       this.resetButton = false;
@@ -96,10 +110,18 @@ export default {
       return (time < 10 ? "0" : "") + time;
     },
     countdown() {
-      this.totalTime--;
+      if (this.seconds > 0) {
+        this.totalTime--;
+      } else {
+        this.stopTimer();
+        this.finish = true;
+      }
+    },
+    switchTeam() {
+      this.round += 1;
     },
     nextWord() {
-      this.listWord.splice(this.oneWord);
+      this.$store.dispatch("passWord", this.oneWord);
     }
   }
 };

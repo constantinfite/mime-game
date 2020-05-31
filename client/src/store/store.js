@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     players: [],
+    wordSelected: [],
     game: {}
   },
   mutations: {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     },
     SET_PLAYERS(state, players) {
       state.players = players;
+    },
+    PASS_WORD(state, word) {
+      state.wordSelected.push(word);
     }
   },
   actions: {
@@ -35,7 +39,50 @@ export default new Vuex.Store({
         .catch(error => {
           console.log("There was an error:", error.response);
         });
+    },
+    passWord({ commit }, word) {
+      console.log(word);
+      commit("PASS_WORD", word);
     }
   },
-  modules: {}
+  getters: {
+    listWord: state => {
+      var list = [];
+      state.players.map(item => {
+        item.list.map(word => {
+          list.push(word);
+        });
+      });
+      return list;
+    },
+    listFilter: (state, getters) => {
+      return getters.listWord.filter(function(item) {
+        return !state.wordSelected.includes(item);
+      });
+    },
+    word: (state, getters) => {
+      return getters.listFilter[getters.index];
+    },
+    index: (state, getters) => {
+      return Math.floor(Math.random() * getters.listFilter.length);
+    },
+    blueTeam: state => {
+      var list = [];
+      state.players.map(item => {
+        if (item.team == 1) {
+          list.push(item.name);
+        }
+      });
+      return list;
+    },
+    redTeam: state => {
+      var list = [];
+      state.players.map(item => {
+        if (item.team == 2) {
+          list.push(item.name);
+        }
+      });
+      return list;
+    }
+  }
 });
