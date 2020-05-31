@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     players: [],
     wordSelected: [],
-    game: {}
+    score: [0, 0]
   },
   mutations: {
     ADD_PLAYER(state, player) {
@@ -17,8 +17,18 @@ export default new Vuex.Store({
     SET_PLAYERS(state, players) {
       state.players = players;
     },
-    PASS_WORD(state, word) {
+    NEXT_WORD(state, { word, round }) {
       state.wordSelected.push(word);
+      console.log(round);
+      if (round == "ok") {
+        return null;
+      }
+      if (round % 2 == 0) {
+        state.score[0] += 1;
+      }
+      else {
+        state.score[1] += 1;
+      }
     }
   },
   actions: {
@@ -40,9 +50,8 @@ export default new Vuex.Store({
           console.log("There was an error:", error.response);
         });
     },
-    passWord({ commit }, word) {
-      console.log(word);
-      commit("PASS_WORD", word);
+    nextWord({ commit }, { word, round }) {
+      commit("NEXT_WORD", { word: word, round: round });
     }
   },
   getters: {

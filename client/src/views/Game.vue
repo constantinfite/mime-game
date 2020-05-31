@@ -1,14 +1,19 @@
 <template>
   <v-container class="full-height flex-column d-flex">
-    <v-row justify="center">Team {{ currentTeam }}</v-row>
+    <v-row justify="center">Team {{ currentTeam }} / Score {{ score }}</v-row>
     <v-row justify="center">Joueur {{ currentPlayer }}</v-row>
     <v-row justify="center" class="mt-10">
-      <p v-if="this.resetButton" class="display-3">{{ oneWord }}</p>
+      <p v-if="showWord" class="display-3">{{ oneWord }}</p>
     </v-row>
-    <v-row justify="center" class>
-      <v-btn small color="#E71D36" class="white--text mr-5">Passe</v-btn>
-      <v-btn small color="#2E294E" @click="nextWord" class="white--text"
+    <v-row justify="center" v-if="!finish" class>
+      <v-btn small color="#E71D36" class="white--text mr-5" @click="skipWord"
+        >Passe</v-btn
+      >
+      <v-btn small color="#2E294E" @click="nextWord" class="white--text mr-5"
         >Suivant</v-btn
+      >
+      <v-btn small color="#2E294E" @click="showWordFunction" class="white--text"
+        >Montrer le mot</v-btn
       >
     </v-row>
     <v-row justify="center" align="center" class="mt-10 flex-column d-flex">
@@ -17,7 +22,7 @@
         <span id="middle">:</span>
         <span id="seconds">{{ seconds }}</span>
       </div>
-      <div>
+      <div v-if="!finish">
         <!--     Start Timer -->
         <v-icon x-large v-if="!timer" class @click="startTimer"
           >mdi-play-circle-outline</v-icon
@@ -51,11 +56,13 @@ export default {
   data() {
     return {
       timer: null,
-      totalTime: 3,
+      totalTime: 5,
       resetButton: false,
       finish: false,
+      showWord: false,
       color: ["Bleue", "Rouge"],
-      round: 2
+      round: 2,
+      teamIndex: 0
     };
   },
   created() {
@@ -73,11 +80,10 @@ export default {
       }
     },
     currentPlayer() {
-      var i = 0;
       if (this.round % 2 == 0) {
-        return this.$store.getters.blueTeam[i];
+        return this.$store.getters.blueTeam[this.teamIndex];
       } else {
-        return this.$store.getters.redTeam[i];
+        return this.$store.getters.redTeam[this.teamIndex];
       }
     },
     minutes: function() {
@@ -87,6 +93,13 @@ export default {
     seconds: function() {
       const seconds = this.totalTime - this.minutes * 60;
       return this.padTime(seconds);
+    },
+    score() {
+      if (this.round % 2 == 0) {
+        return this.$store.state.score[0];
+      } else {
+        return this.$store.state.score[1];
+      }
     },
     ...mapState(["players"])
   },
@@ -101,7 +114,7 @@ export default {
       this.resetButton = true;
     },
     resetTimer() {
-      this.totalTime = 3;
+      this.totalTime = 5;
       clearInterval(this.timer);
       this.timer = null;
       this.resetButton = false;
@@ -114,14 +127,30 @@ export default {
         this.totalTime--;
       } else {
         this.stopTimer();
+        this.resetButton = false;
         this.finish = true;
+        this.showWord = false;
       }
     },
     switchTeam() {
+      if (this.round % 2 == 1) {
+        this.teamIndex += 1;
+      }
       this.round += 1;
+      this.finish = false;
+      this.resetTimer();
     },
     nextWord() {
-      this.$store.dispatch("passWord", this.oneWord);
+      this.$store.dispatch("nextWord", {
+        word: this.oneWord,
+        round: this.round
+      });
+    },
+    skipWord() {
+      this.$store.dispatch("nextWord", { word: "", round: "ok" });
+    },
+    showWordFunction() {
+      this.showWord = true;
     }
   }
 };
