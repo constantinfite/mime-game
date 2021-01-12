@@ -1,14 +1,34 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    // this section will be used to determine which APIs are available to us
+    // (i.e are we running in a browser environment or a node.js env)
+    node: true,
+    browser: true
   },
-  extends: ["plugin:vue/essential", "eslint:recommended", "@vue/prettier"],
+  plugins: [
+    'vue'
+  ],
+
   parserOptions: {
-    parser: "babel-eslint"
+    parser: 'babel-eslint',
+    // specifying a module sourcetype prevent eslint from marking import statements as errors
+    sourceType: 'module'
   },
+  extends: [
+    // use the recommended rule set for both plain javascript and vue
+    'eslint:recommended',
+    'plugin:vue/recommended'
+  ],
   rules: {
-    "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off"
+    // we should always disable console logs and debugging in production
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/multiline-html-element-content-newline': 'off',
+    'vue/html-closing-bracket-newline': 'off',
+    'vue/max-attributes-per-line': 'off'
   }
-};
+
+
+}

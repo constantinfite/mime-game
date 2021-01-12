@@ -6,15 +6,13 @@
       </v-row>
       <v-row justify="center" class="mx-auto">
         <v-col cols="8" align="center">
-          <v-btn small color="#f46036" class=" mb-5 link"
-            ><router-link to="/createGame">Créer une partie</router-link></v-btn
-          >
+          <v-btn small color="#f46036" class="mb-5 link">
+            <router-link to="/createGame"> Créer une partie </router-link>
+          </v-btn>
 
-          <v-btn color="#1B998B" small class="link"
-            ><router-link to="/joinGame" 
-              >Rejoindre une partie</router-link
-            ></v-btn
-          >
+          <v-btn color="#1B998B" small class="link">
+            <router-link to="/joinGame"> Rejoindre une partie </router-link>
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -25,11 +23,10 @@
 // @ is an alias to /src
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {}
-};
+}
 </script>
 
 <style >
-
 </style>

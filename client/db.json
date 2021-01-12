@@ -1,67 +1,77 @@
 {
   "players": [
     {
-      "id": 38370545,
-      "name": "player1",
+      "id": 7086242,
+      "name": "paul",
       "list": [
-        "mot1",
-        "mot2",
-        "mot3",
-        "mot4"
+        "Dromadaire",
+        "Chameau",
+        "Eléphant",
+        "Siréne"
       ],
       "team": "1"
     },
     {
-      "id": 5741980,
-      "name": "fff",
+      "id": 1493059,
+      "name": "Jean",
       "list": [
-        "mot",
-        "2",
-        "3",
-        "4"
+        "tomate",
+        "fruit",
+        "pastéque",
+        "melon"
       ],
       "team": "1"
     },
     {
-      "id": 329593,
-      "name": "toto",
+      "id": 9912639,
+      "name": "pierre",
       "list": [
-        "chat",
-        "chien",
-        "perroquet",
-        "aligator"
+        "voiture",
+        "camion",
+        "avion"
+      ],
+      "team": "2"
+    },
+    {
+      "id": 1485829,
+      "name": "",
+      "list": [
+        "hélicoptère",
+        "ambulance",
+        "camion"
+      ],
+      "team": "2"
+    },
+    {
+      "id": 924439,
+      "name": "constantin",
+      "list": [
+        "chapeau",
+        "ordi",
+        "clavier",
+        "souris"
+      ],
+      "team": "2"
+    },
+    {
+      "id": 3569216,
+      "name": "jean poulin",
+      "list": [
+        "ascalon"
       ],
       "team": "1"
     },
     {
-      "id": 7752903,
-      "name": "to1",
-      "list": [
-        "rr",
-        "rat",
-        "pigeon",
-        "ratte"
-      ],
-      "team": "2"
+      "id": 2636014,
+      "name": "rouge",
+      "list": [],
+      "team": "1"
     },
     {
-      "id": 3706219,
-      "name": "lolo",
-      "list": [
-        "requin",
-        "dorade",
-        "raie",
-        "pingouin"
-      ],
-      "team": "2"
-    },
-    {
-      "id": 5067642,
-      "name": "tyty",
-      "list": [
-        "roro"
-      ],
-      "team": "2"
+      "id": 1948185,
+      "name": "paul bleu",
+      "list": [],
+      "team": "1"
     }
   ]
 }
