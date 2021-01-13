@@ -3,7 +3,6 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import TeamMenu from "../views/TeamMenu.vue";
 import CreateGame1 from "../views/CreateGame1.vue";
-import CreateGame2 from "../views/CreateGame2.vue";
 import JoinGame1 from "../views/JoinGame1.vue";
 import Game from "../views/Game.vue";
 
@@ -27,14 +26,10 @@ const routes = [
     component: CreateGame1
   },
   {
-    path: "/createGame/id",
-    name: "CreateGame2",
-    component: CreateGame2
-  },
-  {
     path: "/joinGame",
-    name: "JoinGame1",
-    component: JoinGame1
+    name: "JoinGame",
+    component: JoinGame1,
+    props: true
   },
   {
     path: "/Game",

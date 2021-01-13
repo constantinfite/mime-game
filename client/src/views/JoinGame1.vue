@@ -7,8 +7,8 @@
       </v-col>
       <v-col cols="5">
         <v-radio-group v-model="player.team" column>
-          <v-radio label="Equipe Rouge" value="2" />
           <v-radio label="Equipe Bleue" value="1" />
+          <v-radio label="Equipe Rouge" value="2" />
         </v-radio-group>
       </v-col>
     </v-row>
@@ -16,16 +16,29 @@
     <v-row justify="center">
       <v-col cols="10">
         <h3 class>Rentre le code</h3>
-        <v-text-field id="input" v-model="game.id" color="#1B998B" class="input-code" placeholder="478577" />
+        <v-text-field
+          id="input"
+          v-model="player.gameId"
+          color="#1B998B"
+          class="input-code"
+          placeholder="478577"
+        />
         <h3>Rentre tes mots</h3>
-        <v-text-field v-model="player.list[0]" placeholder="mot 1" />
-        <v-text-field v-model="player.list[1]" placeholder="mot 1" />
-        <v-text-field v-model="player.list[2]" placeholder="mot 1" />
-        <v-text-field v-model="player.list[3]" placeholder="mot 1" />
+        <v-text-field
+          v-for="number in 5"
+          :key="number"
+          v-model="player.list[number]"
+          :placeholder="`mot ${number}`"
+        />
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-btn small color="#f46036" class="mb-5 link white--text" @click="createPlayer">
+      <v-btn
+        small
+        color="#f46036"
+        class="mb-5 link white--text"
+        @click="createPlayer"
+      >
         Rejoindre la partie
         <!-- <router-link :to="{ name: 'JoinGame2', params: { id: 1 } }"
           >Choisir ces mots</router-link
@@ -44,28 +57,32 @@
 export default {
   data() {
     return {
-      player: { id: 0, name: '', list: [], team: null },
-      game: { id: null }
-    }
+      admin: false,
+      player: { id: 0, name: "", list: [], team: null, gameId: null },
+    };
+  },
+  created() {
+    this.admin = this.$route.params.admin;
   },
   methods: {
     createPlayer() {
-      this.player.id = Math.floor(Math.random() * 10000000)
+      this.player.id = Math.floor(Math.random() * 10000000);
       this.$store
-        .dispatch('createPlayer', this.player)
+        .dispatch("createPlayer", { player: this.player })
+        /*this.$store
+        .dispatch("fetchPlayers", { gameId: this.player.gameId })*/
         .then(() => {
-          console.log('ok')
           this.$router.push({
-            name: 'TeamMenu',
-            params: { id: this.game.id }
-          })
+            name: "TeamMenu",
+            params: { gameId: this.player.gameId, admin: this.admin },
+          });
         })
         .catch(() => {
-          console.log('error')
-        })
-    }
-  }
-}
+          console.log("error");
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>

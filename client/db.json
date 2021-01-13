@@ -1,77 +1,73 @@
 {
+  "games": [
+    {
+      "id": 3646529,
+      "code": "coco"
+    }
+  ],
   "players": [
     {
-      "id": 7086242,
+      "id": 2135412,
       "name": "paul",
       "list": [
-        "Dromadaire",
-        "Chameau",
-        "Eléphant",
-        "Siréne"
+        null,
+        "ascalon",
+        "pauf",
+        "ert",
+        "tyu",
+        "err"
       ],
-      "team": "1"
+      "team": "1",
+      "gameId": "3646529"
     },
     {
-      "id": 1493059,
-      "name": "Jean",
+      "id": 1977026,
+      "name": "adv",
       "list": [
-        "tomate",
-        "fruit",
-        "pastéque",
-        "melon"
+        null,
+        "cc",
+        "as",
+        "df",
+        "ty",
+        "uy"
       ],
-      "team": "1"
+      "team": "2",
+      "gameId": "3646529"
     },
     {
-      "id": 9912639,
-      "name": "pierre",
+      "id": 7007850,
+      "name": "azsc",
       "list": [
-        "voiture",
-        "camion",
-        "avion"
+        null,
+        "cce",
+        "e",
+        "e",
+        "z",
+        "z"
       ],
-      "team": "2"
+      "team": "1",
+      "gameId": "3646529"
     },
     {
-      "id": 1485829,
-      "name": "",
-      "list": [
-        "hélicoptère",
-        "ambulance",
-        "camion"
-      ],
-      "team": "2"
+      "id": 9660320,
+      "name": "azd",
+      "list": [],
+      "team": "2",
+      "gameId": "3646529"
     },
     {
-      "id": 924439,
-      "name": "constantin",
-      "list": [
-        "chapeau",
-        "ordi",
-        "clavier",
-        "souris"
-      ],
-      "team": "2"
-    },
-    {
-      "id": 3569216,
+      "id": 7454658,
       "name": "jean poulin",
-      "list": [
-        "ascalon"
-      ],
-      "team": "1"
+      "list": [],
+      "team": "1",
+      "gameId": "3646529"
     },
     {
-      "id": 2636014,
-      "name": "rouge",
+      "id": 8912047,
+      "name": "dd",
       "list": [],
-      "team": "1"
-    },
-    {
-      "id": 1948185,
-      "name": "paul bleu",
-      "list": [],
-      "team": "1"
+      "team": null,
+      "gameId": "3646529"
     }
   ]
 }

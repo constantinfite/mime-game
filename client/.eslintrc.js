@@ -29,6 +29,4 @@ module.exports = {
     'vue/html-closing-bracket-newline': 'off',
     'vue/max-attributes-per-line': 'off'
   }
-
-
 }
