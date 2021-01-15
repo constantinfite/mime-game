@@ -1,73 +1,62 @@
 {
   "games": [
     {
-      "id": 3646529,
-      "code": "coco"
+      "id": 9094418
+    },
+    {
+      "id": 6659632
+    },
+    {
+      "id": 1059823
     }
   ],
   "players": [
     {
-      "id": 2135412,
+      "id": 5103113,
+      "name": "paul",
+      "list": [],
+      "team": "2",
+      "gameId": "9094418"
+    },
+    {
+      "id": 2372389,
+      "name": "paul",
+      "list": [],
+      "team": "2",
+      "gameId": "9094418"
+    },
+    {
+      "id": 6092859,
+      "name": "paul",
+      "list": [],
+      "team": "1",
+      "gameId": "9094418"
+    },
+    {
+      "id": 2144950,
       "name": "paul",
       "list": [
         null,
-        "ascalon",
-        "pauf",
-        "ert",
-        "tyu",
-        "err"
+        "Dromadaire",
+        "fdf",
+        "ascalon"
       ],
       "team": "1",
-      "gameId": "3646529"
+      "gameId": "9094418"
     },
     {
-      "id": 1977026,
-      "name": "adv",
-      "list": [
-        null,
-        "cc",
-        "as",
-        "df",
-        "ty",
-        "uy"
-      ],
-      "team": "2",
-      "gameId": "3646529"
-    },
-    {
-      "id": 7007850,
-      "name": "azsc",
-      "list": [
-        null,
-        "cce",
-        "e",
-        "e",
-        "z",
-        "z"
-      ],
-      "team": "1",
-      "gameId": "3646529"
-    },
-    {
-      "id": 9660320,
+      "id": 959293,
       "name": "azd",
       "list": [],
       "team": "2",
-      "gameId": "3646529"
+      "gameId": "6659632"
     },
     {
-      "id": 7454658,
-      "name": "jean poulin",
+      "id": 7722308,
+      "name": "trt",
       "list": [],
       "team": "1",
-      "gameId": "3646529"
-    },
-    {
-      "id": 8912047,
-      "name": "dd",
-      "list": [],
-      "team": null,
-      "gameId": "3646529"
+      "gameId": "6659632"
     }
   ]
 }

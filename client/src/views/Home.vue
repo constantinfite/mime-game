@@ -6,8 +6,13 @@
       </v-row>
       <v-row justify="center" class="mx-auto">
         <v-col cols="8" align="center">
-          <v-btn small color="#f46036" class="mb-5 link">
-            <router-link to="/createGame"> Créer une partie </router-link>
+          <v-btn
+            small
+            color="#f46036"
+            class="mb-5 link white--text"
+            @click="createGame"
+          >
+            Créer une partie
           </v-btn>
 
           <v-btn color="#1B998B" small class="link">
@@ -26,9 +31,28 @@ export default {
   components: {},
   data() {
     return {
-      context: {},
+      game: {id: null},
+      admin: true,
     };
-  }
+  },
+  created() {
+    this.game.id = Math.floor(Math.random() * 10000000);
+  },
+  methods: {
+    createGame() {
+      this.$store
+        .dispatch("createGame", this.game)
+        .then(() => {
+          this.$router.push({
+            name: "JoinGame",
+            params: { idGame: this.game.id, admin: this.admin },
+          });
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+  },
 };
 </script>
 

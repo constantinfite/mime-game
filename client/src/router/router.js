@@ -15,7 +15,7 @@ const routes = [
     component: Home
   },
   {
-    path: "/teamMenu/:id",
+    path: "/teamMenu/:idGame",
     name: "TeamMenu",
     component: TeamMenu,
     props: true

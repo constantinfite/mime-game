@@ -12,6 +12,14 @@
         </v-radio-group>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col v-if="admin" align="center">
+        <h3 class="mb-3">CODE</h3>
+        <h2>
+          {{ idGame }}
+        </h2>
+      </v-col>
+    </v-row>
 
     <v-row justify="center">
       <v-col cols="10">
@@ -57,12 +65,14 @@
 export default {
   data() {
     return {
+      idGame: null,
       admin: false,
       player: { id: 0, name: "", list: [], team: null, gameId: null },
     };
   },
   created() {
     this.admin = this.$route.params.admin;
+    this.idGame = this.$route.params.idGame;
   },
   methods: {
     createPlayer() {
@@ -74,7 +84,7 @@ export default {
         .then(() => {
           this.$router.push({
             name: "TeamMenu",
-            params: { gameId: this.player.gameId, admin: this.admin },
+            params: { idGame: this.player.gameId, admin: this.admin },
           });
         })
         .catch(() => {

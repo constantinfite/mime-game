@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    gameId: 0,
+    games: [],
     players: [],
     wordSelected: [],
     score: [0, 0]
@@ -39,7 +39,7 @@ export default new Vuex.Store({
     createPlayer({ commit }, { player }) {
       return EventService.postPlayer(player)
         .then(() => {
-          commit("ADD_GAME", player);
+          commit("ADD_PLAYER", player);
         })
         .catch(() => {
           console.log("eror");
@@ -54,9 +54,9 @@ export default new Vuex.Store({
           console.log("error");
         });
     },
-    fetchPlayers({ commit }, gameId) {
-      console.log("fetch", gameId)
-      EventService.getPlayers(gameId)
+    fetchPlayers({ commit }, gameCode) {
+
+      EventService.getPlayers(gameCode)
         .then(response => {
           commit("SET_PLAYERS", response.data);
         })
@@ -66,7 +66,17 @@ export default new Vuex.Store({
     },
     nextWord({ commit }, { word, round }) {
       commit("NEXT_WORD", { word: word, round: round });
-    }
+    },
+    /*checkGame({ commit }, gameCode) {
+      
+      EventService.getGames(gameCode)
+        .then(response => {
+          commit("SET_PLAYERS", response.data);
+        })
+        .catch(error => {
+          console.log("There was an error:", error.response);
+        });
+    },*/
   },
   getters: {
     listWord: state => {
