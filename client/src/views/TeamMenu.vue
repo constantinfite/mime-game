@@ -31,7 +31,7 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="admin" justify="center">
+    <v-row v-if="$route.params.admin === 'admin'" justify="center">
       <v-btn color="#1B998B" class="mb-5 link white--text" @click="startGame">
         Lancer la partie
       </v-btn>
@@ -59,11 +59,10 @@ export default {
     },
     redTeam() {
       return this.$store.getters.redTeam;
-    },
+    }
   },
   created() {
     this.$store.dispatch("fetchPlayers", this.$route.params.idGame);
-    this.admin = this.$route.params.admin;
   },
   methods: {
     startGame() {

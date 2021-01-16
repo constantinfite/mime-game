@@ -16,7 +16,7 @@
           </v-btn>
 
           <v-btn color="#1B998B" small class="link">
-            <router-link :to="{ name: 'JoinGame', params: { idGame: null, admin:false } }">
+            <router-link :to="{ name: 'JoinGame', params: { idGame: 0, admin:'player' } }">
               Rejoindre une partie
             </router-link>
           </v-btn>
@@ -34,7 +34,6 @@ export default {
   data() {
     return {
       game: { id: null },
-      admin: true,
     };
   },
   created() {
@@ -47,7 +46,7 @@ export default {
         .then(() => {
           this.$router.push({
             name: "JoinGame",
-            params: { idGame: this.game.id, admin: this.admin },
+            params: { idGame: this.game.id, admin: 'admin' },
           });
         })
         .catch(() => {

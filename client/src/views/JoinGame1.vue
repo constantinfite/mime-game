@@ -13,7 +13,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col v-if="admin" align="center">
+      <v-col v-if="$route.params.admin === 'admin'" align="center">
         <h3 class="mb-3">CODE</h3>
         <h2>
           {{ idGame }}
@@ -66,12 +66,10 @@ export default {
   data() {
     return {
       idGame: null,
-      admin: false,
       player: { id: 0, name: "", list: [], team: null, gameId: null },
     };
   },
   created() {
-    this.admin = this.$route.params.admin;
     this.idGame = this.$route.params.idGame;
   },
   methods: {
@@ -84,7 +82,7 @@ export default {
         .then(() => {
           this.$router.push({
             name: "TeamMenu",
-            params: { idGame: this.player.gameId, admin: this.admin },
+            params: { idGame: this.player.gameId, admin: this.$route.params.admin },
           });
         })
         .catch(() => {
@@ -96,7 +94,6 @@ export default {
 </script>
 
 <style scoped>
-
 input {
 }
 </style>
