@@ -1,60 +1,82 @@
 <template>
-  <v-container class="full-height flex-column d-flex">
-    <v-row justify="center"> Team {{ currentTeam }} / Score {{ score }} </v-row>
-    <v-row justify="center"> Joueur {{ currentPlayer }} </v-row>
-    <v-row justify="center" class="mt-10">
-      <p v-if="showWord" class="display-3">
-        {{ oneWord }}
-      </p>
-    </v-row>
-    <v-row v-if="!finish" justify="center">
-      <v-btn small color="#E71D36" class="white--text mr-5" @click="skipWord">
-        Passe
-      </v-btn>
-      <v-btn small color="#2E294E" class="white--text mr-5" @click="nextWord">
-        Suivant
-      </v-btn>
-      <v-btn
-        v-if="!showWord"
-        small
-        color="#2E294E"
-        class="white--text"
-        @click="showWordFunction"
-      >
-        Montrer le mot
-      </v-btn>
-    </v-row>
-    <v-row justify="center" align="center" class="mt-1 flex-column d-flex">
-      <div class="display-2 mb-5">
-        <span id="minutes">{{ minutes }}</span>
-        <span id="middle">:</span>
-        <span id="seconds">{{ seconds }}</span>
-      </div>
-      <div v-if="!finish">
-        <!--     Start Timer -->
-        <v-icon v-if="!timer" x-large class @click="startTimer">
-          mdi-play-circle-outline
-        </v-icon>
-        <!--     Pause Timer -->
-        <v-icon v-if="timer" x-large class="mr-5" @click="stopTimer">
-          mdi-pause-circle
-        </v-icon>
-        <!--     Restart Timer -->
-        <v-icon v-if="resetButton" x-large @click="resetTimer">
-          mdi-replay
-        </v-icon>
-      </div>
-    </v-row>
-    <v-row justify="center" class="div-bottom">
-      <v-btn
-        v-if="finish"
-        small
-        color="#f46036"
-        class="mb-5 white--text"
-        @click="switchTeam"
-      >
-        Switch Team
-      </v-btn>
+  <v-container class="full-height flex-column d-flex mt-10">
+    <v-row justify="center">
+      <v-col cols="10" align="center">
+        <p class="subtitle-1 mt-5">
+          Team {{ currentTeam }} / Score {{ score }}
+        </p>
+        <p class="pb-10 headline">
+          Joueur
+          <span class="font-weight-bold" :class="currentColorClass">{{
+            currentPlayer
+          }}</span>
+        </p>
+        <v-chip v-if="!finish" color="default" outlined class="headline mb-12 label py-8 ">
+          <!--     Start Timer -->
+          <v-icon v-if="!timer" x-large class="mr-5" @click="startTimer">
+            mdi-play-circle-outline
+          </v-icon>
+          <!--     Pause Timer -->
+          <v-icon v-if="timer" x-large class="mr-5" @click="stopTimer">
+            mdi-pause-circle
+          </v-icon>
+          <!--     Restart Timer -->
+          <v-icon v-if="resetButton" x-large class="mr-5" @click="resetTimer">
+            mdi-replay
+          </v-icon>
+        
+          <span id="minutes">{{ minutes }}</span>
+          <span id="middle">:</span>
+          <span id="seconds">{{ seconds }}</span>
+        </v-chip>
+        
+        <p v-if="showWord" class="display-3 mb-8">
+          {{ oneWord }}
+        </p>
+
+        <v-col v-if="!finish" align="center">
+          <v-row justify="center" class="mb-12">
+            <v-btn
+              v-if="!showWord"
+              small
+              color="indigo darken-2"
+              class="white--text"
+              @click="showWordFunction"
+            >
+              Montrer le mot
+            </v-btn>
+          </v-row>
+
+          <v-row justify="center">
+            <v-btn
+              small
+              color="#E71D36"
+              class="white--text mr-5"
+              @click="skipWord"
+            >
+              Passe
+            </v-btn>
+            <v-btn
+              small
+              color="green"
+              class="white--text"
+              @click="nextWord"
+            >
+              Suivant
+            </v-btn></v-row
+          >
+        </v-col>
+
+        <v-btn
+          v-if="finish"
+          small
+          color="indigo darken-2"
+          class="mb-5 white--text"
+          @click="switchTeam"
+        >
+          Switch Team
+        </v-btn>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -69,6 +91,7 @@ export default {
       resetButton: false,
       finish: false,
       showWord: false,
+      colorClass: null,
       color: ["Bleu", "Rouge"],
       round: 2,
       teamIndex: 0,
@@ -83,6 +106,13 @@ export default {
         return this.color[0];
       } else {
         return this.color[1];
+      }
+    },
+    currentColorClass() {
+      if (this.round % 2 == 0) {
+        return "blue--text";
+      } else {
+        return "red--text";
       }
     },
     currentPlayer() {

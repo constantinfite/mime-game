@@ -2,6 +2,13 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="8">
+        <v-col align="center">
+          <h3 class="mb-3">CODE</h3>
+          <h2>
+            {{ $route.params.idGame }}
+          </h2>
+        </v-col>
+
         <h3>Team Bleu</h3>
         <v-sheet elevation="0" class="pa-4">
           <v-chip-group column active-class="primary--text">
@@ -28,19 +35,23 @@
             >
           </v-chip-group>
         </v-sheet>
+
+        <v-row v-if="$route.params.admin === 'admin'" justify="center">
+          <v-btn
+            color="indigo darken-2"
+            class="my-10 link white--text"
+            @click="startGame"
+          >
+            Lancer la partie
+          </v-btn>
+        </v-row>
+
+        <v-row justify="flex-start" class="mt-10">
+          <router-link to="/joinGame">
+            <v-icon>mdi-arrow-left</v-icon>
+          </router-link>
+        </v-row>
       </v-col>
-    </v-row>
-
-    <v-row v-if="$route.params.admin === 'admin'" justify="center">
-      <v-btn color="#1B998B" class="mb-5 link white--text" @click="startGame">
-        Lancer la partie
-      </v-btn>
-    </v-row>
-
-    <v-row justify="flex-start">
-      <router-link to="/joinGame">
-        <v-icon>mdi-arrow-left</v-icon>
-      </router-link>
     </v-row>
   </v-container>
 </template>
@@ -59,7 +70,7 @@ export default {
     },
     redTeam() {
       return this.$store.getters.redTeam;
-    }
+    },
   },
   created() {
     this.$store.dispatch("fetchPlayers", this.$route.params.idGame);

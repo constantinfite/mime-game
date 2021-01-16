@@ -2,24 +2,30 @@
   <div class="home">
     <v-container>
       <v-row justify="center" class="mb-12">
-        <h1>les Mimes</h1>
-      </v-row>
-      <v-row justify="center">
         <v-col cols="8" align="center">
-          <v-btn
-            small
-            color="#f46036"
-            class="mr-5 link white--text"
-            @click="createGame"
-          >
-            Créer une partie
-          </v-btn>
-
-          <v-btn color="#1B998B" small class="link">
-            <router-link :to="{ name: 'JoinGame', params: { idGame: 0, admin:'player' } }">
-              Rejoindre une partie
-            </router-link>
-          </v-btn>
+          <h1>les Mimes</h1>
+          <v-row justify="center" class="my-12">
+            <v-btn
+              small
+              color="#f46036"
+              class="link white--text"
+              @click="createGame"
+            >
+              Créer une partie
+            </v-btn>
+          </v-row>
+          <v-row justify="center">
+            <v-btn color="#1B998B" small class="link">
+              <router-link
+                :to="{
+                  name: 'JoinGame',
+                  params: { idGame: 0, admin: 'player' },
+                }"
+              >
+                Rejoindre une partie
+              </router-link>
+            </v-btn>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -46,7 +52,7 @@ export default {
         .then(() => {
           this.$router.push({
             name: "JoinGame",
-            params: { idGame: this.game.id, admin: 'admin' },
+            params: { idGame: this.game.id, admin: "admin" },
           });
         })
         .catch(() => {

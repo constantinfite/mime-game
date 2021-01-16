@@ -7,8 +7,8 @@
       </v-col>
       <v-col cols="5">
         <v-radio-group v-model="player.team" column>
-          <v-radio label="Equipe Bleue" value="1" />
-          <v-radio label="Equipe Rouge" value="2" />
+          <v-radio label="Team Bleu" color="blue" value="1" />
+          <v-radio label="Team Rouge" color="red" value="2" />
         </v-radio-group>
       </v-col>
     </v-row>
@@ -33,9 +33,9 @@
         />
         <h3>Rentre tes mots</h3>
         <v-text-field
-          v-for="number in 5"
+          v-for="number in numberOfWord"
           :key="number"
-          v-model="player.list[number]"
+          v-model="player.list[number-1]"
           :placeholder="`mot ${number}`"
         />
       </v-col>
@@ -65,6 +65,7 @@
 export default {
   data() {
     return {
+      numberOfWord: 5,
       idGame: null,
       player: { id: 0, name: "", list: [], team: null, gameId: null },
     };
@@ -82,7 +83,10 @@ export default {
         .then(() => {
           this.$router.push({
             name: "TeamMenu",
-            params: { idGame: this.player.gameId, admin: this.$route.params.admin },
+            params: {
+              idGame: this.player.gameId,
+              admin: this.$route.params.admin,
+            },
           });
         })
         .catch(() => {
