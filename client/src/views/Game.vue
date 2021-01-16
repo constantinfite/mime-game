@@ -110,7 +110,7 @@ export default {
     ...mapState(["players"]),
   },
   created() {
-    this.$store.dispatch("fetchPlayers", this.$route.params.gameId);
+    this.$store.dispatch("fetchPlayers", this.$route.params.idGame);
   },
 
   methods: {

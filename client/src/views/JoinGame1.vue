@@ -96,10 +96,7 @@ export default {
 </script>
 
 <style scoped>
-.input-code {
-  /* background-color: #1b998b;
-  padding: 10px 10px 0px; */
-}
+
 input {
 }
 </style>

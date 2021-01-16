@@ -15,7 +15,7 @@ const routes = [
     component: Home
   },
   {
-    path: "/teamMenu/:idGame",
+    path: "/teamMenu/:idGame/:admin",
     name: "TeamMenu",
     component: TeamMenu,
     props: true
@@ -26,13 +26,13 @@ const routes = [
     component: CreateGame1
   },
   {
-    path: "/joinGame",
+    path: "/joinGame/:idGame/:admin",
     name: "JoinGame",
     component: JoinGame1,
     props: true
   },
   {
-    path: "/Game",
+    path: "/Game/:idGame",
     name: "Game",
     component: Game,
     props: true

@@ -5,17 +5,27 @@
         <h3>Team Bleu</h3>
         <v-sheet elevation="0" class="pa-4">
           <v-chip-group column active-class="primary--text">
-            <v-chip v-for="player in blueTeam" :key="player.id">{{
-              player
-            }}</v-chip>
+            <v-chip
+              v-for="player in blueTeam"
+              :key="player.id"
+              color="blue"
+              text-color="white"
+            >
+              {{ player }}</v-chip
+            >
           </v-chip-group>
         </v-sheet>
         <h3>Team Rouge</h3>
         <v-sheet elevation="0" class="pa-4">
           <v-chip-group column active-class="primary--text">
-            <v-chip v-for="player in redTeam" :key="player.id">{{
-              player
-            }}</v-chip>
+            <v-chip
+              v-for="player in redTeam"
+              :key="player.id"
+              color="red"
+              text-color="white"
+            >
+              {{ player }}</v-chip
+            >
           </v-chip-group>
         </v-sheet>
       </v-col>
@@ -59,7 +69,7 @@ export default {
     startGame() {
       this.$router.push({
         name: "Game",
-        params: { gameId: this.$route.params.idGame },
+        params: { idGame: this.$route.params.idGame },
       });
     },
   },

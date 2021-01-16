@@ -4,19 +4,21 @@
       <v-row justify="center" class="mb-12">
         <h1>les Mimes</h1>
       </v-row>
-      <v-row justify="center" class="mx-auto">
+      <v-row justify="center">
         <v-col cols="8" align="center">
           <v-btn
             small
             color="#f46036"
-            class="mb-5 link white--text"
+            class="mr-5 link white--text"
             @click="createGame"
           >
             Créer une partie
           </v-btn>
 
           <v-btn color="#1B998B" small class="link">
-            <router-link to="/joinGame"> Rejoindre une partie </router-link>
+            <router-link :to="{ name: 'JoinGame', params: { idGame: null, admin:false } }">
+              Rejoindre une partie
+            </router-link>
           </v-btn>
         </v-col>
       </v-row>
@@ -31,12 +33,12 @@ export default {
   components: {},
   data() {
     return {
-      game: {id: null},
+      game: { id: null },
       admin: true,
     };
   },
   created() {
-    this.game.id = Math.floor(Math.random() * 10000000);
+    this.game.id = Math.floor(Math.random() * 1000000);
   },
   methods: {
     createGame() {
