@@ -46,8 +46,13 @@
           </v-btn>
         </v-row>
 
-        <v-row justify="flex-start" class="mt-10">
-          <router-link to="/joinGame">
+        <v-row class="mt-10">
+          <router-link
+            :to="{
+              name: 'JoinGame',
+              params: { idGame: 0, admin: 'player' },
+            }"
+          >
             <v-icon>mdi-arrow-left</v-icon>
           </router-link>
         </v-row>

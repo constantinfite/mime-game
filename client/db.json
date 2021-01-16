@@ -1,355 +1,43 @@
 {
   "games": [
     {
-      "id": 868715
-    },
-    {
-      "id": 732955
-    },
-    {
-      "id": 130444
-    },
-    {
-      "id": 207976
-    },
-    {
-      "id": 647993
-    },
-    {
-      "id": 15104
-    },
-    {
-      "id": 448735
-    },
-    {
-      "id": 812611
-    },
-    {
-      "id": 136623
-    },
-    {
-      "id": 649407
-    },
-    {
-      "id": 87242
-    },
-    {
-      "id": 263217
-    },
-    {
-      "id": 815441
-    },
-    {
-      "id": 268249
-    },
-    {
-      "id": 264012
-    },
-    {
-      "id": 438709
-    },
-    {
-      "id": 788224
-    },
-    {
-      "id": 271481
-    },
-    {
-      "id": 581410
-    },
-    {
-      "id": 797798
-    },
-    {
-      "id": 37993
-    },
-    {
-      "id": 647372
+      "id": 816765
     }
   ],
   "players": [
     {
-      "id": 9224825,
+      "id": 9575775,
       "name": "constan",
       "list": [
-        null,
-        "dromadaire",
-        "girafe",
-        "éléphant"
-      ],
-      "team": "2",
-      "gameId": "868715"
-    },
-    {
-      "id": 5245742,
-      "name": "paul",
-      "list": [
-        null,
-        "dinosaur",
-        "requin ",
-        "peter pan"
-      ],
-      "team": "1",
-      "gameId": "868715"
-    },
-    {
-      "id": 262543,
-      "name": "constan",
-      "list": [
-        null,
-        "azer"
-      ],
-      "team": "1",
-      "gameId": "448735"
-    },
-    {
-      "id": 5325590,
-      "name": "paul",
-      "list": [],
-      "team": "2",
-      "gameId": "448735"
-    },
-    {
-      "id": 3157858,
-      "name": "ascalon",
-      "list": [],
-      "team": "2",
-      "gameId": "448735"
-    },
-    {
-      "id": 3939424,
-      "name": "paul",
-      "list": [],
-      "team": "2",
-      "gameId": "448735"
-    },
-    {
-      "id": 2555991,
-      "name": "asca",
-      "list": [],
-      "team": "1",
-      "gameId": "448735"
-    },
-    {
-      "id": 3382377,
-      "name": "paul",
-      "list": [],
-      "team": "2",
-      "gameId": "448735"
-    },
-    {
-      "id": 9610415,
-      "name": "paul",
-      "list": [],
-      "team": "2",
-      "gameId": "136623"
-    },
-    {
-      "id": 6904126,
-      "name": "paul",
-      "list": [],
-      "team": "1",
-      "gameId": "136623"
-    },
-    {
-      "id": 2032601,
-      "name": "ffdf",
-      "list": [],
-      "team": "2",
-      "gameId": "136623"
-    },
-    {
-      "id": 8026626,
-      "name": "",
-      "list": [],
-      "team": null,
-      "gameId": "271481"
-    },
-    {
-      "id": 9138515,
-      "name": "paul",
-      "list": [],
-      "team": "2",
-      "gameId": "271481"
-    },
-    {
-      "id": 6101465,
-      "name": "paul",
-      "list": [],
-      "team": "1",
-      "gameId": "271481"
-    },
-    {
-      "id": 7436330,
-      "name": "paul",
-      "list": [
-        null,
         "dromadare",
         "chameau ",
-        "requin ",
-        "girafe",
-        "pilote"
-      ],
-      "team": "2",
-      "gameId": "581410"
-    },
-    {
-      "id": 9371529,
-      "name": "constan",
-      "list": [
-        null,
-        "azer",
-        "ert",
-        "tyu",
-        "uio",
-        "op"
-      ],
-      "team": "1",
-      "gameId": "581410"
-    },
-    {
-      "id": 5979959,
-      "name": "jean paul",
-      "list": [
-        null,
-        "dd",
-        "zer",
-        "rez",
-        "ase"
-      ],
-      "team": "1",
-      "gameId": "581410"
-    },
-    {
-      "id": 9422792,
-      "name": "constan",
-      "list": [
-        null,
-        "un dromadaire qui court",
-        "ectoplasme",
         "encyclopédie",
-        "éléphant"
+        "xcv"
       ],
       "team": "1",
-      "gameId": "797798"
+      "gameId": "816765"
     },
     {
-      "id": 5527181,
-      "name": "paul",
+      "id": 1903600,
+      "name": "laurent",
       "list": [
-        null,
-        "antoine",
-        "jule",
-        "pierre",
-        "anto"
+        "aca",
+        "cas",
+        "caca"
       ],
       "team": "2",
-      "gameId": "797798"
+      "gameId": "816765"
     },
     {
-      "id": 2884736,
-      "name": "constan",
-      "list": [],
-      "team": "2",
-      "gameId": "797798"
-    },
-    {
-      "id": 5777400,
-      "name": "dsds",
+      "id": 7899942,
+      "name": "paul",
       "list": [
-        null,
-        "zzz",
-        "ddd"
+        "ambulance",
+        "camion",
+        "ascac"
       ],
       "team": "1",
-      "gameId": "797798"
-    },
-    {
-      "id": 9742086,
-      "name": "paul",
-      "list": [
-        "ddd",
-        "as"
-      ],
-      "team": "2",
-      "gameId": "977798"
-    },
-    {
-      "id": 9808193,
-      "name": "paul",
-      "list": [
-        "ascalon",
-        "as",
-        "ca",
-        "lon"
-      ],
-      "team": "2",
-      "gameId": "37993"
-    },
-    {
-      "id": 8570202,
-      "name": "dad",
-      "list": [
-        "daddy",
-        "pappy",
-        "mommy",
-        "frero",
-        "soero"
-      ],
-      "team": "1",
-      "gameId": "37993"
-    },
-    {
-      "id": 9546698,
-      "name": "paul",
-      "list": [
-        "Dromadaire",
-        "ascalon",
-        "Eléphant"
-      ],
-      "team": "1",
-      "gameId": "647373"
-    },
-    {
-      "id": 5700949,
-      "name": "paul",
-      "list": [
-        "Dromadaire",
-        "asca"
-      ],
-      "team": "2",
-      "gameId": "647373"
-    },
-    {
-      "id": 360825,
-      "name": "encore",
-      "list": [
-        "caillou ",
-        "girafe",
-        "voiture",
-        "camion"
-      ],
-      "team": "2",
-      "gameId": "647373"
-    },
-    {
-      "id": 6238957,
-      "name": "jean",
-      "list": [
-        "Siréne",
-        "girafe"
-      ],
-      "team": "2",
-      "gameId": "647373"
-    },
-    {
-      "id": 6991074,
-      "name": "pierre",
-      "list": [
-        "chapeau"
-      ],
-      "team": "1",
-      "gameId": "647373"
+      "gameId": "816765"
     }
   ]
 }

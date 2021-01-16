@@ -1,46 +1,54 @@
 <template>
-  <v-container class="full-height flex-column d-flex mt-10">
+  <v-container class="fluid d-flex mt-5">
     <v-row justify="center">
-      <v-col cols="10" align="center">
-        <p class="subtitle-1 mt-5">
-          Team {{ currentTeam }} / Score {{ score }}
-        </p>
-        <p class="pb-10 headline">
-          Joueur
-          <span class="font-weight-bold" :class="currentColorClass">{{
-            currentPlayer
-          }}</span>
-        </p>
-        <v-chip
-          v-if="!finish"
-          color="default"
-          outlined
-          class="headline mb-12 label py-8"
-        >
-          <!--     Start Timer -->
-          <v-icon v-if="!timer" x-large class="mr-5" @click="startTimer">
-            mdi-play-circle-outline
-          </v-icon>
-          <!--     Pause Timer -->
-          <v-icon v-if="timer" x-large class="mr-5" @click="stopTimer">
-            mdi-pause-circle
-          </v-icon>
-          <!--     Restart Timer -->
-          <v-icon v-if="resetButton" x-large class="mr-5" @click="resetTimer">
-            mdi-replay
-          </v-icon>
+      <v-col xs="8" sm="10" md="10" col="10" align="center">
+        <v-row justify="center">
+          <v-col xs="10" sm="5">  
+            <p class="subtitle-1">Team {{ currentTeam }} / Score {{ score }}</p>
+            <p class="pb-10 headline">
+              Joueur
+              <span class="font-weight-bold" :class="currentColorClass">{{
+                currentPlayer
+              }}</span>
+            </p>
+          </v-col>
+          <v-col xs="10" sm="5" md="10">
+            <v-chip
+              v-if="!finish"
+              color="default"
+              outlined
+              class="headline mb-12 label py-8"
+            >
+              <!--     Start Timer -->
+              <v-icon v-if="!timer" x-large class="mr-5" @click="startTimer">
+                mdi-play-circle-outline
+              </v-icon>
+              <!--     Pause Timer -->
+              <v-icon v-if="timer" x-large class="mr-5" @click="stopTimer">
+                mdi-pause-circle
+              </v-icon>
+              <!--     Restart Timer -->
+              <v-icon
+                v-if="resetButton"
+                x-large
+                class="mr-5"
+                @click="resetTimer"
+              >
+                mdi-replay
+              </v-icon>
 
-          <span id="minutes">{{ minutes }}</span>
-          <span id="middle">:</span>
-          <span id="seconds">{{ seconds }}</span>
-        </v-chip>
-
-        <p v-if="showWord" class="display-3 mb-8">
-          {{ oneWord }}
-        </p>
+              <span id="minutes">{{ minutes }}</span>
+              <span id="middle">:</span>
+              <span id="seconds">{{ seconds }}</span>
+            </v-chip></v-col
+          >
+        </v-row>
 
         <v-col v-if="!finish" align="center">
           <v-row justify="center" class="mb-12">
+            <p v-if="showWord" class="display-3 mb-8">
+              {{ oneWord }}
+            </p>
             <v-btn
               v-if="!showWord"
               small
@@ -197,7 +205,7 @@ export default {
     nextWord() {
       this.$store.commit("NEXT_WORD", {
         word: this.oneWord,
-        round: this.round
+        round: this.round,
       });
     },
     skipWord() {
