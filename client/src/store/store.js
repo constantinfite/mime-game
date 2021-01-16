@@ -9,9 +9,13 @@ export default new Vuex.Store({
     games: [],
     players: [],
     wordSelected: [],
-    score: [0, 0]
+    score: [0, 0],
+    round: 2
   },
   mutations: {
+    ADD_ROUND(state) {
+      state.round += 1
+    },
     ADD_GAME(state, game) {
       state.games.push(game)
     },
@@ -21,17 +25,13 @@ export default new Vuex.Store({
     SET_PLAYERS(state, players) {
       state.players = players;
     },
-    NEXT_WORD(state, { word, round }) {
+    NEXT_WORD(state, { word }) {
       state.wordSelected.push(word);
-      console.log(round);
-      if (round == "ok") {
-        return null;
-      }
-      if (round % 2 == 0) {
-        state.score[0] += 1;
+      if (state.round % 2 == 0) {
+        Vue.set(state.score, 0, state.score[0] + 1)
       }
       else {
-        state.score[1] += 1;
+        Vue.set(state.score, 0, state.score[1] + 1)
       }
     }
   },
@@ -63,20 +63,7 @@ export default new Vuex.Store({
         .catch(error => {
           console.log("There was an error:", error.response);
         });
-    },
-    nextWord({ commit }, { word, round }) {
-      commit("NEXT_WORD", { word: word, round: round });
-    },
-    /*checkGame({ commit }, gameCode) {
-      
-      EventService.getGames(gameCode)
-        .then(response => {
-          commit("SET_PLAYERS", response.data);
-        })
-        .catch(error => {
-          console.log("There was an error:", error.response);
-        });
-    },*/
+    }
   },
   getters: {
     listWord: state => {
@@ -116,6 +103,14 @@ export default new Vuex.Store({
         }
       });
       return list;
+    },
+    scoreTeam: state => {
+      if (state.round % 2 == 0) {
+        return state.score[0]
+      }
+      else {
+        return state.score[1]
+      }
     }
   }
 });

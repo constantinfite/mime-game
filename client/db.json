@@ -62,6 +62,9 @@
     },
     {
       "id": 37993
+    },
+    {
+      "id": 647372
     }
   ],
   "players": [
@@ -295,6 +298,58 @@
       ],
       "team": "1",
       "gameId": "37993"
+    },
+    {
+      "id": 9546698,
+      "name": "paul",
+      "list": [
+        "Dromadaire",
+        "ascalon",
+        "Eléphant"
+      ],
+      "team": "1",
+      "gameId": "647373"
+    },
+    {
+      "id": 5700949,
+      "name": "paul",
+      "list": [
+        "Dromadaire",
+        "asca"
+      ],
+      "team": "2",
+      "gameId": "647373"
+    },
+    {
+      "id": 360825,
+      "name": "encore",
+      "list": [
+        "caillou ",
+        "girafe",
+        "voiture",
+        "camion"
+      ],
+      "team": "2",
+      "gameId": "647373"
+    },
+    {
+      "id": 6238957,
+      "name": "jean",
+      "list": [
+        "Siréne",
+        "girafe"
+      ],
+      "team": "2",
+      "gameId": "647373"
+    },
+    {
+      "id": 6991074,
+      "name": "pierre",
+      "list": [
+        "chapeau"
+      ],
+      "team": "1",
+      "gameId": "647373"
     }
   ]
 }

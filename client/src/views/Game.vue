@@ -11,7 +11,12 @@
             currentPlayer
           }}</span>
         </p>
-        <v-chip v-if="!finish" color="default" outlined class="headline mb-12 label py-8 ">
+        <v-chip
+          v-if="!finish"
+          color="default"
+          outlined
+          class="headline mb-12 label py-8"
+        >
           <!--     Start Timer -->
           <v-icon v-if="!timer" x-large class="mr-5" @click="startTimer">
             mdi-play-circle-outline
@@ -24,12 +29,12 @@
           <v-icon v-if="resetButton" x-large class="mr-5" @click="resetTimer">
             mdi-replay
           </v-icon>
-        
+
           <span id="minutes">{{ minutes }}</span>
           <span id="middle">:</span>
           <span id="seconds">{{ seconds }}</span>
         </v-chip>
-        
+
         <p v-if="showWord" class="display-3 mb-8">
           {{ oneWord }}
         </p>
@@ -56,12 +61,7 @@
             >
               Passe
             </v-btn>
-            <v-btn
-              small
-              color="green"
-              class="white--text"
-              @click="nextWord"
-            >
+            <v-btn small color="green" class="white--text" @click="nextWord">
               Suivant
             </v-btn></v-row
           >
@@ -87,17 +87,26 @@ export default {
   data() {
     return {
       timer: null,
-      totalTime: 5,
+      totalTime: 1,
       resetButton: false,
       finish: false,
       showWord: false,
-      colorClass: null,
       color: ["Bleu", "Rouge"],
-      round: 2,
-      teamIndex: 0,
+
+      playerIndex: [0, 0],
     };
   },
   computed: {
+    round() {
+      return this.$store.state.round;
+    },
+    numberPlayerTeam() {
+      if (this.round % 2 == 0) {
+        return this.$store.getters.blueTeam.length;
+      } else {
+        return this.$store.getters.redTeam.length;
+      }
+    },
     oneWord() {
       return this.$store.getters.word;
     },
@@ -117,9 +126,9 @@ export default {
     },
     currentPlayer() {
       if (this.round % 2 == 0) {
-        return this.$store.getters.blueTeam[this.teamIndex];
+        return this.$store.getters.blueTeam[this.playerIndex[0]];
       } else {
-        return this.$store.getters.redTeam[this.teamIndex];
+        return this.$store.getters.redTeam[this.playerIndex[1]];
       }
     },
     minutes: function () {
@@ -131,18 +140,15 @@ export default {
       return this.padTime(seconds);
     },
     score() {
-      if (this.round % 2 == 0) {
-        return this.$store.state.score[0];
-      } else {
-        return this.$store.state.score[1];
-      }
+      return this.$store.getters.scoreTeam;
     },
+
     ...mapState(["players"]),
   },
+  watch: {},
   created() {
     this.$store.dispatch("fetchPlayers", this.$route.params.idGame);
   },
-
   methods: {
     startTimer() {
       this.timer = setInterval(() => this.countdown(), 1000);
@@ -154,7 +160,7 @@ export default {
       this.resetButton = true;
     },
     resetTimer() {
-      this.totalTime = 5;
+      this.totalTime = 2;
       clearInterval(this.timer);
       this.timer = null;
       this.resetButton = false;
@@ -173,21 +179,29 @@ export default {
       }
     },
     switchTeam() {
-      if (this.round % 2 == 1) {
-        this.teamIndex += 1;
+      if (this.round % 2 == 0) {
+        this.playerIndex[0] += 1;
+        if (this.playerIndex[0] == this.numberPlayerTeam) {
+          this.playerIndex[0] = 0;
+        }
+      } else {
+        this.playerIndex[1] += 1;
+        if (this.playerIndex[1] == this.numberPlayerTeam) {
+          this.playerIndex[1] = 0;
+        }
       }
-      this.round += 1;
+      this.$store.commit("ADD_ROUND");
       this.finish = false;
       this.resetTimer();
     },
     nextWord() {
-      this.$store.dispatch("nextWord", {
+      this.$store.commit("NEXT_WORD", {
         word: this.oneWord,
-        round: this.round,
+        round: this.round
       });
     },
     skipWord() {
-      this.$store.dispatch("nextWord", { word: "", round: "ok" });
+      this.$store.commit("NEXT_WORD", { word: "", round: "ok" });
     },
     showWordFunction() {
       this.showWord = true;
