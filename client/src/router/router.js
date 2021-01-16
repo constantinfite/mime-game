@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import TeamMenu from "../views/TeamMenu.vue";
-import CreateGame1 from "../views/CreateGame1.vue";
+import DashBoard from "../views/DashBoard.vue";
 import JoinGame1 from "../views/JoinGame1.vue";
 import Game from "../views/Game.vue";
 
@@ -21,9 +21,9 @@ const routes = [
     props: true
   },
   {
-    path: "/createGame",
-    name: "CreateGame1",
-    component: CreateGame1
+    path: "/DashBoard/:idGame/",
+    name: "DashBoard",
+    component: DashBoard
   },
   {
     path: "/joinGame/:idGame/:admin",

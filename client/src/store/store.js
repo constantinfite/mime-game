@@ -8,13 +8,15 @@ export default new Vuex.Store({
   state: {
     games: [],
     players: [],
-    wordSelected: [],
+    wordDone: [],
+    wordSkipped: [],
     score: [0, 0],
     round: 2
   },
   mutations: {
     ADD_ROUND(state) {
       state.round += 1
+      state.wordSkipped = []
     },
     ADD_GAME(state, game) {
       state.games.push(game)
@@ -26,14 +28,18 @@ export default new Vuex.Store({
       state.players = players;
     },
     NEXT_WORD(state, { word }) {
-      state.wordSelected.push(word);
+      state.wordDone.push(word);
       if (state.round % 2 == 0) {
         Vue.set(state.score, 0, state.score[0] + 1)
       }
       else {
-        Vue.set(state.score, 0, state.score[1] + 1)
+        Vue.set(state.score, 1, state.score[1] + 1)
       }
+    },
+    SKIP_WORD(state, { word }) {
+      state.wordSkipped.push(word);
     }
+
   },
   actions: {
     createPlayer({ commit }, { player }) {
@@ -76,9 +82,9 @@ export default new Vuex.Store({
       return list;
     },
     listFilter: (state, getters) => {
-      return getters.listWord.filter(function (item) {
-        return !state.wordSelected.includes(item);
-      });
+      return getters.listWord
+        .filter(item => !state.wordSkipped.includes(item))
+        .filter(item => !state.wordDone.includes(item))
     },
     word: (state, getters) => {
       return getters.listFilter[getters.index];

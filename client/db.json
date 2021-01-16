@@ -2,6 +2,9 @@
   "games": [
     {
       "id": 816765
+    },
+    {
+      "id": 495189
     }
   ],
   "players": [
@@ -38,6 +41,34 @@
       ],
       "team": "1",
       "gameId": "816765"
+    },
+    {
+      "id": 2091764,
+      "name": "dad",
+      "list": [
+        "Dromadaire",
+        "Chameau",
+        "Eléphant"
+      ],
+      "team": "1",
+      "gameId": "495189"
+    },
+    {
+      "id": 3049804,
+      "name": "paul",
+      "list": [
+        "chat",
+        "requin"
+      ],
+      "team": "1",
+      "gameId": "495189"
+    },
+    {
+      "id": 3698192,
+      "name": "constantin",
+      "list": [],
+      "team": "2",
+      "gameId": "495189"
     }
   ]
 }

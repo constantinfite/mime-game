@@ -3,7 +3,7 @@
     <v-row justify="center">
       <v-col xs="8" sm="10" md="10" col="10" align="center">
         <v-row justify="center">
-          <v-col xs="10" sm="5">  
+          <v-col xs="10" sm="5">
             <p class="subtitle-1">Team {{ currentTeam }} / Score {{ score }}</p>
             <p class="pb-10 headline">
               Joueur
@@ -43,11 +43,20 @@
             </v-chip></v-col
           >
         </v-row>
-
-        <v-col v-if="!finish" align="center">
+        <v-col v-if="gameFinished">
+          <p class="display-2">Partie terminée</p>
+          <v-btn
+            color="indigo darken-2"
+            class="white--text mr-5"
+            @click="goDashBoard"
+          >
+            Voir le score
+          </v-btn>
+        </v-col>
+        <v-col v-if="!finish && !gameFinished" v align="center">
           <v-row justify="center" class="mb-12">
             <p v-if="showWord" class="display-3 mb-8">
-              {{ oneWord }}
+              {{ currentWord }}
             </p>
             <v-btn
               v-if="!showWord"
@@ -91,16 +100,17 @@
 
 <script>
 import { mapState } from "vuex";
+var audio = new Audio(require("../assets/sonnerie.mp3"));
 export default {
   data() {
     return {
       timer: null,
-      totalTime: 1,
+      totalTime: 5,
       resetButton: false,
       finish: false,
       showWord: false,
+      gameFinished: false,
       color: ["Bleu", "Rouge"],
-
       playerIndex: [0, 0],
     };
   },
@@ -115,7 +125,7 @@ export default {
         return this.$store.getters.redTeam.length;
       }
     },
-    oneWord() {
+    currentWord() {
       return this.$store.getters.word;
     },
     currentTeam() {
@@ -168,7 +178,7 @@ export default {
       this.resetButton = true;
     },
     resetTimer() {
-      this.totalTime = 2;
+      this.totalTime = 5;
       clearInterval(this.timer);
       this.timer = null;
       this.resetButton = false;
@@ -184,9 +194,11 @@ export default {
         this.resetButton = false;
         this.finish = true;
         this.showWord = false;
+        audio.play();
       }
     },
     switchTeam() {
+      audio.pause();
       if (this.round % 2 == 0) {
         this.playerIndex[0] += 1;
         if (this.playerIndex[0] == this.numberPlayerTeam) {
@@ -204,27 +216,32 @@ export default {
     },
     nextWord() {
       this.$store.commit("NEXT_WORD", {
-        word: this.oneWord,
-        round: this.round,
+        word: this.currentWord,
       });
+      // When it finishes
+      if (this.currentWord == null) {
+        this.gameFinished = true;
+      }
     },
     skipWord() {
-      this.$store.commit("NEXT_WORD", { word: "", round: "ok" });
+      if (!this.resetButton) {
+        this.startTimer();
+      }
+
+      this.$store.commit("SKIP_WORD", { word: this.currentWord });
     },
     showWordFunction() {
       this.showWord = true;
+    },
+    goDashBoard() {
+      this.$router.push({
+        name: "DashBoard",
+        params: { idGame: this.$route.params.idGame},
+      });
     },
   },
 };
 </script>
 
 <style scoped>
-.full-height {
-  height: 100%;
-  position: relative;
-}
-
-.div-height {
-  height: 30%;
-}
 </style>
