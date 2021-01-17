@@ -22,7 +22,9 @@ module.exports = {
   ],
   rules: {
     // we should always disable console logs and debugging in production
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+
+    'no-console': 'off',
+    //'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'vue/multiline-html-element-content-newline': 'off',
