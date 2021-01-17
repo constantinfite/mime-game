@@ -20,9 +20,10 @@ export default new Vuex.Store({
     },
     SET_GAME(state, game) {
       //state.game = game
-      Vue.set(state.game,'timeToGuess' ,game.timeToGuess)
-      Vue.set(state.game,'id' ,game.id)
-      
+      Vue.set(state.game, 'timeLeft', game.timeToGuess)
+      Vue.set(state.game, 'timeToGuess', game.timeToGuess)
+      Vue.set(state.game, 'id', game.id)
+
     },
     ADD_PLAYER(state, player) {
       state.players.push(player);
@@ -41,7 +42,10 @@ export default new Vuex.Store({
     },
     SKIP_WORD(state, { word }) {
       state.wordSkipped.push(word);
-    }
+    },
+    COUNT_DOWN(getters) {
+      timeLef.timeToGuess --
+    },
 
   },
   actions: {
@@ -131,9 +135,17 @@ export default new Vuex.Store({
         return state.score[1]
       }
     },
-    timeGame: state => {
-      console.log("getters", state.game.timeToGuess)
+    timeToGuess: state => {
       return state.game.timeToGuess
-    }
+    },
+    minutes: (state, getters )=> {
+      const minutes = Math.floor(getters.timeToGuess / 60);
+      return (minutes < 10 ? "0" : "") + minutes;
+    },
+
+    seconds: (state, getters) => {
+      const seconds = getters.timeToGuess - getters.minutes * 60;
+      return (seconds < 10 ? "0" : "") + seconds;
+    },
   }
 });

@@ -151,19 +151,19 @@ export default {
         return this.$store.getters.redTeam[this.playerIndex[1]];
       }
     },
-    minutes: function () {
-      const minutes = Math.floor(this.timeToGuess / 60);
-      return this.padTime(minutes);
-    },
-    seconds: function () {
-      const seconds = this.timeToGuess - this.minutes * 60;
-      return this.padTime(seconds);
-    },
     score() {
       return this.$store.getters.scoreTeam;
     },
 
     ...mapState(["players"]),
+
+    minutes(){
+      return this.$store.getters.minutes
+    },
+    seconds() {
+      return this.$store.getters.seconds
+    }
+    
   },
   watch: {},
   created() {
@@ -186,10 +186,8 @@ export default {
       this.timer = null;
       this.resetButton = false;
     },
-    padTime(time) {
-      return (time < 10 ? "0" : "") + time;
-    },
     countdown() {
+      this.$store.commit("COUNT_DOWN");
       if (this.seconds > 0) {
         this.timeToGuess--;
       } else {
