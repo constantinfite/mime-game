@@ -3,10 +3,14 @@
     <v-row justify="center">
       <v-col cols="8">
         <v-col align="center">
-          <h3 class="mb-3">CODE</h3>
-          <h2>
-            {{ $route.params.idGame }}
-          </h2>
+          <v-chip color="default" outlined class="headline mb-4 label py-8">
+            <p class="mb-0">
+              Code :
+              <span class="font-weight-bold">
+                {{ $route.params.idGame }}
+              </span>
+            </p>
+          </v-chip>
         </v-col>
 
         <h3>Team Bleu</h3>

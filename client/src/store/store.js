@@ -6,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    games: [],
+    game: {},
     players: [],
     wordDone: [],
     wordSkipped: [],
@@ -18,8 +18,11 @@ export default new Vuex.Store({
       state.round += 1
       state.wordSkipped = []
     },
-    ADD_GAME(state, game) {
-      state.games.push(game)
+    SET_GAME(state, game) {
+      //state.game = game
+      Vue.set(state.game,'timeToGuess' ,game.timeToGuess)
+      Vue.set(state.game,'id' ,game.id)
+      
     },
     ADD_PLAYER(state, player) {
       state.players.push(player);
@@ -43,7 +46,7 @@ export default new Vuex.Store({
   },
   actions: {
     createPlayer({ commit }, { player }) {
-      return EventService.postPlayer(player)
+      EventService.postPlayer(player)
         .then(() => {
           commit("ADD_PLAYER", player);
         })
@@ -52,9 +55,9 @@ export default new Vuex.Store({
         });
     },
     createGame({ commit }, game) {
-      return EventService.postGame(game)
+      EventService.postGame(game)
         .then(() => {
-          commit("ADD_GAME", game);
+          commit("SET_GAME", game);
         })
         .catch(() => {
           console.log("error");
@@ -69,7 +72,17 @@ export default new Vuex.Store({
         .catch(error => {
           console.log("There was an error:", error.response);
         });
-    }
+    },
+    fetchGame({ commit }, gameCode) {
+
+      EventService.getGame(gameCode)
+        .then(response => {
+          commit("SET_GAME", response.data);
+        })
+        .catch(error => {
+          console.log("There was an error:", error.response);
+        });
+    },
   },
   getters: {
     listWord: state => {
@@ -117,6 +130,10 @@ export default new Vuex.Store({
       else {
         return state.score[1]
       }
+    },
+    timeGame: state => {
+      console.log("getters", state.game.timeToGuess)
+      return state.game.timeToGuess
     }
   }
 });

@@ -5,17 +5,18 @@
         <v-col cols="8" align="center">
           <h1>les Mimes</h1>
           <v-row justify="center" class="my-12">
-            <v-btn
-              small
-              color="#f46036"
-              class="link white--text"
-              @click="createGame"
-            >
-              Créer une partie
+            <v-btn small color="#43A047" class="link white--text">
+              <router-link
+                :to="{
+                  name: 'CreateGame',
+                }"
+              >
+                Créer une partie
+              </router-link>
             </v-btn>
           </v-row>
           <v-row justify="center">
-            <v-btn color="#1B998B" small class="link">
+            <v-btn color="indigo darken-2" small class="link">
               <router-link
                 :to="{
                   name: 'JoinGame',
@@ -37,29 +38,8 @@
 export default {
   name: "Home",
   components: {},
-  data() {
-    return {
-      game: { id: null },
-    };
-  },
-  created() {
-    this.game.id = Math.floor(Math.random() * 1000000);
-  },
-  methods: {
-    createGame() {
-      this.$store
-        .dispatch("createGame", this.game)
-        .then(() => {
-          this.$router.push({
-            name: "JoinGame",
-            params: { idGame: this.game.id, admin: "admin" },
-          });
-        })
-        .catch(() => {
-          console.log("error");
-        });
-    },
-  },
+
+  methods: {},
 };
 </script>
 

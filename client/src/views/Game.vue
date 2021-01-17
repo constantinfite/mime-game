@@ -4,7 +4,9 @@
       <v-col xs="8" sm="10" md="10" col="10" align="center">
         <v-row justify="center">
           <v-col xs="10" sm="5">
-            <p class="subtitle-1">Team {{ currentTeam }} / Score {{ score }}</p>
+            <p class="subtitle-1">
+              Team {{ currentTeam }} / Score {{ score }}
+            </p>
             <p class="pb-10 headline">
               Joueur
               <span class="font-weight-bold" :class="currentColorClass">{{
@@ -105,7 +107,7 @@ export default {
   data() {
     return {
       timer: null,
-      totalTime: 5,
+      timeToGuess: this.$store.getters.timeGame,
       resetButton: false,
       finish: false,
       showWord: false,
@@ -150,11 +152,11 @@ export default {
       }
     },
     minutes: function () {
-      const minutes = Math.floor(this.totalTime / 60);
+      const minutes = Math.floor(this.timeToGuess / 60);
       return this.padTime(minutes);
     },
     seconds: function () {
-      const seconds = this.totalTime - this.minutes * 60;
+      const seconds = this.timeToGuess - this.minutes * 60;
       return this.padTime(seconds);
     },
     score() {
@@ -165,6 +167,7 @@ export default {
   },
   watch: {},
   created() {
+    this.$store.dispatch("fetchGame", this.$route.params.idGame);
     this.$store.dispatch("fetchPlayers", this.$route.params.idGame);
   },
   methods: {
@@ -178,7 +181,7 @@ export default {
       this.resetButton = true;
     },
     resetTimer() {
-      this.totalTime = 5;
+      this.timeToGuess = this.$store.state.game.timeToGuess;
       clearInterval(this.timer);
       this.timer = null;
       this.resetButton = false;
@@ -188,7 +191,7 @@ export default {
     },
     countdown() {
       if (this.seconds > 0) {
-        this.totalTime--;
+        this.timeToGuess--;
       } else {
         this.stopTimer();
         this.resetButton = false;
@@ -236,7 +239,7 @@ export default {
     goDashBoard() {
       this.$router.push({
         name: "DashBoard",
-        params: { idGame: this.$route.params.idGame},
+        params: { idGame: this.$route.params.idGame },
       });
     },
   },

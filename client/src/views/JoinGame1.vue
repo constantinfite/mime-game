@@ -17,14 +17,18 @@
 
         <v-row>
           <v-col v-if="$route.params.admin === 'admin'" align="center">
-            <h3 class="mb-3">CODE</h3>
-            <h2>
-              {{ idGame }}
-            </h2>
+            <v-chip color="default" outlined class="headline mb-4 label py-8">
+              <p class="mb-0">
+                Code :
+                <span class="font-weight-bold">
+                  {{ idGame }}
+                </span>
+              </p>
+            </v-chip>
           </v-col>
         </v-row>
 
-        <v-row justify="center" class="mb-4">
+        <v-row justify="center" class="mb-8">
           <v-col cols="12">
             <h3 class>Rentre le code</h3>
             <v-text-field
@@ -35,12 +39,35 @@
               placeholder="478577"
             />
             <h3>Rentre tes mots</h3>
-            <v-text-field
-              v-for="number in numberOfWord"
-              :key="number"
-              v-model="player.list[number - 1]"
-              :placeholder="`mot ${number}`"
-            />
+            <v-row>
+              <v-col xs="6" sm="6" md="6">
+                <v-text-field
+                  v-for="number in oddNumbers"
+                  :key="number"
+                  v-model="player.list[number - 1]"
+                  :placeholder="`mot ${number}`"
+                />
+              </v-col>
+              <v-col xs="6" sm="6" md="6">
+                <v-text-field
+                  v-for="number in evenNumbers"
+                  :key="number"
+                  v-model="player.list[number - 1]"
+                  :placeholder="`mot ${number}`"
+                />
+              </v-col>
+            </v-row>
+            <!--
+            <v-btn
+              class="ma-2"
+              text
+              icon
+              color="indigo darken-2"
+              @click="addWord"
+            >
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+            -->
           </v-col>
         </v-row>
         <v-row justify="center">
@@ -70,10 +97,22 @@
 export default {
   data() {
     return {
-      numberOfWord: 5,
+      numberOfWord: [1, 2, 3, 4, 5],
       idGame: null,
       player: { id: 0, name: "", list: [], team: null, gameId: null },
     };
+  },
+  computed: {
+    evenNumbers() {
+      return this.numberOfWord.filter(function (number) {
+        return number % 2 === 0;
+      });
+    },
+    oddNumbers() {
+      return this.numberOfWord.filter(function (number) {
+        return number % 2 === 1;
+      });
+    },
   },
   created() {
     this.idGame = this.$route.params.idGame;
@@ -97,6 +136,10 @@ export default {
         .catch(() => {
           console.log("error");
         });
+    },
+    addWord() {
+      var length = this.numberOfWord.length;
+      this.numberOfWord.push(length + 1);
     },
   },
 };

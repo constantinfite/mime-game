@@ -5,6 +5,7 @@ import TeamMenu from "../views/TeamMenu.vue";
 import DashBoard from "../views/DashBoard.vue";
 import JoinGame1 from "../views/JoinGame1.vue";
 import Game from "../views/Game.vue";
+import CreateGame from "../views/CreateGame"
 
 Vue.use(VueRouter);
 
@@ -13,6 +14,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home
+  },
+  {
+    path: "/createGame",
+    name: "CreateGame",
+    component: CreateGame
   },
   {
     path: "/teamMenu/:idGame/:admin",
