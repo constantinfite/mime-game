@@ -52,15 +52,7 @@
       "timeToGuess": "10"
     },
     {
-<<<<<<< HEAD
-      "id": 384463,
-      "timeToGuess": "30"
-    },
-    {
-      "id": 724508,
-=======
       "id": 725180,
->>>>>>> time
       "timeToGuess": "10"
     }
   ],
@@ -219,28 +211,11 @@
       "gameId": "557669"
     },
     {
-<<<<<<< HEAD
-      "id": 7867835,
-      "name": "admin",
-      "list": [
-        "dame du lac"
-      ],
-      "team": "1",
-      "gameId": "384469"
-    },
-    {
-      "id": 158981,
-      "name": "er",
-      "list": [],
-      "team": "1",
-      "gameId": "724508"
-=======
       "id": 8539397,
       "name": "asca",
       "list": [],
       "team": "2",
       "gameId": "725180"
->>>>>>> time
     }
   ]
 }
