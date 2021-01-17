@@ -78,10 +78,10 @@
               class="white--text mr-5"
               @click="skipWord"
             >
-              Passe
+              Raté
             </v-btn>
             <v-btn small color="green" class="white--text" @click="nextWord">
-              Suivant
+              Trouvé
             </v-btn></v-row
           >
         </v-col>
@@ -152,6 +152,7 @@ export default {
       }
     },
     minutes: function () {
+      console.log(this.timeToGuess)
       const minutes = Math.floor(this.timeToGuess / 60);
       return this.padTime(minutes);
     },
@@ -169,6 +170,7 @@ export default {
   created() {
     this.$store.dispatch("fetchGame", this.$route.params.idGame);
     this.$store.dispatch("fetchPlayers", this.$route.params.idGame);
+    //this.timeToGuess = this.$store.getters.timeGame
   },
   methods: {
     startTimer() {
