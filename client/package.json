@@ -2,7 +2,6 @@
   "name": "mime-site",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://my-json-server.typicode.com/constantinfite/mime-database",
   "scripts": {
     "start" : "node server.js",
     "serve": "vue-cli-service serve",
