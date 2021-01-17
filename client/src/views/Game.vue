@@ -181,7 +181,8 @@ export default {
       this.resetButton = true;
     },
     resetTimer() {
-      this.timeToGuess = this.$store.state.game.timeToGuess;
+      this.$store.commit("RESET_TIMER");
+      //this.timeToGuess = this.$store.state.game.timeToGuess;
       clearInterval(this.timer);
       this.timer = null;
       this.resetButton = false;

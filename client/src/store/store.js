@@ -43,9 +43,12 @@ export default new Vuex.Store({
     SKIP_WORD(state, { word }) {
       state.wordSkipped.push(word);
     },
-    COUNT_DOWN(getters) {
-      timeLef.timeToGuess --
+    COUNT_DOWN(state) {
+      state.game.timeLeft--
     },
+    RESET_TIMER(state) {
+      Vue.set(state.game, 'timeLeft', state.game.timeToGuess)
+    }
 
   },
   actions: {
@@ -135,16 +138,16 @@ export default new Vuex.Store({
         return state.score[1]
       }
     },
-    timeToGuess: state => {
-      return state.game.timeToGuess
+    timeLeft: state => {
+      return state.game.timeLeft
     },
-    minutes: (state, getters )=> {
-      const minutes = Math.floor(getters.timeToGuess / 60);
+    minutes: (state, getters) => {
+      const minutes = Math.floor(getters.timeLeft / 60);
       return (minutes < 10 ? "0" : "") + minutes;
     },
 
     seconds: (state, getters) => {
-      const seconds = getters.timeToGuess - getters.minutes * 60;
+      const seconds = getters.timeLeft - getters.minutes * 60;
       return (seconds < 10 ? "0" : "") + seconds;
     },
   }
