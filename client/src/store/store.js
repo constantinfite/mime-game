@@ -18,8 +18,8 @@ export default new Vuex.Store({
       state.wordSkipped = []
     },
     SET_GAME(state, game) {
-      state.game.scoreBleu = game.scoreBleu
-      state.game.scoreRouge = game.scoreRouge
+      //state.game.scoreBleu = game.scoreBleu
+     //state.game.scoreRouge = game.scoreRouge
       Vue.set(state.game, 'timeLeft', game.timeToGuess)
       Vue.set(state.game, 'timeToGuess', game.timeToGuess)
       Vue.set(state.game, 'mode', game.mode)
@@ -38,11 +38,10 @@ export default new Vuex.Store({
       state.wordDone.push(word);
 
       if (state.round % 2 == 0) {
-        state.game.scoreBleu +=1
-        //Vue.set(state.game, 'scoreBleu', state.game.scoreBleu + 1)
+        Vue.set(state.game, 'scoreBleu',  state.game.scoreBleu+ 1)
       }
       else {
-        Vue.set(state.game, 'scoreRouge', state.game.scoreRouge + 1)
+        Vue.set(state.game, 'scoreRouge',  state.game.scoreRouge+ 1)
       }
     },
     RESET_LIST(state) {
