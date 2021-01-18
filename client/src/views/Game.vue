@@ -3,18 +3,22 @@
     <v-row justify="center">
       <v-col xs="8" sm="10" md="10" col="10" align="center">
         <v-row justify="center">
-          <v-col xs="10" sm="5">
-            <p class="subtitle-1">
-              Team {{ currentTeam }} / Score {{ score }}
-            </p>
-            <p class="pb-10 headline">
+          <v-col xs="10" sm="6">
+            <p class="subtitle-1">Team {{ currentTeam }} / Score {{ score }}</p>
+            <p>
+              <span v-if="gameMode == 'timesup'">
+                Manche
+                <span class="font-weight-bold">
+                  {{ manche[mancheCounter] }} /</span
+                >
+              </span>
               Joueur
               <span class="font-weight-bold" :class="currentColorClass">{{
                 currentPlayer
               }}</span>
             </p>
           </v-col>
-          <v-col xs="10" sm="5" md="10">
+          <v-col xs="10" sm="6" md="10">
             <v-chip
               v-if="!finish"
               color="default"
@@ -49,14 +53,25 @@
           <p class="display-2">Partie terminée</p>
           <v-btn
             color="indigo darken-2"
-            class="white--text mr-5"
+            class="white--text mt-5"
             @click="goDashBoard"
           >
             Voir le score
           </v-btn>
         </v-col>
-        <v-col v-if="!finish && !gameFinished" v align="center">
-          <v-row justify="center" class="mb-12">
+        <v-col v-if="mancheFinished && !gameFinished">
+          <p class="display-2">Manche {{ mancheCounter + 1 }} terminée</p>
+          <v-btn
+            small
+            color="indigo darken-2"
+            class="white--text mt-5"
+            @click="switchManche"
+          >
+            Changer de manche
+          </v-btn>
+        </v-col>
+        <v-col v-if="!finish && !mancheFinished" align="center">
+          <v-row justify="center" class="mb-6">
             <p v-if="showWord" class="display-3 mb-8">
               {{ currentWord }}
             </p>
@@ -64,7 +79,7 @@
               v-if="!showWord"
               small
               color="indigo darken-2"
-              class="white--text"
+              class="white--text mb-12"
               @click="showWordFunction"
             >
               Montrer le mot
@@ -72,15 +87,10 @@
           </v-row>
 
           <v-row justify="center">
-            <v-btn
-              small
-              color="#E71D36"
-              class="white--text mr-5"
-              @click="skipWord"
-            >
+            <v-btn color="#E71D36" class="white--text mr-12" @click="skipWord">
               Raté
             </v-btn>
-            <v-btn small color="green" class="white--text" @click="nextWord">
+            <v-btn color="green" class="white--text" @click="nextWord">
               Trouvé
             </v-btn></v-row
           >
@@ -106,8 +116,11 @@ var audio = new Audio(require("../assets/sonnerie.mp3"));
 export default {
   data() {
     return {
+      mancheCounter: 0,
+      manche: ["Phrase", "Mot", "Mime"],
+      mancheFinished: false,
       timer: null,
-      timeToGuess: this.$store.getters.timeGame,
+      timeToGuess: null,
       resetButton: false,
       finish: false,
       showWord: false,
@@ -157,19 +170,20 @@ export default {
 
     ...mapState(["players"]),
 
-    minutes(){
-      return this.$store.getters.minutes
+    minutes() {
+      return this.$store.getters.minutes;
     },
     seconds() {
-      return this.$store.getters.seconds
-    }
-    
+      return this.$store.getters.seconds;
+    },
+    gameMode() {
+      return this.$store.getters.gameMode;
+    },
   },
   watch: {},
   created() {
     this.$store.dispatch("fetchGame", this.$route.params.idGame);
     this.$store.dispatch("fetchPlayers", this.$route.params.idGame);
-    //this.timeToGuess = this.$store.getters.timeGame
   },
   methods: {
     startTimer() {
@@ -222,16 +236,41 @@ export default {
         word: this.currentWord,
       });
       // When it finishes
-      if (this.currentWord == null) {
-        this.gameFinished = true;
+      if (this.gameMode == "timesup") {
+        if (this.currentWord == null) {
+          this.mancheFinished = true;
+          this.stopTimer();
+
+          if (this.mancheCounter == 2) {
+            this.gameFinished = true;
+          }
+        }
+      } else {
+        if (this.currentWord == null) {
+          this.mancheFinished = true;
+          this.gameFinished = true;
+        }
       }
     },
+    switchManche() {
+      this.mancheFinished = false;
+      this.$store.commit("RESET_LIST");
+      this.mancheCounter += 1;
+      this.showWord = false;
+      this.switchTeam();
+    },
+
     skipWord() {
       if (!this.resetButton) {
         this.startTimer();
       }
 
       this.$store.commit("SKIP_WORD", { word: this.currentWord });
+
+      if (this.currentWord == null) {
+        this.finish = true;
+        this.stopTimer();
+      }
     },
     showWordFunction() {
       this.showWord = true;

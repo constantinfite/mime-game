@@ -4,11 +4,20 @@
       <v-col align="center">
         <h1>Score</h1>
         <v-row class="mt-8">
-          <v-col>
-            <p>Bleu</p>
-          </v-col>
-          <v-col>
-            <p>Rouge</p>
+          <v-col v-for="(team, index) in teamArray" :key="index">
+            <p class="headline">{{ team.nom }}</p>
+            <v-chip
+
+              :color="team.color"
+              outlined
+              class="headline label pa-8"
+            >
+              
+              <p class="mb-0">{{ team.score }}</p>
+              <v-icon v-if="team.winner" x-large @click="stopTimer">
+                mdi-trophy
+              </v-icon>
+            </v-chip>
           </v-col>
         </v-row>
       </v-col>
@@ -21,6 +30,25 @@ export default {
     return {
       game: { id: null },
     };
+  },
+  computed: {
+    teamArray() {
+      var array = [];
+
+      array.push({
+        nom: "Bleu",
+        winner: this.$store.state.score[0] > this.$store.state.score[1],
+        score: this.$store.state.score[0],
+        color: "blue",
+      });
+      array.push({
+        nom: "Rouge",
+        winner: this.$store.state.score[0] < this.$store.state.score[1],
+        score: this.$store.state.score[1],
+        color: "red",
+      });
+      return array;
+    },
   },
   created() {
     this.game.id = Math.floor(Math.random() * 1000000);

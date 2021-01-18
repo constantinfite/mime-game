@@ -10,7 +10,6 @@ export default new Vuex.Store({
     players: [],
     wordDone: [],
     wordSkipped: [],
-    score: [0, 0],
     round: 2
   },
   mutations: {
@@ -19,10 +18,14 @@ export default new Vuex.Store({
       state.wordSkipped = []
     },
     SET_GAME(state, game) {
-      //state.game = game
+      state.game.scoreBleu = game.scoreBleu
+      state.game.scoreRouge = game.scoreRouge
       Vue.set(state.game, 'timeLeft', game.timeToGuess)
       Vue.set(state.game, 'timeToGuess', game.timeToGuess)
+      Vue.set(state.game, 'mode', game.mode)
       Vue.set(state.game, 'id', game.id)
+      Vue.set(state.game, 'scoreBleu', game.scoreBleu)
+      Vue.set(state.game, 'scoreBleu', game.scoreRouge)
 
     },
     ADD_PLAYER(state, player) {
@@ -33,12 +36,17 @@ export default new Vuex.Store({
     },
     NEXT_WORD(state, { word }) {
       state.wordDone.push(word);
+
       if (state.round % 2 == 0) {
-        Vue.set(state.score, 0, state.score[0] + 1)
+        state.game.scoreBleu +=1
+        //Vue.set(state.game, 'scoreBleu', state.game.scoreBleu + 1)
       }
       else {
-        Vue.set(state.score, 1, state.score[1] + 1)
+        Vue.set(state.game, 'scoreRouge', state.game.scoreRouge + 1)
       }
+    },
+    RESET_LIST(state) {
+      state.wordDone = []
     },
     SKIP_WORD(state, { word }) {
       state.wordSkipped.push(word);
@@ -87,7 +95,7 @@ export default new Vuex.Store({
           commit("SET_GAME", response.data);
         })
         .catch(error => {
-          console.log("There was an error:", error.response);
+          console.log("There was an error in fetching game:", error.response);
         });
     },
   },
@@ -131,11 +139,13 @@ export default new Vuex.Store({
       return list;
     },
     scoreTeam: state => {
+
       if (state.round % 2 == 0) {
-        return state.score[0]
+
+        return state.game.scoreBleu
       }
       else {
-        return state.score[1]
+        return state.game.scoreRouge
       }
     },
     timeLeft: state => {
@@ -145,10 +155,12 @@ export default new Vuex.Store({
       const minutes = Math.floor(getters.timeLeft / 60);
       return (minutes < 10 ? "0" : "") + minutes;
     },
-
     seconds: (state, getters) => {
       const seconds = getters.timeLeft - getters.minutes * 60;
       return (seconds < 10 ? "0" : "") + seconds;
     },
+    gameMode: state => {
+      return state.game.mode
+    }
   }
 });
