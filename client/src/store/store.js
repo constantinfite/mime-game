@@ -25,7 +25,7 @@ export default new Vuex.Store({
       Vue.set(state.game, 'mode', game.mode)
       Vue.set(state.game, 'id', game.id)
       Vue.set(state.game, 'scoreBleu', game.scoreBleu)
-      Vue.set(state.game, 'scoreBleu', game.scoreRouge)
+      Vue.set(state.game, 'scoreRouge', game.scoreRouge)
 
     },
     ADD_PLAYER(state, player) {
@@ -160,6 +160,23 @@ export default new Vuex.Store({
     },
     gameMode: state => {
       return state.game.mode
+    },
+    results: state => {
+      var array = [];
+
+      array.push({
+        nom: "Bleu",
+        winner: (state.game.scoreBleu > state.game.scoreRouge),
+        score: state.game.scoreBleu,
+        color: "blue",
+      });
+      array.push({
+        nom: "Rouge",
+        winner: (state.game.scoreBleu < state.game.scoreRouge),
+        score: state.game.scoreRouge,
+        color: "red",
+      });
+      return array;
     }
   }
 });

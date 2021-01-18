@@ -14,7 +14,7 @@
             >
               
               <p class="mb-0">{{ team.score }}</p>
-              <v-icon v-if="team.winner" x-large @click="stopTimer">
+              <v-icon v-if="team.winner" class="ml-5" x-large>
                 mdi-trophy
               </v-icon>
             </v-chip>
@@ -33,41 +33,13 @@ export default {
   },
   computed: {
     teamArray() {
-      var array = [];
-
-      array.push({
-        nom: "Bleu",
-        winner: this.$store.state.score[0] > this.$store.state.score[1],
-        score: this.$store.state.score[0],
-        color: "blue",
-      });
-      array.push({
-        nom: "Rouge",
-        winner: this.$store.state.score[0] < this.$store.state.score[1],
-        score: this.$store.state.score[1],
-        color: "red",
-      });
-      return array;
+      return this.$store.getters.results;
     },
   },
   created() {
-    this.game.id = Math.floor(Math.random() * 1000000);
+    //this.$store.dispatch("fetchGame", this.$route.params.idGame);
   },
-  methods: {
-    createGame() {
-      this.$store
-        .dispatch("createGame", this.game)
-        .then(() => {
-          this.$router.push({
-            name: "JoinGame",
-            params: { admin: true },
-          });
-        })
-        .catch(() => {
-          console.log("error");
-        });
-    },
-  },
+  methods: {},
 };
 </script>
 <style lang="">
