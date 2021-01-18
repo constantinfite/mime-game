@@ -247,6 +247,7 @@ export default {
         }
       } else {
         if (this.currentWord == null) {
+          this.stopTimer();
           this.mancheFinished = true;
           this.gameFinished = true;
         }
