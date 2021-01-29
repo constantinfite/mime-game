@@ -77,9 +77,9 @@
             </p>
             <v-btn
               v-if="!showWord"
-              small
+              x-large
               color="indigo darken-2"
-              class="white--text mb-12"
+              class="pa-8 white--text mb-12"
               @click="showWordFunction"
             >
               Montrer le mot
@@ -87,24 +87,44 @@
           </v-row>
 
           <v-row justify="center">
-            <v-btn color="#E71D36" class="white--text mr-12" @click="skipWord">
+            <v-btn
+              color="#E71D36"
+              x-large
+              class="white--text pa-8 mr-12"
+              @click="skipWord"
+            >
               Raté
             </v-btn>
-            <v-btn color="green" class="white--text" @click="nextWord">
+            <v-btn
+              color="green"
+              x-large
+              class="ml-12 pa-8 white--text"
+              @click="nextWord"
+            >
               Trouvé
-            </v-btn></v-row
-          >
+            </v-btn>
+          </v-row>
         </v-col>
-
-        <v-btn
-          v-if="finish"
-          small
-          color="indigo darken-2"
-          class="mb-5 white--text"
-          @click="switchTeam"
-        >
-          Switch Team
-        </v-btn>
+        <v-col>
+          <v-btn
+            v-if="lastWordBool"
+            x-large
+            color="green darken-2"
+            class="mb-5 mr-12 white--text"
+            @click="nextWord"
+          >
+            Dernier mot trouvé
+          </v-btn>
+          <v-btn
+            v-if="finish"
+            x-large
+            color="indigo darken-2"
+            class="mb-5 white--text"
+            @click="switchTeam"
+          >
+            Changer d'équipe
+          </v-btn>
+        </v-col>
       </v-col>
     </v-row>
   </v-container>
@@ -112,10 +132,11 @@
 
 <script>
 import { mapState } from "vuex";
-var audio = new Audio(require("../assets/sonnerie.mp3"));
+
 export default {
   data() {
     return {
+      soundEffect: new Audio(require("../assets/sonnerie.mp3")),
       mancheCounter: 0,
       manche: ["Phrase", "Mot", "Mime"],
       mancheFinished: false,
@@ -125,6 +146,7 @@ export default {
       finish: false,
       showWord: false,
       gameFinished: false,
+      lastWordBool: false,
       color: ["Bleu", "Rouge"],
       playerIndex: [0, 0],
     };
@@ -179,6 +201,9 @@ export default {
     gameMode() {
       return this.$store.getters.gameMode;
     },
+    listSkipped() {
+      return this.$store.state.wordSkipped;
+    },
   },
   watch: {},
   created() {
@@ -211,11 +236,13 @@ export default {
         this.resetButton = false;
         this.finish = true;
         this.showWord = false;
-        audio.play();
+        this.lastWordBool = true;
+        this.soundEffect.play()
       }
     },
     switchTeam() {
-      audio.pause();
+      this.lastWordBool = false;
+      this.soundEffect.pause();
       if (this.round % 2 == 0) {
         this.playerIndex[0] += 1;
         if (this.playerIndex[0] == this.numberPlayerTeam) {
@@ -235,6 +262,9 @@ export default {
       this.$store.commit("NEXT_WORD", {
         word: this.currentWord,
       });
+      if (this.lastWordBool) {
+        this.lastWordBool = false;
+      }
       // When it finishes
       if (this.gameMode == "timesup") {
         if (this.currentWord == null) {
@@ -246,7 +276,7 @@ export default {
           }
         }
       } else {
-        if (this.currentWord == null) {
+        if (this.currentWord == null && this.listSkipped.length == 0) {
           this.stopTimer();
           this.mancheFinished = true;
           this.gameFinished = true;
@@ -268,7 +298,8 @@ export default {
 
       this.$store.commit("SKIP_WORD", { word: this.currentWord });
 
-      if (this.currentWord == null) {
+      if (this.currentWord == null && this.listSkipped.length == 0) {
+        this.showWord = false;
         this.finish = true;
         this.stopTimer();
       }
@@ -287,4 +318,7 @@ export default {
 </script>
 
 <style scoped>
+.button {
+  font-size: 16px;
+}
 </style>

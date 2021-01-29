@@ -52,10 +52,9 @@
                 id="input"
                 v-model="player.gameId"
                 label="Code de la partie"
-                color="#1B998B"
                 class="input-code"
                 placeholder="478577"
-                :rules="[codeValidity]"
+                :rules="[codeValidity || 'Code est mauvais']"
                 required
                 @keyup="check()"
               />
@@ -130,7 +129,6 @@ export default {
       codeValidity:false,
       nameRule: [(value) => !!value || "Nom est nécessaire"],
       radioRule: [(value) => !!value || "L'équipe est nécessaire"],
-      //codeRule: [value =>  || "Code est mauvais"],
     };
   },
   computed: {
@@ -152,15 +150,15 @@ export default {
     check() {
       axios
         .get("http://localhost:3000/games/" + this.player.gameId)
-        .then((response) => {
+        .then( ()=> {
           //console.log(response.data.id);
-          this.idGame = response.data.id;
+          //this.idGame = response.data.id;
           this.codeValidity =true
         })
         .catch((error) => {
           if (error.response.status === 404) {
             console.log("error");
-            //this.idGame = null;
+            this.codeValidity =false
           }
         });
     },
