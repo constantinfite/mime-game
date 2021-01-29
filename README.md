@@ -1,6 +1,7 @@
 To make into production :
 
 cd client
+change api url
 npm run build 
 
 at root
