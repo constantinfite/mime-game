@@ -126,7 +126,7 @@ export default {
       idGame: null,
       player: { id: 0, name: "", list: [], team: null, gameId: null },
       formValidity: false,
-      codeValidity:false,
+      codeValidity: false,
       nameRule: [(value) => !!value || "Nom est nécessaire"],
       radioRule: [(value) => !!value || "L'équipe est nécessaire"],
     };
@@ -149,16 +149,16 @@ export default {
   methods: {
     check() {
       axios
-        .get("http://localhost:3000/games/" + this.player.gameId)
-        .then( ()=> {
+        .get("https://data-base-mime.herokuapp.com/" + this.player.gameId)
+        .then(() => {
           //console.log(response.data.id);
           //this.idGame = response.data.id;
-          this.codeValidity =true
+          this.codeValidity = true;
         })
         .catch((error) => {
           if (error.response.status === 404) {
             console.log("error");
-            this.codeValidity =false
+            this.codeValidity = false;
           }
         });
     },
