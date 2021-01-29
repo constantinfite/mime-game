@@ -2,21 +2,8 @@
   <v-container class="fluid mt-5">
     <v-row justify="center">
       <v-col cols="8" xs="8" sm="8" md="8">
-        <v-row justify="center">
-          <v-col cols="6">
-            <h3>Rentre ton petit nom</h3>
-            <v-text-field v-model="player.name" placeholder="coquinou" />
-          </v-col>
-          <v-col cols="6">
-            <v-radio-group v-model="player.team" column>
-              <v-radio label="Team Bleu" color="blue" value="1" />
-              <v-radio label="Team Rouge" color="red" value="2" />
-            </v-radio-group>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col v-if="$route.params.admin === 'admin'" align="center">
+        <v-row v-if="$route.params.admin === 'admin'">
+          <v-col align="center">
             <v-chip color="default" outlined class="headline mb-4 label py-8">
               <p class="mb-0">
                 Code :
@@ -27,18 +14,43 @@
             </v-chip>
           </v-col>
         </v-row>
+        <v-row justify="center" class="mb-5">
+          <v-col>
+            <div><strong>Choisis ton équipe </strong></div>
 
-        <v-row justify="center" class="mb-8">
-          <v-col cols="12">
-            <h3 class>Rentre le code</h3>
+            <v-radio-group row v-model="player.team">
+              <template v-slot:label> </template>
+              <v-radio label="Bleu" color="blue" value="1"
+                ><template v-slot:label>
+                  <div>
+                    <strong class="blue--text">Bleu</strong>
+                  </div>
+                </template>
+              </v-radio>
+              <v-radio label="Rouge" color="red" value="2">
+                <template v-slot:label>
+                  <div>
+                    <strong class="red--text">Rouge</strong>
+                  </div>
+                </template></v-radio
+              >
+            </v-radio-group>
+            <v-text-field
+              v-model="player.name"
+              placeholder="coquinou"
+              label="Rentre ton petit nom"
+            />
+            <!--<h3 class>Rentre le code</h3>-->
             <v-text-field
               id="input"
+              label="Code de la partie"
               v-model="player.gameId"
               color="#1B998B"
               class="input-code"
               placeholder="478577"
+              @keyup="check()"
             />
-            <h3>Rentre tes mots</h3>
+            <h3 class="mt-5">Rentre tes mots</h3>
             <v-row>
               <v-col xs="6" sm="6" md="6">
                 <v-text-field
@@ -72,6 +84,7 @@
         </v-row>
         <v-row justify="center">
           <v-btn
+            :disabled="isDisabled"
             color="indigo darken-2"
             class="mb-5 link white--text"
             @click="createPlayer"
@@ -94,9 +107,11 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
+      isDisabled: false,
       numberOfWord: [1, 2, 3, 4, 5],
       idGame: null,
       player: { id: 0, name: "", list: [], team: null, gameId: null },
@@ -118,6 +133,22 @@ export default {
     this.idGame = this.$route.params.idGame;
   },
   methods: {
+    check() {
+      axios
+        .get("http://localhost:3000/games/" + this.player.gameId)
+        .then((this.isDisabled = false))
+        .catch((error) => {
+          if (error.response.status === 404) {
+            console.log(error);
+            this.isDisabled = true;
+          }
+        });
+    },
+
+    onSubmit() {
+      this.createPlayer();
+    },
+
     createPlayer() {
       this.player.id = Math.floor(Math.random() * 10000000);
       this.$store
@@ -146,6 +177,4 @@ export default {
 </script>
 
 <style scoped>
-input {
-}
 </style>

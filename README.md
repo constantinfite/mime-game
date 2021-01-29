@@ -10,4 +10,7 @@ git push heroku master
 
 Run local
 
+cd client 
+npm run serve 
+
 json-server --watch db.json

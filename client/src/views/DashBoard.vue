@@ -37,7 +37,7 @@ export default {
     },
   },
   created() {
-    //this.$store.dispatch("fetchGame", this.$route.params.idGame);
+    
   },
   methods: {},
 };
