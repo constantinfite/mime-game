@@ -17,39 +17,49 @@
         <v-row justify="center" class="mb-5">
           <v-col>
             <div><strong>Choisis ton équipe </strong></div>
-
-            <v-radio-group row v-model="player.team">
-              <template v-slot:label> </template>
-              <v-radio label="Bleu" color="blue" value="1"
-                ><template v-slot:label>
-                  <div>
-                    <strong class="blue--text">Bleu</strong>
-                  </div>
-                </template>
-              </v-radio>
-              <v-radio label="Rouge" color="red" value="2">
-                <template v-slot:label>
-                  <div>
-                    <strong class="red--text">Rouge</strong>
-                  </div>
-                </template></v-radio
+            <v-form ref="SignUpForm" v-model="formValidity">
+              <v-radio-group
+                v-model="player.team"
+                required
+                row
+                :rules="radioRule"
               >
-            </v-radio-group>
-            <v-text-field
-              v-model="player.name"
-              placeholder="coquinou"
-              label="Rentre ton petit nom"
-            />
-            <!--<h3 class>Rentre le code</h3>-->
-            <v-text-field
-              id="input"
-              label="Code de la partie"
-              v-model="player.gameId"
-              color="#1B998B"
-              class="input-code"
-              placeholder="478577"
-              @keyup="check()"
-            />
+                <template #label />
+                <v-radio label="Bleu" color="blue" value="1">
+                  <template #label>
+                    <div>
+                      <strong class="blue--text">Bleu</strong>
+                    </div>
+                  </template>
+                </v-radio>
+                <v-radio label="Rouge" color="red" value="2">
+                  <template #label>
+                    <div>
+                      <strong class="red--text">Rouge</strong>
+                    </div>
+                  </template></v-radio
+                >
+              </v-radio-group>
+              <v-text-field
+                v-model="player.name"
+                required
+                :rules="nameRule"
+                placeholder="coquinou"
+                label="Rentre ton petit nom"
+              />
+              <!--<h3 class>Rentre le code</h3>-->
+              <v-text-field
+                id="input"
+                v-model="player.gameId"
+                label="Code de la partie"
+                color="#1B998B"
+                class="input-code"
+                placeholder="478577"
+                :rules="[codeValidity]"
+                required
+                @keyup="check()"
+              />
+            </v-form>
             <h3 class="mt-5">Rentre tes mots</h3>
             <v-row>
               <v-col xs="6" sm="6" md="6">
@@ -58,6 +68,7 @@
                   :key="number"
                   v-model="player.list[number - 1]"
                   :placeholder="`mot ${number}`"
+                  required
                 />
               </v-col>
               <v-col xs="6" sm="6" md="6">
@@ -65,6 +76,7 @@
                   v-for="number in evenNumbers"
                   :key="number"
                   v-model="player.list[number - 1]"
+                  required
                   :placeholder="`mot ${number}`"
                 />
               </v-col>
@@ -84,7 +96,7 @@
         </v-row>
         <v-row justify="center">
           <v-btn
-            :disabled="isDisabled"
+            :disabled="!formValidity"
             color="indigo darken-2"
             class="mb-5 link white--text"
             @click="createPlayer"
@@ -111,10 +123,14 @@ import axios from "axios";
 export default {
   data() {
     return {
-      isDisabled: false,
       numberOfWord: [1, 2, 3, 4, 5],
       idGame: null,
       player: { id: 0, name: "", list: [], team: null, gameId: null },
+      formValidity: false,
+      codeValidity:false,
+      nameRule: [(value) => !!value || "Nom est nécessaire"],
+      radioRule: [(value) => !!value || "L'équipe est nécessaire"],
+      //codeRule: [value =>  || "Code est mauvais"],
     };
   },
   computed: {
@@ -136,11 +152,15 @@ export default {
     check() {
       axios
         .get("http://localhost:3000/games/" + this.player.gameId)
-        .then((this.isDisabled = false))
+        .then((response) => {
+          //console.log(response.data.id);
+          this.idGame = response.data.id;
+          this.codeValidity =true
+        })
         .catch((error) => {
           if (error.response.status === 404) {
-            console.log(error);
-            this.isDisabled = true;
+            console.log("error");
+            //this.idGame = null;
           }
         });
     },
