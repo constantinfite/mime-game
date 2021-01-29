@@ -23,20 +23,20 @@
               v-if="!finish"
               color="default"
               outlined
-              class="headline mb-12 label py-8"
+              class="display-1 mb-12 label px py-8"
             >
               <!--     Start Timer -->
-              <v-icon v-if="!timer" x-large class="mr-5" @click="startTimer">
+              <v-icon v-if="!timer" size="60" class="mr-5" @click="startTimer">
                 mdi-play-circle-outline
               </v-icon>
               <!--     Pause Timer -->
-              <v-icon v-if="timer" x-large class="mr-5" @click="stopTimer">
+              <v-icon v-if="timer" size="50" class="mr-5" @click="stopTimer">
                 mdi-pause-circle
               </v-icon>
               <!--     Restart Timer -->
               <v-icon
                 v-if="resetButton"
-                x-large
+                size="50"
                 class="mr-5"
                 @click="resetTimer"
               >
@@ -62,7 +62,7 @@
         <v-col v-if="mancheFinished && !gameFinished">
           <p class="display-2">Manche {{ mancheCounter + 1 }} terminée</p>
           <v-btn
-            small
+            x-large
             color="indigo darken-2"
             class="white--text mt-5"
             @click="switchManche"
@@ -86,7 +86,7 @@
             </v-btn>
           </v-row>
 
-          <v-row justify="center">
+          <v-row v-if="showWord" justify="center">
             <v-btn
               color="#E71D36"
               x-large
@@ -237,7 +237,7 @@ export default {
         this.finish = true;
         this.showWord = false;
         this.lastWordBool = true;
-        this.soundEffect.play()
+        this.soundEffect.play();
       }
     },
     switchTeam() {
@@ -267,8 +267,14 @@ export default {
       }
       // When it finishes
       if (this.gameMode == "timesup") {
-        if (this.currentWord == null) {
+        if (this.currentWord == null && this.listSkipped.length != 0) {
+          this.showWord = false;
+          this.finish = true;
+          this.stopTimer();
+        }
+        if (this.currentWord == null && this.listSkipped.length == 0) {
           this.mancheFinished = true;
+          this.finish = false;
           this.stopTimer();
 
           if (this.mancheCounter == 2) {
@@ -277,7 +283,7 @@ export default {
         }
       } else {
         if (this.currentWord == null && this.listSkipped.length == 0) {
-          this.stopTimer();
+          this.resetTimer();
           this.mancheFinished = true;
           this.gameFinished = true;
         }
@@ -298,7 +304,7 @@ export default {
 
       this.$store.commit("SKIP_WORD", { word: this.currentWord });
 
-      if (this.currentWord == null && this.listSkipped.length == 0) {
+      if (this.currentWord == null) {
         this.showWord = false;
         this.finish = true;
         this.stopTimer();
