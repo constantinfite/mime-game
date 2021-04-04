@@ -19,7 +19,7 @@ export default new Vuex.Store({
     },
     SET_GAME(state, game) {
       //state.game.scoreBleu = game.scoreBleu
-     //state.game.scoreRouge = game.scoreRouge
+      //state.game.scoreRouge = game.scoreRouge
       Vue.set(state.game, 'timeLeft', game.timeToGuess)
       Vue.set(state.game, 'timeToGuess', game.timeToGuess)
       Vue.set(state.game, 'mode', game.mode)
@@ -38,10 +38,10 @@ export default new Vuex.Store({
       state.wordDone.push(word);
 
       if (state.round % 2 == 0) {
-        Vue.set(state.game, 'scoreBleu',  state.game.scoreBleu+ 1)
+        Vue.set(state.game, 'scoreBleu', state.game.scoreBleu + 1)
       }
       else {
-        Vue.set(state.game, 'scoreRouge',  state.game.scoreRouge+ 1)
+        Vue.set(state.game, 'scoreRouge', state.game.scoreRouge + 1)
       }
     },
     RESET_LIST(state) {
@@ -138,14 +138,7 @@ export default new Vuex.Store({
       return list;
     },
     scoreTeam: state => {
-
-      if (state.round % 2 == 0) {
-
-        return state.game.scoreBleu
-      }
-      else {
-        return state.game.scoreRouge
-      }
+      return [state.game.scoreBleu, state.game.scoreRouge]
     },
     timeLeft: state => {
       return state.game.timeLeft
@@ -165,13 +158,13 @@ export default new Vuex.Store({
       var array = [];
 
       array.push({
-        nom: "Bleu",
+        nom: "Ninja",
         winner: (state.game.scoreBleu > state.game.scoreRouge),
         score: state.game.scoreBleu,
         color: "blue",
       });
       array.push({
-        nom: "Rouge",
+        nom: "Pirate",
         winner: (state.game.scoreBleu < state.game.scoreRouge),
         score: state.game.scoreRouge,
         color: "red",

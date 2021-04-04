@@ -3,27 +3,36 @@
     <v-row justify="center">
       <v-col xs="8" sm="10" md="10" col="10" align="center">
         <v-row justify="center">
-          <v-col xs="10" sm="6">
-            <p class="subtitle-1">Team {{ currentTeam }} / Score {{ score }}</p>
-            <p>
+          <v-col xs="10" sm="10">
+            <span>
+              {{ score[0] }}
+              <v-icon size="50" :class="colorNinja" class="mr-3 ml-2">
+                mdi-ninja
+              </v-icon>
+              <v-icon size="50" :class="colorPirate" class="mr-2">
+                mdi-pirate
+              </v-icon>
+              {{ score[1] }}
+            </span>
+
+            <p class="mt-2">
               <span v-if="gameMode == 'timesup'">
                 Manche
-                <span class="font-weight-bold">
-                  {{ manche[mancheCounter] }} /</span
-                >
+                <span>
+                  <span class="font-weight-bold headline">
+                    {{ manche[mancheCounter] }}
+                  </span>
+                  -
+                </span>
               </span>
               Joueur
-              <span class="font-weight-bold" :class="currentColorClass">{{
-                currentPlayer
-              }}</span>
+              <span class="font-weight-bold headline">{{ currentPlayer }}</span>
             </p>
-          </v-col>
-          <v-col xs="10" sm="6" md="10">
             <v-chip
               v-if="!finish"
               color="default"
               outlined
-              class="display-1 mb-12 label px py-8"
+              class="display-1 mb-12 mt-4 label px py-8"
             >
               <!--     Start Timer -->
               <v-icon v-if="!timer" size="60" class="mr-5" @click="startTimer">
@@ -46,8 +55,8 @@
               <span id="minutes">{{ minutes }}</span>
               <span id="middle">:</span>
               <span id="seconds">{{ seconds }}</span>
-            </v-chip></v-col
-          >
+            </v-chip>
+          </v-col>
         </v-row>
         <v-col v-if="gameFinished">
           <p class="display-2">Partie terminée</p>
@@ -78,7 +87,7 @@
             <v-btn
               v-if="!showWord"
               x-large
-              color="indigo darken-2"
+              color="cyan darken-1"
               class="pa-8 white--text mb-12"
               @click="showWordFunction"
             >
@@ -88,41 +97,46 @@
 
           <v-row v-if="showWord" justify="center">
             <v-btn
-              color="#E71D36"
+              color="green darken-1 "
               x-large
-              class="white--text pa-8 mr-12"
-              @click="skipWord"
-            >
-              Raté
-            </v-btn>
-            <v-btn
-              color="green"
-              x-large
-              class="ml-12 pa-8 white--text"
+              class="mr-12 pa-8 white--text"
               @click="nextWord"
             >
               Trouvé
             </v-btn>
+            <v-btn
+              color="#E71D36"
+              x-large
+              class="white--text pa-8"
+              @click="skipWord"
+            >
+              Raté
+            </v-btn>
           </v-row>
         </v-col>
         <v-col>
-          <v-btn
-            v-if="lastWordBool"
-            x-large
-            color="green darken-2"
-            class="mb-5 mr-12 white--text"
-            @click="nextWord"
-          >
+          <span v-if="finish">
             Dernier mot trouvé
+            <p class="display-3 mb-8">{{ lastWordFound }}</p></span
+          >
+
+          <v-btn
+            v-if="finish"
+            x-large
+            color="green darken-1"
+            class="mb-5 mr-12 white--text"
+            @click="switchTeam"
+          >
+            Changer d'équipe
           </v-btn>
           <v-btn
             v-if="finish"
             x-large
-            color="indigo darken-2"
+            color="cyan"
             class="mb-5 white--text"
-            @click="switchTeam"
+            @click="lastWordFoundAction"
           >
-            Changer d'équipe
+            Valider le dernier mot
           </v-btn>
         </v-col>
       </v-col>
@@ -146,14 +160,28 @@ export default {
       finish: false,
       showWord: false,
       gameFinished: false,
-      lastWordBool: false,
       color: ["Bleu", "Rouge"],
       playerIndex: [0, 0],
+      lastWordFound: "",
     };
   },
   computed: {
     round() {
       return this.$store.state.round;
+    },
+    colorNinja() {
+      if (this.round % 2 == 0) {
+        return "light-blue--text";
+      } else {
+        return "null";
+      }
+    },
+    colorPirate() {
+      if (this.round % 2 == 1) {
+        return "red--text";
+      } else {
+        return "null";
+      }
     },
     numberPlayerTeam() {
       if (this.round % 2 == 0) {
@@ -164,13 +192,6 @@ export default {
     },
     currentWord() {
       return this.$store.getters.word;
-    },
-    currentTeam() {
-      if (this.round % 2 == 0) {
-        return this.color[0];
-      } else {
-        return this.color[1];
-      }
     },
     currentColorClass() {
       if (this.round % 2 == 0) {
@@ -236,13 +257,12 @@ export default {
         this.resetButton = false;
         this.finish = true;
         this.showWord = false;
-        this.lastWordBool = true;
-        this.soundEffect.play();
+        //this.soundEffect.play();
       }
     },
     switchTeam() {
-      this.lastWordBool = false;
       this.soundEffect.pause();
+      this.lastWordFound = "";
       if (this.round % 2 == 0) {
         this.playerIndex[0] += 1;
         if (this.playerIndex[0] == this.numberPlayerTeam) {
@@ -259,12 +279,10 @@ export default {
       this.resetTimer();
     },
     nextWord() {
+      this.lastWordFound = this.currentWord;
       this.$store.commit("NEXT_WORD", {
         word: this.currentWord,
       });
-      if (this.lastWordBool) {
-        this.lastWordBool = false;
-      }
       // When it finishes
       if (this.gameMode == "timesup") {
         if (this.currentWord == null && this.listSkipped.length != 0) {
@@ -318,6 +336,10 @@ export default {
         name: "DashBoard",
         params: { idGame: this.$route.params.idGame },
       });
+    },
+    lastWordFoundAction() {
+      this.nextWord();
+      this.switchTeam();
     },
   },
 };

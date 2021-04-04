@@ -27,16 +27,16 @@
                 <template #label />
                 <v-radio label="Bleu" color="blue" value="1">
                   <template #label>
-                    <div>
-                      <strong class="blue--text">Bleu</strong>
-                    </div>
+                    <v-icon size="50" :class="colorNinja" class="mr-3 ml-2">
+                      mdi-ninja
+                    </v-icon>
                   </template>
                 </v-radio>
                 <v-radio label="Rouge" color="red" value="2">
                   <template #label>
-                    <div>
-                      <strong class="red--text">Rouge</strong>
-                    </div>
+                    <v-icon size="50" :class="colorPirate" class="mr-2">
+                      mdi-pirate
+                    </v-icon>
                   </template></v-radio
                 >
               </v-radio-group>
@@ -64,7 +64,7 @@
                   <v-text-field
                     v-for="number in numberOfWord"
                     :key="number"
-                    v-model="player.list[number-1]"
+                    v-model="player.list[number - 1]"
                     :label="`mot ${number}`"
                     :placeholder="exampleWord[number - 1]"
                     :rules="wordRule"
@@ -145,6 +145,20 @@ export default {
   },
 
   computed: {
+    colorNinja() {
+      if (this.player.team % 2 == 1) {
+        return "light-blue--text";
+      } else {
+        return "null";
+      }
+    },
+    colorPirate() {
+      if (this.player.team % 2 == 0 && this.player.team !==null) {
+        return "red--text";
+      } else {
+        return "null";
+      }
+    },
     /*
     evenNumbers() {
       return this.numberOfWord.filter(function (number) {
@@ -207,7 +221,7 @@ export default {
     removeWord() {
       //var length = this.numberOfWord.length;
       this.numberOfWord.pop();
-      this.player.list.pop()
+      this.player.list.pop();
     },
   },
 };
