@@ -58,42 +58,46 @@
                 required
                 @keyup="check()"
               />
+              <h3 class="mt-5">Rentre tes mots</h3>
+              <v-row>
+                <v-col xs="12" sm="12" md="12" align="center">
+                  <v-text-field
+                    v-for="number in numberOfWord"
+                    :key="number"
+                    v-model="player.list[number-1]"
+                    :label="`mot ${number}`"
+                    :placeholder="exampleWord[number - 1]"
+                    :rules="wordRule"
+                    required
+                  />
+                  <v-btn
+                    class="mx-2"
+                    fab
+                    dark
+                    x-small
+                    elevation="0"
+                    color="green darken-2"
+                    @click="addWord"
+                  >
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
+                  <v-btn
+                    elevation="0"
+                    class="mx-2"
+                    fab
+                    dark
+                    x-small
+                    color="deep-orange"
+                    @click="removeWord"
+                  >
+                    <v-icon>mdi-minus</v-icon>
+                  </v-btn>
+                </v-col>
+              </v-row>
             </v-form>
-            <h3 class="mt-5">Rentre tes mots</h3>
-            <v-row>
-              <v-col xs="6" sm="6" md="6">
-                <v-text-field
-                  v-for="number in oddNumbers"
-                  :key="number"
-                  v-model="player.list[number - 1]"
-                  :placeholder="`mot ${number}`"
-                  required
-                />
-              </v-col>
-              <v-col xs="6" sm="6" md="6">
-                <v-text-field
-                  v-for="number in evenNumbers"
-                  :key="number"
-                  v-model="player.list[number - 1]"
-                  required
-                  :placeholder="`mot ${number}`"
-                />
-              </v-col>
-            </v-row>
-            <!--
-            <v-btn
-              class="ma-2"
-              text
-              icon
-              color="indigo darken-2"
-              @click="addWord"
-            >
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-            -->
           </v-col>
         </v-row>
-        <v-row justify="center">
+        <v-row justify="center" class="mt-5">
           <v-btn
             :disabled="!formValidity"
             color="indigo darken-2"
@@ -103,13 +107,13 @@
             Rejoindre la partie
             <!-- <router-link :to="{ name: 'JoinGame2', params: { id: 1 } }"
           >Choisir ces mots</router-link
-        > -->
+        > --><v-icon right>mdi-rocket-launch</v-icon>
           </v-btn>
         </v-row>
 
         <v-row justify="flex-start">
           <router-link to="/" class="mt-5 mb-10">
-            <v-icon>mdi-arrow-left</v-icon>
+            <v-icon left>mdi-arrow-left</v-icon>
           </router-link>
         </v-row>
       </v-col>
@@ -127,11 +131,21 @@ export default {
       player: { id: 0, name: "", list: [], team: null, gameId: null },
       formValidity: false,
       codeValidity: false,
-      nameRule: [(value) => !!value || "Nom est nécessaire"],
-      radioRule: [(value) => !!value || "L'équipe est nécessaire"],
+      exampleWord: [
+        "Pizza",
+        "Roller",
+        "Argentine",
+        "Le Pape",
+        "Démerde toi :)",
+      ],
+      nameRule: [(value) => !!value || "Ton nom est nécessaire"],
+      radioRule: [(value) => !!value || "Selectionne ton équipe"],
+      wordRule: [(value) => !!value || "Rentre ton mot sinon ça marche pas"],
     };
   },
+
   computed: {
+    /*
     evenNumbers() {
       return this.numberOfWord.filter(function (number) {
         return number % 2 === 0;
@@ -141,7 +155,7 @@ export default {
       return this.numberOfWord.filter(function (number) {
         return number % 2 === 1;
       });
-    },
+    },*/
   },
   created() {
     this.idGame = this.$route.params.idGame;
@@ -189,6 +203,11 @@ export default {
     addWord() {
       var length = this.numberOfWord.length;
       this.numberOfWord.push(length + 1);
+    },
+    removeWord() {
+      //var length = this.numberOfWord.length;
+      this.numberOfWord.pop();
+      this.player.list.pop()
     },
   },
 };
