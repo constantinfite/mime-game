@@ -15,3 +15,10 @@ cd client
 npm run serve 
 
 json-server --watch db.json
+
+
+temps de réinitialisation
+dernier mot trouver chnager
+
+
+mode alcool

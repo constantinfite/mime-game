@@ -53,7 +53,7 @@
                 v-model="player.gameId"
                 label="Code de la partie"
                 class="input-code"
-                placeholder="478577"
+                placeholder="785"
                 :rules="[codeValidity || 'Code est mauvais']"
                 required
                 @keyup="check()"

@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fluid d-flex mt-5">
+  <v-container class="fluid d-flex mt-5 background" style="height: 100vh;">
     <v-row justify="center">
       <v-col xs="8" sm="10" md="10" col="10" align="center">
         <v-row justify="center">
@@ -35,17 +35,22 @@
               class="display-1 mb-12 mt-4 label px py-8"
             >
               <!--     Start Timer -->
-              <v-icon v-if="!timer" size="60" class="mr-5" @click="startTimer">
+              <v-icon
+                v-if="!timer && beginning"
+                size="30"
+                class="mr-3"
+                @click="startTimer"
+              >
                 mdi-play-circle-outline
               </v-icon>
               <!--     Pause Timer -->
-              <v-icon v-if="timer" size="50" class="mr-5" @click="stopTimer">
+              <v-icon v-if="timer" size="30" class="mr-3" @click="stopTimer">
                 mdi-pause-circle
               </v-icon>
               <!--     Restart Timer -->
               <v-icon
                 v-if="resetButton"
-                size="50"
+                size="30"
                 class="mr-5"
                 @click="resetTimer"
               >
@@ -110,7 +115,7 @@
               class="white--text pa-8"
               @click="skipWord"
             >
-              Raté
+              Passe
             </v-btn>
           </v-row>
         </v-col>
@@ -160,6 +165,7 @@ export default {
       finish: false,
       showWord: false,
       gameFinished: false,
+      beginning: false,
       color: ["Bleu", "Rouge"],
       playerIndex: [0, 0],
       lastWordFound: "",
@@ -240,6 +246,7 @@ export default {
       clearInterval(this.timer);
       this.timer = null;
       this.resetButton = true;
+      this.beginning = true;
     },
     resetTimer() {
       this.$store.commit("RESET_TIMER");
@@ -247,6 +254,7 @@ export default {
       clearInterval(this.timer);
       this.timer = null;
       this.resetButton = false;
+      this.beginning = true;
     },
     countdown() {
       this.$store.commit("COUNT_DOWN");
@@ -277,6 +285,7 @@ export default {
       this.$store.commit("ADD_ROUND");
       this.finish = false;
       this.resetTimer();
+      this.beginning = false;
     },
     nextWord() {
       this.lastWordFound = this.currentWord;
@@ -328,8 +337,12 @@ export default {
         this.stopTimer();
       }
     },
-    showWordFunction() {
+    async showWordFunction() {
       this.showWord = true;
+      if (!this.resetButton) {
+        await this.wait(5000);
+        this.startTimer();
+      }
     },
     goDashBoard() {
       this.$router.push({
@@ -341,6 +354,11 @@ export default {
       this.nextWord();
       this.switchTeam();
     },
+    wait(timeout) {
+      return new Promise((resolve) => {
+        setTimeout(resolve, timeout);
+      });
+    },
   },
 };
 </script>
@@ -348,5 +366,8 @@ export default {
 <style scoped>
 .button {
   font-size: 16px;
+}
+.background{
+  background-color: aqua;
 }
 </style>
