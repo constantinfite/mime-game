@@ -1,8 +1,8 @@
 <template>
-  <v-container class="fluid d-flex mt-5 background" style="height: 100vh;">
+  <v-container id="bg" class="fluid d-flex mt-5 background">
     <v-row justify="center">
       <v-col xs="8" sm="10" md="10" col="10" align="center">
-        <v-row justify="center">
+        <v-row justify="center mt-3">
           <v-col xs="10" sm="10">
             <span>
               {{ score[0] }}
@@ -239,8 +239,10 @@ export default {
   },
   methods: {
     startTimer() {
+      this.progress()
       this.timer = setInterval(() => this.countdown(), 1000);
       this.resetButton = true;
+      
     },
     stopTimer() {
       clearInterval(this.timer);
@@ -340,7 +342,7 @@ export default {
     async showWordFunction() {
       this.showWord = true;
       if (!this.resetButton) {
-        await this.wait(5000);
+        await this.wait(1000);
         this.startTimer();
       }
     },
@@ -359,6 +361,18 @@ export default {
         setTimeout(resolve, timeout);
       });
     },
+    progress() {
+      console.log("ok")
+      var elem = document.getElementById("bg")
+      var progressBarWidth = (this.seconds * elem.height) / 30;
+      elem.animate({ height: progressBarWidth }, 500);
+      if (this.seconds > 0) {
+        setTimeout(function () {
+          this.progress(this.seconds - 1, 30, elem);
+        }, 1000);
+      }
+      
+    },
   },
 };
 </script>
@@ -367,7 +381,10 @@ export default {
 .button {
   font-size: 16px;
 }
-.background{
+.background {
+  height: 0vh;
   background-color: aqua;
+  margin: 0px;
+  padding: 0px;
 }
 </style>

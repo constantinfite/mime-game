@@ -18,7 +18,5 @@ export default {
 };
 </script>
 <style >
-.background {
-  background-color: chartreuse;
-}
+
 </style>
