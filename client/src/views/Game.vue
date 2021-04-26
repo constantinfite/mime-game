@@ -1,5 +1,5 @@
 <template>
-  <v-container id="bg" class="fluid d-flex mt-5 background">
+  <v-container class="fluid d-flex mt-5 ">
     <v-row justify="center">
       <v-col xs="8" sm="10" md="10" col="10" align="center">
         <v-row justify="center mt-3">
@@ -411,10 +411,5 @@ export default {
 .button {
   font-size: 16px;
 }
-.background {
-  height: 0vh;
-  background-color: aqua;
-  margin: 0px;
-  padding: 0px;
-}
+
 </style>
