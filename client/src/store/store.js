@@ -26,6 +26,7 @@ export default new Vuex.Store({
       Vue.set(state.game, 'id', game.id)
       Vue.set(state.game, 'scoreBleu', game.scoreBleu)
       Vue.set(state.game, 'scoreRouge', game.scoreRouge)
+      Vue.set(state.game, 'alcoolMode', game.alcool)
 
     },
     ADD_PLAYER(state, player) {

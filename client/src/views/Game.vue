@@ -120,14 +120,13 @@
             </v-btn>
           </v-row>
         </v-col>
-        <v-col>
-          <span v-if="finish">
+        <v-col v-if="finish">
+          <span>
             Dernier mot trouvé
             <p class="display-3 mb-8">{{ lastWordFound }}</p></span
           >
 
           <v-btn
-            v-if="finish"
             x-large
             color="green darken-1"
             class="mb-5 mr-12 white--text"
@@ -136,7 +135,6 @@
             Changer d'équipe
           </v-btn>
           <v-btn
-            v-if="finish"
             x-large
             color="cyan"
             class="mb-5 white--text"
@@ -145,6 +143,11 @@
             Valider le dernier mot
           </v-btn>
         </v-col>
+        <v-row v-if="alcoolMode == 'alcool' && (finish || (mancheFinished && !gameFinished) || gameFinished)" class="mt-5" justify="center">
+          <span class="headline">
+            l'équipe {{ teamName }} boit {{ numberWordSucceed }} gorgés
+          </span>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -172,9 +175,17 @@ export default {
       lastWordFound: "",
       counterSkip: 0,
       delay: 0,
+      numberWordSucceed: 0,
     };
   },
   computed: {
+    teamName() {
+      if (this.round % 2 == 0) {
+        return "Pirate";
+      } else {
+        return "Ninja";
+      }
+    },
     round() {
       return this.$store.state.round;
     },
@@ -300,8 +311,11 @@ export default {
       this.finish = false;
       this.resetTimer();
       this.beginning = false;
+      this.counterSkip = 0;
+      this.numberWordSucceed = 0;
     },
     nextWord() {
+      this.numberWordSucceed += 1;
       this.lastWordFound = this.currentWord;
       this.$store.commit("NEXT_WORD", {
         word: this.currentWord,
