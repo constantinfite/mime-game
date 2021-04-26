@@ -154,6 +154,9 @@ export default new Vuex.Store({
     gameMode: state => {
       return state.game.mode
     },
+    alcoolMode:state => {
+      return state.game.alcoolMode
+    },
     results: state => {
       var array = [];
 

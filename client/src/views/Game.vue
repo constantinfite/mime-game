@@ -113,6 +113,7 @@
               color="#E71D36"
               x-large
               class="white--text pa-8"
+              :disabled="disabledSkipped"
               @click="skipWord"
             >
               Passe
@@ -169,6 +170,8 @@ export default {
       color: ["Bleu", "Rouge"],
       playerIndex: [0, 0],
       lastWordFound: "",
+      counterSkip: 0,
+      delay: 0,
     };
   },
   computed: {
@@ -228,8 +231,18 @@ export default {
     gameMode() {
       return this.$store.getters.gameMode;
     },
+    alcoolMode() {
+      return this.$store.getters.alcoolMode;
+    },
     listSkipped() {
       return this.$store.state.wordSkipped;
+    },
+    disabledSkipped() {
+      if (this.counterSkip > 0) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
   watch: {},
@@ -239,10 +252,9 @@ export default {
   },
   methods: {
     startTimer() {
-      this.progress()
+      //this.progress();
       this.timer = setInterval(() => this.countdown(), 1000);
       this.resetButton = true;
-      
     },
     stopTimer() {
       clearInterval(this.timer);
@@ -311,6 +323,11 @@ export default {
           }
         }
       } else {
+        if (this.currentWord == null && this.listSkipped.length != 0) {
+          this.showWord = false;
+          this.finish = true;
+          this.stopTimer();
+        }
         if (this.currentWord == null && this.listSkipped.length == 0) {
           this.resetTimer();
           this.mancheFinished = true;
@@ -338,11 +355,11 @@ export default {
         this.finish = true;
         this.stopTimer();
       }
+      this.counterSkip += 1;
     },
-    async showWordFunction() {
+    showWordFunction() {
       this.showWord = true;
       if (!this.resetButton) {
-        await this.wait(1000);
         this.startTimer();
       }
     },
@@ -361,9 +378,9 @@ export default {
         setTimeout(resolve, timeout);
       });
     },
-    progress() {
-      console.log("ok")
-      var elem = document.getElementById("bg")
+    /*progress() {
+      console.log("ok");
+      var elem = document.getElementById("bg");
       var progressBarWidth = (this.seconds * elem.height) / 30;
       elem.animate({ height: progressBarWidth }, 500);
       if (this.seconds > 0) {
@@ -371,8 +388,7 @@ export default {
           this.progress(this.seconds - 1, 30, elem);
         }, 1000);
       }
-      
-    },
+    },*/
   },
 };
 </script>

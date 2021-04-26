@@ -11,6 +11,10 @@
             <v-radio label="Mime" color="blue" value="mime" />
             <v-radio label="Time's up" color="red" value="timesup" />
           </v-radio-group>
+          <v-radio-group v-model="game.alcool" required row :rules="modeRule">
+            <v-radio label="Alcool" color="blue" value="alcool" />
+            <v-radio label="Sobre" color="red" value="sobre" />
+          </v-radio-group>
           
         </v-form>
         <v-btn :disabled="!formValidity" small color="#43A047" class="link white--text" @click="createGame">
@@ -28,6 +32,7 @@ export default {
         id: null,
         timeToGuess: null,
         mode: "",
+        alcool:null,
         scoreBleu: 0,
         scoreRouge: 0,
       },
