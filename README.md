@@ -24,3 +24,9 @@ css background
 
 
 mode alcool
+tu peux laisser ton téléphone
+mettre délai à la fin
+voir les mot à la fin valider 
+changer d'équipe
+
+

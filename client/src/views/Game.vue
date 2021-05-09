@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fluid d-flex mt-5 ">
+  <v-container class="fluid d-flex mt-5">
     <v-row justify="center">
       <v-col xs="8" sm="10" md="10" col="10" align="center">
         <v-row justify="center mt-3">
@@ -121,29 +121,36 @@
           </v-row>
         </v-col>
         <v-col v-if="finish">
-          <span>
-            Dernier mot trouvé
-            <p class="display-3 mb-8">{{ lastWordFound }}</p></span
+          <v-card
+            v-for="word in currentListWord"
+            :key="word.id"
+            :class="colorCard(word.found)"
+            class="mb-3"
+            @click.stop="changeStateWord(word)"
           >
-
+            <v-card-title
+              >{{ word.word }}
+              <v-icon v-if="word.found" right size="30"  class="green--text"> mdi-check </v-icon>
+              <v-icon v-if="!word.found" right size="30" class="red--text"> mdi-close </v-icon></v-card-title
+            >
+          </v-card>
           <v-btn
             x-large
             color="green darken-1"
-            class="mb-5 mr-12 white--text"
+            class="my-5 white--text"
             @click="switchTeam"
           >
             Changer d'équipe
           </v-btn>
-          <v-btn
-            x-large
-            color="cyan"
-            class="mb-5 white--text"
-            @click="lastWordFoundAction"
-          >
-            Valider le dernier mot
-          </v-btn>
         </v-col>
-        <v-row v-if="alcoolMode == 'alcool' && (finish || (mancheFinished && !gameFinished) || gameFinished)" class="mt-5" justify="center">
+        <v-row
+          v-if="
+            alcoolMode == 'alcool' &&
+            (finish || (mancheFinished && !gameFinished) || gameFinished)
+          "
+          class="mt-5"
+          justify="center"
+        >
           <span class="headline">
             l'équipe {{ teamName }} boit {{ numberWordSucceed }} gorgés
           </span>
@@ -176,6 +183,7 @@ export default {
       counterSkip: 0,
       delay: 0,
       numberWordSucceed: 0,
+      currentListWord: [],
     };
   },
   computed: {
@@ -203,6 +211,7 @@ export default {
         return "null";
       }
     },
+
     numberPlayerTeam() {
       if (this.round % 2 == 0) {
         return this.$store.getters.blueTeam.length;
@@ -287,6 +296,11 @@ export default {
         this.timeToGuess--;
       } else {
         this.stopTimer();
+        this.currentListWord.push({
+          id: this.currentListWord.length,
+          word: this.currentWord,
+          found: false,
+        });
         this.resetButton = false;
         this.finish = true;
         this.showWord = false;
@@ -295,6 +309,7 @@ export default {
     },
     switchTeam() {
       this.soundEffect.pause();
+      this.currentListWord = [];
       this.lastWordFound = "";
       if (this.round % 2 == 0) {
         this.playerIndex[0] += 1;
@@ -317,6 +332,11 @@ export default {
     nextWord() {
       this.numberWordSucceed += 1;
       this.lastWordFound = this.currentWord;
+      this.currentListWord.push({
+        id: this.currentListWord.length,
+        word: this.currentWord,
+        found: true,
+      });
       this.$store.commit("NEXT_WORD", {
         word: this.currentWord,
       });
@@ -358,6 +378,11 @@ export default {
     },
 
     skipWord() {
+      this.currentListWord.push({
+        id: this.currentListWord.length,
+        word: this.currentWord,
+        found: false,
+      });
       if (!this.resetButton) {
         this.startTimer();
       }
@@ -392,6 +417,20 @@ export default {
         setTimeout(resolve, timeout);
       });
     },
+    colorCard(found) {
+      if (found) {
+        return "";
+      } else {
+        return "red--text";
+      }
+    },
+    changeStateWord(word) {
+      if (word.found) {
+        this.currentListWord[word.id].found = false;
+      } else {
+        this.currentListWord[word.id].found = true;
+      }
+    },
     /*progress() {
       console.log("ok");
       var elem = document.getElementById("bg");
@@ -411,5 +450,4 @@ export default {
 .button {
   font-size: 16px;
 }
-
 </style>

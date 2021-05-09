@@ -40,7 +40,7 @@ export default {
       modeRule: [(value) => !!value || "Choisis le mode"],
       timeRule: [
         (v) => !!v || "Rentre le temps",
-        (v) => (v>=30 ) || "Temps doit être supérieur à 30 secondes ",
+        (v) => (v>=0 ) || "Temps doit être supérieur à 30 secondes ",
         (v) => (v <= 999) || "Temps doit être inférieur à 999 secondes",
       ],
     };
