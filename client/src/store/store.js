@@ -8,8 +8,9 @@ export default new Vuex.Store({
   state: {
     game: {},
     players: [],
-    wordDone: [],
-    wordSkipped: [],
+    //wordDone: [],
+    //wordSkipped: [],
+    listWord:[],
     round: 2
   },
   mutations: {

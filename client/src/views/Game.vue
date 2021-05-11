@@ -121,17 +121,31 @@
           </v-row>
         </v-col>
         <v-col v-if="finish">
+          <span
+            v-if="
+              alcoolMode == 'alcool' &&
+              (finish || (mancheFinished && !gameFinished) || gameFinished)
+            "
+            class="headline"
+          >
+            l'équipe {{ teamName }} boit {{ numberWordSucceed }} gorgés
+          </span>
+
           <v-card
             v-for="word in currentListWord"
             :key="word.id"
             :class="colorCard(word.found)"
-            class="mb-3"
+            class="my-3"
             @click.stop="changeStateWord(word)"
           >
-            <v-card-title
-              >{{ word.word }}
-              <v-icon v-if="word.found" right size="30"  class="green--text"> mdi-check </v-icon>
-              <v-icon v-if="!word.found" right size="30" class="red--text"> mdi-close </v-icon></v-card-title
+            <v-card-title>
+              {{ word.word }}
+              <v-icon v-if="word.found" right size="30" class="green--text">
+                mdi-check
+              </v-icon>
+              <v-icon v-if="!word.found" right size="30" class="red--text">
+                mdi-close
+              </v-icon></v-card-title
             >
           </v-card>
           <v-btn
@@ -143,18 +157,6 @@
             Changer d'équipe
           </v-btn>
         </v-col>
-        <v-row
-          v-if="
-            alcoolMode == 'alcool' &&
-            (finish || (mancheFinished && !gameFinished) || gameFinished)
-          "
-          class="mt-5"
-          justify="center"
-        >
-          <span class="headline">
-            l'équipe {{ teamName }} boit {{ numberWordSucceed }} gorgés
-          </span>
-        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -182,7 +184,6 @@ export default {
       lastWordFound: "",
       counterSkip: 0,
       delay: 0,
-      numberWordSucceed: 0,
       currentListWord: [],
     };
   },
@@ -264,6 +265,15 @@ export default {
         return false;
       }
     },
+    numberWordSucceed() {
+      var count = 0;
+      for (var i = 0; i < this.currentListWord.length; i++) {
+        if (this.currentListWord[i].found) {
+          count++;
+        }
+      }
+      return count;
+    },
   },
   watch: {},
   created() {
@@ -327,10 +337,8 @@ export default {
       this.resetTimer();
       this.beginning = false;
       this.counterSkip = 0;
-      this.numberWordSucceed = 0;
     },
     nextWord() {
-      this.numberWordSucceed += 1;
       this.lastWordFound = this.currentWord;
       this.currentListWord.push({
         id: this.currentListWord.length,
