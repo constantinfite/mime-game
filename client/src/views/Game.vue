@@ -125,7 +125,7 @@
             </v-btn>
           </v-row>
         </v-col>
-        <v-col v-if="finish">
+        <v-col v-if="finish && !switchTeamVisible && !mancheFinished">
           <span
             v-if="
               alcoolMode == 'alcool' &&
@@ -157,10 +157,25 @@
             x-large
             color="green darken-1"
             class="my-5 white--text"
+            @click="valider"
+          >
+            Valider
+          </v-btn>
+        </v-col>
+        <v-col v-if="switchTeamVisible && finish && !mancheFinished">
+          <p class="headline">Passe le téléphone à <span /></p>
+          <v-btn
+            x-large
+            color="green darken-1"
+            class="my-5 white--text"
             @click="switchTeam"
           >
             Changer d'équipe
           </v-btn>
+        </v-col>
+        <v-col v-if="!switchTeamVisible && finish && mancheFinished">
+          
+          <p>LeaderBoard</p>
         </v-col>
       </v-col>
     </v-row>
@@ -184,6 +199,7 @@ export default {
       showWord: false,
       gameFinished: false,
       beginning: false,
+      switchTeamVisible: false,
       color: ["Bleu", "Rouge"],
       playerIndex: [0, 0],
       counterSkip: 0,
@@ -262,8 +278,8 @@ export default {
     alcoolMode() {
       return this.$store.getters.alcoolMode;
     },
-    listSkipped() {
-      return this.$store.state.wordSkipped;
+    numberWordNotFound(){
+      return this.$store.getters.numberOfNotFound;
     },
     disabledSkipped() {
       if (this.counterSkip > 0) {
@@ -272,7 +288,7 @@ export default {
         return false;
       }
     },
-    numberWordLeft(){
+    numberWordLeft() {
       return this.$store.getters.listFilter.length;
     },
     numberWordSucceed() {
@@ -342,10 +358,20 @@ export default {
         }
       }
       this.$store.commit("ADD_ROUND");
+      this.switchTeamVisible = false;
       this.finish = false;
       this.resetTimer();
       this.beginning = false;
       this.counterSkip = 0;
+    },
+    valider() {
+      if (this.currentWord == null && this.numberWordNotFound == 0) {
+
+        this.switchTeamVisible = false;
+        this.mancheFinished = true;
+      } else {
+        this.switchTeamVisible = true;
+      }
     },
     nextWord() {
       this.pushCurrentList(this.currentIdWord, this.currentWord, true);
@@ -356,15 +382,15 @@ export default {
       });
       // When it finishes
       if (this.gameMode == "timesup") {
-        console.log("timepu");
-        if (this.currentWord == null && this.counterSkip != 0) {
+        if (this.currentWord == null && this.numberWordNotFound != 0) {
           this.showWord = false;
           this.finish = true;
           this.stopTimer();
         }
-        if (this.currentWord == null && this.counterSkip == 0) {
-          this.mancheFinished = true;
-          this.finish = false;
+        if (this.currentWord == null && this.numberWordNotFound == 0) {
+          //this.mancheFinished = true;
+          this.showWord = false;
+          this.finish = true;
           this.stopTimer();
 
           if (this.mancheCounter == 2) {
@@ -372,12 +398,12 @@ export default {
           }
         }
       } else {
-        if (this.currentWord == null && this.counterSkip != 0) {
+        if (this.currentWord == null && this.numberWordNotFound != 0) {
           this.showWord = false;
           this.finish = true;
           this.stopTimer();
         }
-        if (this.currentWord == null && this.counterSkip == 0) {
+        if (this.currentWord == null && this.numberWordNotFound == 0) {
           this.resetTimer();
           this.mancheFinished = true;
           this.gameFinished = true;

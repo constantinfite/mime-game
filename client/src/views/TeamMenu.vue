@@ -39,7 +39,9 @@
             >
           </v-chip-group>
         </v-sheet>
-
+        <p v-if="$route.params.admin === 'player'" class="headline">
+          Tu peux poser ton téléphone, il ne te servira plus ;)
+        </p>
         <v-row v-if="$route.params.admin === 'admin'" justify="center">
           <v-btn
             color="indigo darken-2"

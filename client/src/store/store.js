@@ -51,7 +51,7 @@ export default new Vuex.Store({
       }
     },
     RESET_LIST(state) {
-      state.wordDone = []
+      state.listWordDone = []
     },
     SKIP_WORD(state, { word, id }) {
       state.listWordDone.push({ id: id, word: word, found: false });
@@ -164,6 +164,9 @@ export default new Vuex.Store({
     },
     index: (state, getters) => {
       return Math.floor(Math.random() * getters.listFilter.length);
+    },
+    numberOfNotFound: (state) => {
+      return state.listWordDone.filter((obj) => obj.found === false).length;
     },
     blueTeam: state => {
       var list = [];
