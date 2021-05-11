@@ -8,15 +8,19 @@ export default new Vuex.Store({
   state: {
     game: {},
     players: [],
-    //wordDone: [],
-    //wordSkipped: [],
-    listWord:[],
+    listWordDone: [],
     round: 2
   },
   mutations: {
     ADD_ROUND(state) {
       state.round += 1
-      state.wordSkipped = []
+      var i = state.listWordDone.length
+      while (i--) {
+
+        if (!state.listWordDone[i].found) {
+          !state.listWordDone.splice(i, 1);
+        }
+      }
     },
     SET_GAME(state, game) {
       //state.game.scoreBleu = game.scoreBleu
@@ -37,7 +41,7 @@ export default new Vuex.Store({
       state.players = players;
     },
     NEXT_WORD(state, { word }) {
-      state.wordDone.push(word);
+      state.listWordDone.push({ word: word, found: true });
 
       if (state.round % 2 == 0) {
         Vue.set(state.game, 'scoreBleu', state.game.scoreBleu + 1)
@@ -50,7 +54,7 @@ export default new Vuex.Store({
       state.wordDone = []
     },
     SKIP_WORD(state, { word }) {
-      state.wordSkipped.push(word);
+      state.listWordDone.push({ word: word, found: false });
     },
     COUNT_DOWN(state) {
       state.game.timeLeft--
@@ -100,20 +104,32 @@ export default new Vuex.Store({
         });
     },
   },
+
   getters: {
     listWord: state => {
       var list = [];
+      var count = 1
       state.players.map(item => {
         item.list.map(word => {
-          list.push(word);
+          list.push({ id: count, word: word });
+          count++
         });
       });
       return list;
     },
-    listFilter: (state, getters) => {
-      return getters.listWord
-        .filter(item => !state.wordSkipped.includes(item))
-        .filter(item => !state.wordDone.includes(item))
+    listFilter: (state,getters) => {
+      var listFound = []
+      state.listWordDone.map(item => {
+        listFound.push(item.word)
+      })
+      /*var listWord = []
+      getters.listWord.map(item => {
+        listWord.push(item.word)
+      })*/
+
+      var list = getters.listWord.filter(
+        item => !listFound.includes(item.word))
+      return list
     },
     word: (state, getters) => {
       return getters.listFilter[getters.index];
@@ -156,7 +172,7 @@ export default new Vuex.Store({
     gameMode: state => {
       return state.game.mode
     },
-    alcoolMode:state => {
+    alcoolMode: state => {
       return state.game.alcoolMode
     },
     results: state => {

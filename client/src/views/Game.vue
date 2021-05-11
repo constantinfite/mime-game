@@ -181,7 +181,6 @@ export default {
       beginning: false,
       color: ["Bleu", "Rouge"],
       playerIndex: [0, 0],
-      lastWordFound: "",
       counterSkip: 0,
       delay: 0,
       currentListWord: [],
@@ -221,7 +220,10 @@ export default {
       }
     },
     currentWord() {
-      return this.$store.getters.word;
+      return this.$store.getters.word.word;
+    },
+    currentIdWord(){
+      return this.$store.getters.word.id;
     },
     currentColorClass() {
       if (this.round % 2 == 0) {
@@ -307,10 +309,11 @@ export default {
       } else {
         this.stopTimer();
         this.currentListWord.push({
-          id: this.currentListWord.length,
+          id: this.currentIdWord,
           word: this.currentWord,
           found: false,
         });
+        this.$store.commit("SKIP_WORD", { word: this.currentWord });
         this.resetButton = false;
         this.finish = true;
         this.showWord = false;
@@ -320,7 +323,6 @@ export default {
     switchTeam() {
       this.soundEffect.pause();
       this.currentListWord = [];
-      this.lastWordFound = "";
       if (this.round % 2 == 0) {
         this.playerIndex[0] += 1;
         if (this.playerIndex[0] == this.numberPlayerTeam) {
@@ -339,23 +341,25 @@ export default {
       this.counterSkip = 0;
     },
     nextWord() {
-      this.lastWordFound = this.currentWord;
       this.currentListWord.push({
-        id: this.currentListWord.length,
+        id: this.currentIdWord,
         word: this.currentWord,
         found: true,
       });
+      
       this.$store.commit("NEXT_WORD", {
         word: this.currentWord,
       });
       // When it finishes
       if (this.gameMode == "timesup") {
         if (this.currentWord == null && this.listSkipped.length != 0) {
+          console.log("null")
           this.showWord = false;
           this.finish = true;
           this.stopTimer();
         }
         if (this.currentWord == null && this.listSkipped.length == 0) {
+          console.log("null2")
           this.mancheFinished = true;
           this.finish = false;
           this.stopTimer();
@@ -416,10 +420,7 @@ export default {
         params: { idGame: this.$route.params.idGame },
       });
     },
-    lastWordFoundAction() {
-      this.nextWord();
-      this.switchTeam();
-    },
+
     wait(timeout) {
       return new Promise((resolve) => {
         setTimeout(resolve, timeout);
