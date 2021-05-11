@@ -40,8 +40,8 @@ export default new Vuex.Store({
     SET_PLAYERS(state, players) {
       state.players = players;
     },
-    NEXT_WORD(state, { word }) {
-      state.listWordDone.push({ word: word, found: true });
+    NEXT_WORD(state, { word, id }) {
+      state.listWordDone.push({ id: id, word: word, found: true });
 
       if (state.round % 2 == 0) {
         Vue.set(state.game, 'scoreBleu', state.game.scoreBleu + 1)
@@ -53,14 +53,37 @@ export default new Vuex.Store({
     RESET_LIST(state) {
       state.wordDone = []
     },
-    SKIP_WORD(state, { word }) {
-      state.listWordDone.push({ word: word, found: false });
+    SKIP_WORD(state, { word, id }) {
+      state.listWordDone.push({ id: id, word: word, found: false });
     },
     COUNT_DOWN(state) {
       state.game.timeLeft--
     },
     RESET_TIMER(state) {
       Vue.set(state.game, 'timeLeft', state.game.timeToGuess)
+    },
+
+    CHANGE_STATE_WORD(state, { id }) {
+      var index = state.listWordDone.findIndex(x => x.id === id);
+      if (state.round % 2 == 0) {
+        if (state.listWordDone[index].found) {
+          Vue.set(state.game, 'scoreBleu', state.game.scoreBleu - 1)
+        }
+        else {
+          Vue.set(state.game, 'scoreBleu', state.game.scoreBleu + 1)
+        }
+
+      }
+      else {
+        if (state.listWordDone[index].found) {
+          Vue.set(state.game, 'scoreRouge', state.game.scoreRouge - 1)
+        }
+        else {
+          Vue.set(state.game, 'scoreRouge', state.game.scoreRouge + 1)
+        }
+      }
+      state.listWordDone[index].found = !state.listWordDone[index].found
+
     }
 
   },
@@ -117,22 +140,27 @@ export default new Vuex.Store({
       });
       return list;
     },
-    listFilter: (state,getters) => {
+    listFilter: (state, getters) => {
       var listFound = []
       state.listWordDone.map(item => {
-        listFound.push(item.word)
-      })
-      /*var listWord = []
-      getters.listWord.map(item => {
-        listWord.push(item.word)
-      })*/
 
+        listFound.push(item.word)
+
+      })
       var list = getters.listWord.filter(
         item => !listFound.includes(item.word))
       return list
     },
     word: (state, getters) => {
-      return getters.listFilter[getters.index];
+      //envoie un mot null quand tous les mots sont fait
+      if (getters.listFilter.length == 0) {
+        return { id: 0, word: null }
+      }
+      else {
+        return getters.listFilter[getters.index];
+      }
+
+
     },
     index: (state, getters) => {
       return Math.floor(Math.random() * getters.listFilter.length);

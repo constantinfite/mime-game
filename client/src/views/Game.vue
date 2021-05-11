@@ -86,9 +86,14 @@
         </v-col>
         <v-col v-if="!finish && !mancheFinished" align="center">
           <v-row justify="center" class="mb-6">
-            <p v-if="showWord" class="display-3 mb-8">
+            <v-badge
+              v-if="showWord"
+              class="display-3 mb-8"
+              color="green"
+              :content="numberWordLeft"
+            >
               {{ currentWord }}
-            </p>
+            </v-badge>
             <v-btn
               v-if="!showWord"
               x-large
@@ -222,7 +227,7 @@ export default {
     currentWord() {
       return this.$store.getters.word.word;
     },
-    currentIdWord(){
+    currentIdWord() {
       return this.$store.getters.word.id;
     },
     currentColorClass() {
@@ -267,6 +272,9 @@ export default {
         return false;
       }
     },
+    numberWordLeft(){
+      return this.$store.getters.listFilter.length;
+    },
     numberWordSucceed() {
       var count = 0;
       for (var i = 0; i < this.currentListWord.length; i++) {
@@ -308,12 +316,11 @@ export default {
         this.timeToGuess--;
       } else {
         this.stopTimer();
-        this.currentListWord.push({
+        this.pushCurrentList(this.currentIdWord, this.currentWord, false);
+        this.$store.commit("SKIP_WORD", {
           id: this.currentIdWord,
           word: this.currentWord,
-          found: false,
         });
-        this.$store.commit("SKIP_WORD", { word: this.currentWord });
         this.resetButton = false;
         this.finish = true;
         this.showWord = false;
@@ -341,25 +348,21 @@ export default {
       this.counterSkip = 0;
     },
     nextWord() {
-      this.currentListWord.push({
-        id: this.currentIdWord,
-        word: this.currentWord,
-        found: true,
-      });
-      
+      this.pushCurrentList(this.currentIdWord, this.currentWord, true);
+
       this.$store.commit("NEXT_WORD", {
+        id: this.currentIdWord,
         word: this.currentWord,
       });
       // When it finishes
       if (this.gameMode == "timesup") {
-        if (this.currentWord == null && this.listSkipped.length != 0) {
-          console.log("null")
+        console.log("timepu");
+        if (this.currentWord == null && this.counterSkip != 0) {
           this.showWord = false;
           this.finish = true;
           this.stopTimer();
         }
-        if (this.currentWord == null && this.listSkipped.length == 0) {
-          console.log("null2")
+        if (this.currentWord == null && this.counterSkip == 0) {
           this.mancheFinished = true;
           this.finish = false;
           this.stopTimer();
@@ -369,12 +372,12 @@ export default {
           }
         }
       } else {
-        if (this.currentWord == null && this.listSkipped.length != 0) {
+        if (this.currentWord == null && this.counterSkip != 0) {
           this.showWord = false;
           this.finish = true;
           this.stopTimer();
         }
-        if (this.currentWord == null && this.listSkipped.length == 0) {
+        if (this.currentWord == null && this.counterSkip == 0) {
           this.resetTimer();
           this.mancheFinished = true;
           this.gameFinished = true;
@@ -390,16 +393,14 @@ export default {
     },
 
     skipWord() {
-      this.currentListWord.push({
-        id: this.currentListWord.length,
+      this.pushCurrentList(this.currentIdWord, this.currentWord, false);
+      this.$store.commit("SKIP_WORD", {
+        id: this.currentIdWord,
         word: this.currentWord,
-        found: false,
       });
       if (!this.resetButton) {
         this.startTimer();
       }
-
-      this.$store.commit("SKIP_WORD", { word: this.currentWord });
 
       if (this.currentWord == null) {
         this.showWord = false;
@@ -434,11 +435,18 @@ export default {
       }
     },
     changeStateWord(word) {
-      if (word.found) {
-        this.currentListWord[word.id].found = false;
-      } else {
-        this.currentListWord[word.id].found = true;
-      }
+      this.$store.commit("CHANGE_STATE_WORD", {
+        id: word.id,
+      });
+      var index = this.currentListWord.findIndex((x) => x.id === word.id);
+      this.currentListWord[index].found = !this.currentListWord[index].found;
+    },
+    pushCurrentList(id, word, found) {
+      this.currentListWord.push({
+        id: id,
+        word: word,
+        found: found,
+      });
     },
     /*progress() {
       console.log("ok");
