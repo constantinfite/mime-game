@@ -1,10 +1,25 @@
 <template>
   <v-container class="fluid d-flex mt-5">
+    <v-app-bar app color="indigo" dark>
+      <p class="mt-2">
+        <span v-if="gameMode == 'timesup'">
+          Manche
+          <span>
+            <span class="font-weight-bold headline">
+              {{ manche[mancheCounter] }}
+            </span>
+            -
+          </span>
+        </span>
+        Joueur
+        <span class="font-weight-bold headline">{{ currentPlayer }}</span>
+      </p>
+    </v-app-bar>
     <v-row justify="center">
       <v-col xs="8" sm="10" md="10" col="10" align="center">
-        <v-row justify="center mt-3">
+        <v-row justify="center">
           <v-col xs="10" sm="10">
-            <span>
+            <div>
               {{ score[0] }}
               <v-icon size="50" :class="colorNinja" class="mr-3 ml-2">
                 mdi-ninja
@@ -13,26 +28,13 @@
                 mdi-pirate
               </v-icon>
               {{ score[1] }}
-            </span>
-
-            <p class="mt-2">
-              <span v-if="gameMode == 'timesup'">
-                Manche
-                <span>
-                  <span class="font-weight-bold headline">
-                    {{ manche[mancheCounter] }}
-                  </span>
-                  -
-                </span>
-              </span>
-              Joueur
-              <span class="font-weight-bold headline">{{ currentPlayer }}</span>
-            </p>
+            </div>
+            <!--   Timer PART -->
             <v-chip
               v-if="!finish"
               color="default"
               outlined
-              class="display-1 mb-12 mt-4 label px py-8"
+              class="display-1 mb-12 mt-8 label px py-8"
             >
               <!--     Start Timer -->
               <v-icon
@@ -163,7 +165,8 @@
           </v-btn>
         </v-col>
         <v-col v-if="switchTeamVisible && finish && !mancheFinished">
-          <p class="headline">Passe le téléphone à <span /></p>
+          <p class="headline">Passe le téléphone à</p>
+          <p class="font-weight-bold display-1">{{ nextPlayer }}</p>
           <v-btn
             x-large
             color="green darken-1"
@@ -174,7 +177,6 @@
           </v-btn>
         </v-col>
         <v-col v-if="!switchTeamVisible && finish && mancheFinished">
-          
           <p>LeaderBoard</p>
         </v-col>
       </v-col>
@@ -205,6 +207,7 @@ export default {
       counterSkip: 0,
       delay: 0,
       currentListWord: [],
+      timeMinimum: null,
     };
   },
   computed: {
@@ -260,6 +263,19 @@ export default {
         return this.$store.getters.redTeam[this.playerIndex[1]];
       }
     },
+    nextPlayer() {
+      if (this.round % 2 == 1) {
+        if (this.playerIndex[0] == this.$store.getters.blueTeam.length) {
+          return this.$store.getters.blueTeam[0];
+        }
+        return this.$store.getters.blueTeam[this.playerIndex[0]];
+      } else {
+        if (this.playerIndex[1] == this.$store.getters.redTeam.length) {
+          return this.$store.getters.redTeam[0];
+        }
+        return this.$store.getters.redTeam[this.playerIndex[1]];
+      }
+    },
     score() {
       return this.$store.getters.scoreTeam;
     },
@@ -278,7 +294,7 @@ export default {
     alcoolMode() {
       return this.$store.getters.alcoolMode;
     },
-    numberWordNotFound(){
+    numberWordNotFound() {
       return this.$store.getters.numberOfNotFound;
     },
     disabledSkipped() {
@@ -331,12 +347,15 @@ export default {
       if (this.seconds > 0) {
         this.timeToGuess--;
       } else {
+        //Dont show add last word if the time is inferior to 1second
+        if (Date.now() - this.timeMinimum > 1000) {
+          this.pushCurrentList(this.currentIdWord, this.currentWord, false);
+          this.$store.commit("SKIP_WORD", {
+            id: this.currentIdWord,
+            word: this.currentWord,
+          });
+        }
         this.stopTimer();
-        this.pushCurrentList(this.currentIdWord, this.currentWord, false);
-        this.$store.commit("SKIP_WORD", {
-          id: this.currentIdWord,
-          word: this.currentWord,
-        });
         this.resetButton = false;
         this.finish = true;
         this.showWord = false;
@@ -366,7 +385,6 @@ export default {
     },
     valider() {
       if (this.currentWord == null && this.numberWordNotFound == 0) {
-
         this.switchTeamVisible = false;
         this.mancheFinished = true;
       } else {
@@ -374,12 +392,14 @@ export default {
       }
     },
     nextWord() {
+      this.timeMinimum = Date.now();
       this.pushCurrentList(this.currentIdWord, this.currentWord, true);
 
       this.$store.commit("NEXT_WORD", {
         id: this.currentIdWord,
         word: this.currentWord,
       });
+
       // When it finishes
       if (this.gameMode == "timesup") {
         if (this.currentWord == null && this.numberWordNotFound != 0) {
@@ -419,6 +439,7 @@ export default {
     },
 
     skipWord() {
+      this.timeMinimum = Date.now();
       this.pushCurrentList(this.currentIdWord, this.currentWord, false);
       this.$store.commit("SKIP_WORD", {
         id: this.currentIdWord,
