@@ -1,8 +1,8 @@
 <template>
   <v-container class="fluid d-flex mt-5">
     <v-app-bar app color="indigo" dark>
-      <p class="mt-2">
-        <span v-if="gameMode == 'timesup'">
+      <v-toolbar-title class="flex text-center">
+        <span v-if="gameMode == 'timesup'" class="subtitle-1">
           Manche
           <span>
             <span class="font-weight-bold headline">
@@ -11,9 +11,9 @@
             -
           </span>
         </span>
-        Joueur
+        <span class="subtitle-1"> Joueur </span>
         <span class="font-weight-bold headline">{{ currentPlayer }}</span>
-      </p>
+      </v-toolbar-title>
     </v-app-bar>
     <v-row justify="center">
       <v-col xs="8" sm="10" md="10" col="10" align="center">
