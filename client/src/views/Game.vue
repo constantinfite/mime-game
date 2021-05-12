@@ -359,7 +359,7 @@ export default {
         this.resetButton = false;
         this.finish = true;
         this.showWord = false;
-        //this.soundEffect.play();
+        this.soundEffect.play();
       }
     },
     switchTeam() {
