@@ -2,8 +2,9 @@ import axios from "axios";
 //import { createLogger } from "vuex";
 
 const apiClient = axios.create({
-  baseURL: `http://localhost:5000/api`,
+  //baseURL: `http://localhost:5000/api`,
   //baseURL: "https://data-base-mime.herokuapp.com/",
+  baseURL: "https://mime-project.herokuapp.com/api",
   withCredentials: false, // This is the default
   headers: {
     Accept: "application/json",
