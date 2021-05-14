@@ -9,7 +9,8 @@ export default new Vuex.Store({
     game: {},
     players: [],
     listWordDone: [],
-    round: 2
+    round: 2,
+    soundButton: new Audio(require("../assets/button3.mp3")),
   },
   mutations: {
     ADD_ROUND(state) {

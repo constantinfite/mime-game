@@ -157,7 +157,7 @@
               <v-icon v-if="word.found" right size="30" class="green--text">
                 mdi-check
               </v-icon>
-              <v-icon v-if="!word.found" right size="30" class="red--text">
+              <v-icon v-if="!word.found" right size="30"  color="error" class="red--text">
                 mdi-close
               </v-icon></v-card-title
             >

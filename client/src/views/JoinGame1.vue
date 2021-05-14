@@ -32,7 +32,7 @@
                     </v-icon>
                   </template>
                 </v-radio>
-                <v-radio label="Rouge" color="red" value="2">
+                <v-radio label="Rouge" color="orange" value="2">
                   <template #label>
                     <v-icon size="50" :class="colorPirate" class="mr-2">
                       mdi-pirate
@@ -87,7 +87,7 @@
                     fab
                     dark
                     x-small
-                    color="deep-orange"
+                    color="error"
                     @click="removeWord"
                   >
                     <v-icon>mdi-minus</v-icon>
@@ -100,8 +100,8 @@
         <v-row justify="center" class="mt-5">
           <v-btn
             :disabled="!formValidity"
-            color="indigo darken-2"
-            class="mb-5 link white--text"
+            color="indigo"
+            class="mb-5 white--text"
             @click="createPlayer"
           >
             Rejoindre la partie
@@ -154,10 +154,13 @@ export default {
     },
     colorPirate() {
       if (this.player.team % 2 == 0 && this.player.team !== null) {
-        return "red--text";
+        return "orange--text";
       } else {
         return "null";
       }
+    },
+    soundButton() {
+      return this.$store.state.soundButton;
     },
     /*
     evenNumbers() {
@@ -196,6 +199,7 @@ export default {
     },
 
     createPlayer() {
+      this.soundButton.play();
       this.player.id = Math.floor(Math.random() * 10000000);
       this.$store
         .dispatch("createPlayer", { player: this.player })
