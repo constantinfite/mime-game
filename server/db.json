@@ -1,0 +1,23 @@
+{
+  "games": [
+    {
+      "id": 695684,
+      "timeToGuess": "30",
+      "mode": "mime"
+    }
+  ],
+  "players": [
+    {
+      "id": 9575775,
+      "name": "constan",
+      "list": [
+        "dromadare",
+        "chameau ",
+        "encyclopédie",
+        "xcv"
+      ],
+      "team": "1",
+      "gameId": "816765"
+    }
+  ]
+}

@@ -153,7 +153,7 @@ export default {
       }
     },
     colorPirate() {
-      if (this.player.team % 2 == 0 && this.player.team !==null) {
+      if (this.player.team % 2 == 0 && this.player.team !== null) {
         return "red--text";
       } else {
         return "null";
@@ -177,7 +177,7 @@ export default {
   methods: {
     check() {
       axios
-        .get("https://data-base-mime.herokuapp.com/games/" + this.player.gameId)
+        .get("http://localhost:5000/api/games/" + this.player.gameId)
         .then(() => {
           //console.log(response.data.id);
           //this.idGame = response.data.id;
