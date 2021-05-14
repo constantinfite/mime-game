@@ -8,7 +8,7 @@ var jsonServer = require('json-server');
 let app = express();
 
 app.use(cors())
-app.use('/api', jsonServer.router('db.json'));
+app.use('/api', jsonServer.router('server/db.json'));
 app.use(history());
 app.use(serveStatic(__dirname + "/public/"));
 
