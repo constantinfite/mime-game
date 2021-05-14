@@ -1,6 +1,6 @@
 <template>
-  <v-container class="fluid d-flex mt-5">
-    <v-app-bar app color="indigo" dark>
+  <v-container class="fluid d-flex mt-2">
+    <v-app-bar app :color="colorTopBar" dark>
       <v-toolbar-title class="flex text-center">
         <span v-if="gameMode == 'timesup'" class="subtitle-1">
           Manche
@@ -34,7 +34,7 @@
               v-if="!finish"
               color="default"
               outlined
-              class="display-1 mb-12 mt-8 label px py-8"
+              class="display-1 mb-12 mt-8 label py-8"
             >
               <!--     Start Timer -->
               <v-icon
@@ -91,7 +91,7 @@
             <v-badge
               v-if="showWord"
               class="display-3 mb-8"
-              color="green"
+              color="indigo"
               :content="numberWordLeft"
             >
               {{ currentWord }}
@@ -99,32 +99,39 @@
             <v-btn
               v-if="!showWord"
               x-large
-              color="cyan darken-1"
-              class="pa-8 white--text mb-12"
+              color="indigo"
+              class="py-5 white--text mb-12"
               @click="showWordFunction"
             >
               Montrer le mot
             </v-btn>
           </v-row>
 
-          <v-row v-if="showWord" justify="center">
-            <v-btn
-              color="green darken-1 "
-              x-large
-              class="mr-12 pa-8 white--text"
-              @click="nextWord"
-            >
-              Trouvé
-            </v-btn>
-            <v-btn
-              color="#E71D36"
-              x-large
-              class="white--text pa-8"
-              :disabled="disabledSkipped"
-              @click="skipWord"
-            >
-              Passe
-            </v-btn>
+          <v-row v-if="showWord" align="center">
+            <v-col cols="12" sm="6">
+              <v-btn
+                color="green "
+                x-large
+                fab
+                dark
+                size="50"
+                class="mr-12 pa-10 white--text"
+                @click="nextWord"
+              >
+                <v-icon size="50" dark> mdi-check </v-icon>
+              </v-btn>
+
+              <v-btn
+                color="error"
+                x-large
+                fab
+                class="white--text pa-10"
+                :disabled="disabledSkipped"
+                @click="skipWord"
+              >
+                <v-icon size="50"> mdi-close </v-icon>
+              </v-btn>
+            </v-col>
           </v-row>
         </v-col>
         <v-col v-if="finish && !switchTeamVisible && !mancheFinished">
@@ -169,7 +176,7 @@
           <p class="font-weight-bold display-1">{{ nextPlayer }}</p>
           <v-btn
             x-large
-            color="green darken-1"
+            color="indigo"
             class="my-5 white--text"
             @click="switchTeam"
           >
@@ -190,7 +197,11 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      soundEffect: new Audio(require("../assets/sonnerie.mp3")),
+      soundEffect: new Audio(require("../assets/timer.wav")),
+      correctSound: new Audio(require("../assets/correct_sound.wav")),
+      wrongSound: new Audio(require("../assets/wrong_sound.wav")),
+      buttonSound: new Audio(require("../assets/button3.mp3")),
+      startButtonSound: new Audio(require("../assets/start.mp3")),
       mancheCounter: 0,
       manche: ["Phrase", "Mot", "Mime"],
       mancheFinished: false,
@@ -230,9 +241,16 @@ export default {
     },
     colorPirate() {
       if (this.round % 2 == 1) {
-        return "red--text";
+        return "orange--text";
       } else {
         return "null";
+      }
+    },
+    colorTopBar() {
+      if (this.round % 2 == 1) {
+        return "orange";
+      } else {
+        return "light-blue";
       }
     },
 
@@ -248,13 +266,6 @@ export default {
     },
     currentIdWord() {
       return this.$store.getters.word.id;
-    },
-    currentColorClass() {
-      if (this.round % 2 == 0) {
-        return "blue--text";
-      } else {
-        return "red--text";
-      }
     },
     currentPlayer() {
       if (this.round % 2 == 0) {
@@ -346,6 +357,9 @@ export default {
       this.$store.commit("COUNT_DOWN");
       if (this.seconds > 0) {
         this.timeToGuess--;
+        if (this.seconds < 4) {
+          this.soundEffect.play();
+        }
       } else {
         //Dont show add last word if the time is inferior to 1second
         if (Date.now() - this.timeMinimum > 1000) {
@@ -359,11 +373,10 @@ export default {
         this.resetButton = false;
         this.finish = true;
         this.showWord = false;
-        this.soundEffect.play();
       }
     },
     switchTeam() {
-      this.soundEffect.pause();
+      this.buttonSound.play();
       this.currentListWord = [];
       if (this.round % 2 == 0) {
         this.playerIndex[0] += 1;
@@ -384,6 +397,7 @@ export default {
       this.counterSkip = 0;
     },
     valider() {
+      this.buttonSound.play();
       if (this.currentWord == null && this.numberWordNotFound == 0) {
         this.switchTeamVisible = false;
         this.mancheFinished = true;
@@ -392,6 +406,7 @@ export default {
       }
     },
     nextWord() {
+      this.correctSound.play();
       this.timeMinimum = Date.now();
       this.pushCurrentList(this.currentIdWord, this.currentWord, true);
 
@@ -431,6 +446,7 @@ export default {
       }
     },
     switchManche() {
+      this.buttonSound.play();
       this.mancheFinished = false;
       this.$store.commit("RESET_LIST");
       this.mancheCounter += 1;
@@ -439,6 +455,7 @@ export default {
     },
 
     skipWord() {
+      this.wrongSound.play();
       this.timeMinimum = Date.now();
       this.pushCurrentList(this.currentIdWord, this.currentWord, false);
       this.$store.commit("SKIP_WORD", {
@@ -457,6 +474,8 @@ export default {
       this.counterSkip += 1;
     },
     showWordFunction() {
+      this.buttonSound.play();
+      //this.startButtonSound.play();
       this.showWord = true;
       if (!this.resetButton) {
         this.startTimer();

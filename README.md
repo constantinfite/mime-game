@@ -17,16 +17,11 @@ npm run serve
 json-server --watch db.json
 
 
+
 temps de réinitialisation
-dernier mot trouver chnager
-
 css background
-
-
 mode alcool
-
-
 leaderboard
-changer d'équipe
+
 
 

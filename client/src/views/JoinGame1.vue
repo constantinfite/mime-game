@@ -177,7 +177,7 @@ export default {
   methods: {
     check() {
       axios
-        .get("http://localhost:5000/api/games/" + this.player.gameId)
+        .get("https://data-base-mime.herokuapp.com/games/" + this.player.gameId)
         .then(() => {
           //console.log(response.data.id);
           //this.idGame = response.data.id;

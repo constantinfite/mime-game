@@ -7,10 +7,12 @@
           <h3>Nombre de secondes pour deviner</h3>
           <v-text-field v-model="game.timeToGuess" required type="number"
                         placeholder="30 secondes" :rules="timeRule" />
+          <h3>Mode de jeu</h3>
           <v-radio-group v-model="game.mode" required row :rules="modeRule">
             <v-radio label="Mime" color="blue" value="mime" />
             <v-radio label="Time's up" color="red" value="timesup" />
           </v-radio-group>
+          <h3>Soirée arrosée</h3>
           <v-radio-group v-model="game.alcool" required row :rules="modeRule">
             <v-radio label="Alcool" color="blue" value="alcool" />
             <v-radio label="Sobre" color="red" value="sobre" />
@@ -32,7 +34,7 @@ export default {
         id: null,
         timeToGuess: null,
         mode: "",
-        alcool:null,
+        alcool: null,
         scoreBleu: 0,
         scoreRouge: 0,
       },
@@ -40,8 +42,8 @@ export default {
       modeRule: [(value) => !!value || "Choisis le mode"],
       timeRule: [
         (v) => !!v || "Rentre le temps",
-        (v) => (v>=0 ) || "Temps doit être supérieur à 30 secondes ",
-        (v) => (v <= 999) || "Temps doit être inférieur à 999 secondes",
+        (v) => v >= 0 || "Temps doit être supérieur à 30 secondes ",
+        (v) => v <= 999 || "Temps doit être inférieur à 999 secondes",
       ],
     };
   },
