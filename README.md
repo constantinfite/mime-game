@@ -18,7 +18,7 @@ json-server --watch db.json
 
 
 sound delay
-mime bug
+id game
 
 temps de réinitialisation
 css background

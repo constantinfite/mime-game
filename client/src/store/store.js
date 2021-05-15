@@ -99,12 +99,26 @@ export default new Vuex.Store({
         });
     },
     createGame({ commit }, game) {
+      /*EventService.getGame(game.id)
+        .then(response => {
+          if (response.status_code == 404) {
+            console.log("Doesn't exist")
+          }
+          else {
+            console.log("Already exist")
+          }
+        })
+        .catch((err) => {
+          console.log("error");
+          console.log(err)
+        });*/
       EventService.postGame(game)
         .then(() => {
           commit("SET_GAME", game);
         })
-        .catch(() => {
+        .catch((err) => {
           console.log("error");
+          console.log(err)
         });
     },
     fetchPlayers({ commit }, gameCode) {

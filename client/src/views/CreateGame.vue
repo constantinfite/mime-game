@@ -32,6 +32,7 @@ export default {
     return {
       game: {
         id: null,
+        //timeNow: Date.now(),
         timeToGuess: null,
         mode: "",
         alcool: null,
@@ -48,6 +49,8 @@ export default {
     };
   },
   created() {
+    //this.game.id=1
+
     this.game.id = Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
   },
   methods: {

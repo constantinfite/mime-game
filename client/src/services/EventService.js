@@ -18,6 +18,7 @@ export default {
   },
 
   getPlayers(gameId) {
+    
     return apiClient.get("/games/" + gameId + "/players");
   },
   postPlayer(player) {

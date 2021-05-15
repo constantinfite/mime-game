@@ -157,7 +157,13 @@
               <v-icon v-if="word.found" right size="30" class="green--text">
                 mdi-check
               </v-icon>
-              <v-icon v-if="!word.found" right size="30"  color="error" class="red--text">
+              <v-icon
+                v-if="!word.found"
+                right
+                size="30"
+                color="error"
+                class="red--text"
+              >
                 mdi-close
               </v-icon></v-card-title
             >
@@ -398,11 +404,28 @@ export default {
     },
     valider() {
       this.buttonSound.play();
-      if (this.currentWord == null && this.numberWordNotFound == 0) {
-        this.switchTeamVisible = false;
-        this.mancheFinished = true;
+      if (this.gameMode == "timesup") {
+        if (this.currentWord == null && this.numberWordNotFound == 0) {
+          this.switchTeamVisible = false;
+          this.mancheFinished = true;
+          if (this.mancheCounter == 2) {
+            this.gameFinished = true;
+          }
+        } else {
+          this.switchTeamVisible = true;
+        }
+        //Mode mime
       } else {
-        this.switchTeamVisible = true;
+        //If no word left game finished
+        if (this.currentWord == null && this.numberWordNotFound == 0) {
+          this.switchTeamVisible = false;
+          this.mancheFinished = true;
+          this.gameFinished = true;
+        }
+        //if word left change team
+        else {
+          this.switchTeamVisible = true;
+        }
       }
     },
     nextWord() {
@@ -416,33 +439,14 @@ export default {
       });
 
       // When it finishes
-      if (this.gameMode == "timesup") {
-        if (this.currentWord == null && this.numberWordNotFound != 0) {
-          this.showWord = false;
-          this.finish = true;
-          this.stopTimer();
-        }
-        if (this.currentWord == null && this.numberWordNotFound == 0) {
-          //this.mancheFinished = true;
-          this.showWord = false;
-          this.finish = true;
-          this.stopTimer();
 
-          if (this.mancheCounter == 2) {
-            this.gameFinished = true;
-          }
-        }
-      } else {
-        if (this.currentWord == null && this.numberWordNotFound != 0) {
-          this.showWord = false;
-          this.finish = true;
-          this.stopTimer();
-        }
-        if (this.currentWord == null && this.numberWordNotFound == 0) {
-          this.resetTimer();
-          this.mancheFinished = true;
-          this.gameFinished = true;
-        }
+      if (
+        this.currentWord == null &&
+        (this.numberWordNotFound != 0 || this.numberWordNotFound == 0)
+      ) {
+        this.showWord = false;
+        this.finish = true;
+        this.stopTimer();
       }
     },
     switchManche() {
