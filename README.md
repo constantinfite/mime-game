@@ -17,6 +17,8 @@ npm run serve
 json-server --watch db.json
 
 
+sound delay
+mime bug
 
 temps de réinitialisation
 css background

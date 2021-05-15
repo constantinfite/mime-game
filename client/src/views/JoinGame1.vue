@@ -16,7 +16,7 @@
         </v-row>
         <v-row justify="center" class="mb-5">
           <v-col>
-            <div><strong>Choisis ton équipe </strong></div>
+            <h3>Choisis ton équipe</h3>
             <v-form ref="SignUpForm" v-model="formValidity">
               <v-radio-group
                 v-model="player.team"
@@ -49,6 +49,7 @@
               />
               <!--<h3 class>Rentre le code</h3>-->
               <v-text-field
+                v-if="$route.params.admin === 'player'"
                 id="input"
                 v-model="player.gameId"
                 label="Code de la partie"
@@ -176,9 +177,19 @@ export default {
   },
   created() {
     this.idGame = this.$route.params.idGame;
+    if  (this.$route.params.admin === "admin") {
+    this.player.gameId = this.$route.params.idGame;
+    }
   },
+
   methods: {
     check() {
+      /*
+      if (this.$route.params.admin === "admin") {
+        var gameId = this.idGame;
+      } else {
+        gameId = this.player.gameId;
+      }*/
       axios
         .get("https://data-base-mime.herokuapp.com/games/" + this.player.gameId)
         .then(() => {
@@ -224,8 +235,12 @@ export default {
     },
     removeWord() {
       //var length = this.numberOfWord.length;
-      this.numberOfWord.pop();
-      this.player.list.pop();
+      if (this.player.list.length >= this.numberOfWord.length) {
+        this.numberOfWord.pop();
+        this.player.list.pop();
+      } else {
+        this.numberOfWord.pop();
+      }
     },
   },
 };
