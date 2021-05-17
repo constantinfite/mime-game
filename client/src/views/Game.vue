@@ -107,8 +107,8 @@
             </v-btn>
           </v-row>
 
-          <v-row v-if="showWord" align="center">
-            <v-col cols="12" sm="6">
+          <v-row v-if="showWord" justify="center">
+            <v-col cols="12" sm="6" justify="center">
               <v-btn
                 color="green "
                 x-large
@@ -364,6 +364,7 @@ export default {
       if (this.seconds > 0) {
         this.timeToGuess--;
         if (this.seconds < 4) {
+          this.soundEffect.currentTime =0
           this.soundEffect.play();
         }
       } else {
@@ -382,6 +383,7 @@ export default {
       }
     },
     switchTeam() {
+      this.buttonSound.currentTime = 0;
       this.buttonSound.play();
       this.currentListWord = [];
       if (this.round % 2 == 0) {
@@ -403,6 +405,7 @@ export default {
       this.counterSkip = 0;
     },
     valider() {
+      this.buttonSound.currentTime = 0;
       this.buttonSound.play();
       if (this.gameMode == "timesup") {
         if (this.currentWord == null && this.numberWordNotFound == 0) {
@@ -429,6 +432,7 @@ export default {
       }
     },
     nextWord() {
+      this.correctSound.currentTime = 0;
       this.correctSound.play();
       this.timeMinimum = Date.now();
       this.pushCurrentList(this.currentIdWord, this.currentWord, true);
@@ -450,6 +454,7 @@ export default {
       }
     },
     switchManche() {
+      this.buttonSound.currentTime = 0;
       this.buttonSound.play();
       this.mancheFinished = false;
       this.$store.commit("RESET_LIST");
@@ -459,6 +464,7 @@ export default {
     },
 
     skipWord() {
+      this.wrongSound.currentTime = 0;
       this.wrongSound.play();
       this.timeMinimum = Date.now();
       this.pushCurrentList(this.currentIdWord, this.currentWord, false);
