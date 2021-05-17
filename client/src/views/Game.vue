@@ -200,12 +200,13 @@
 <script>
 import { mapState } from "vuex";
 
+const soundEffect = new Audio();
 export default {
   data() {
     return {
-      soundEffect: new Audio(require("../assets/timer.wav")),
-      correctSound: new Audio(require("../assets/correct_sound.wav")),
-      wrongSound: new Audio(require("../assets/wrong_sound.wav")),
+      soundEffect: new Audio(require("../assets/timer.mp3")),
+      correctSound: new Audio(require("../assets/correct_sound.mp3")),
+      wrongSound: new Audio(require("../assets/wrong_sound.mp3")),
       buttonSound: new Audio(require("../assets/button3.mp3")),
       startButtonSound: new Audio(require("../assets/start.mp3")),
       mancheCounter: 0,
@@ -336,6 +337,7 @@ export default {
   },
   watch: {},
   created() {
+    soundEffect.play();
     this.$store.dispatch("fetchGame", this.$route.params.idGame);
     this.$store.dispatch("fetchPlayers", this.$route.params.idGame);
   },
@@ -365,7 +367,9 @@ export default {
         this.timeToGuess--;
         console.log(this.seconds)
         if (this.seconds ==3) {
-          console.log("play")
+          soundEffect.src = 'path/to/file.mp3';
+          soundEffect.play();
+          
           this.soundEffect.currentTime =0
           this.soundEffect.play();
         }
