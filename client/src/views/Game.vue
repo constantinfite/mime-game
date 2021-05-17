@@ -363,7 +363,9 @@ export default {
       this.$store.commit("COUNT_DOWN");
       if (this.seconds > 0) {
         this.timeToGuess--;
-        if (this.seconds < 4) {
+        console.log(this.seconds)
+        if (this.seconds ==3) {
+          console.log("play")
           this.soundEffect.currentTime =0
           this.soundEffect.play();
         }
