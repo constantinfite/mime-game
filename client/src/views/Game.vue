@@ -204,7 +204,7 @@ const soundEffect = new Audio();
 export default {
   data() {
     return {
-      soundEffect: new Audio(require("../assets/timer.mp3")),
+      //soundEffect: new Audio(require("../assets/timer.mp3")),
       correctSound: new Audio(require("../assets/correct_sound.mp3")),
       wrongSound: new Audio(require("../assets/wrong_sound.mp3")),
       buttonSound: new Audio(require("../assets/button3.mp3")),
@@ -367,11 +367,11 @@ export default {
         this.timeToGuess--;
         console.log(this.seconds)
         if (this.seconds ==3) {
-          soundEffect.src = 'path/to/file.mp3';
+          soundEffect.src = require("../assets/timer.mp3");
           soundEffect.play();
           
-          this.soundEffect.currentTime =0
-          this.soundEffect.play();
+          //this.soundEffect.currentTime =0
+          //this.soundEffect.play();
         }
       } else {
         //Dont show add last word if the time is inferior to 1second
