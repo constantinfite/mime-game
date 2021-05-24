@@ -127,7 +127,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      numberOfWord: [1],
+      numberOfWord: [1,2,3,4,5],
       idGame: null,
       player: { id: 0, name: "", list: [], team: null, gameId: null },
       formValidity: false,
@@ -184,17 +184,9 @@ export default {
 
   methods: {
     check() {
-      /*
-      if (this.$route.params.admin === "admin") {
-        var gameId = this.idGame;
-      } else {
-        gameId = this.player.gameId;
-      }*/
       axios
         .get("https://data-base-mime.herokuapp.com/games/" + this.player.gameId)
         .then(() => {
-          //console.log(response.data.id);
-          //this.idGame = response.data.id;
           this.codeValidity = true;
         })
         .catch((error) => {
@@ -216,7 +208,6 @@ export default {
         .post("/api/WordDataList", this.player)
         .then(() => {
           console.log("ok");
-          //this.idGame = response.data.id;
         })
         .catch((error) => {
           if (error.response.status === 404) {
@@ -226,8 +217,6 @@ export default {
 
       this.$store
         .dispatch("createPlayer", { player: this.player })
-        /*this.$store
-        .dispatch("fetchPlayers", { gameId: this.player.gameId })*/
         .then(() => {
           this.$router.push({
             name: "TeamMenu",
