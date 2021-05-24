@@ -11,10 +11,7 @@ const path = require("path")
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 
-/*var corsOptions = {
-  origin: "http://localhost:3000"
-};*/
-app.use(cors);
+app.use(cors());
 
 
 mongoose.connect(mongoUri, {

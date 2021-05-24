@@ -11,16 +11,6 @@ const apiClient = axios.create({
     "Content-Type": "application/json"
   }
 });
-const apiStore = axios.create({
-  baseURL: 'http://localhost:3000/api',
-  //baseURL: "https://data-base-mime.herokuapp.com/",
-  //baseURL: "https://mime-project.herokuapp.com/api",
-  withCredentials: false, // This is the default
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json"
-  }
-});
 
 export default {
   getGame(gameCode) {
@@ -38,8 +28,8 @@ export default {
   postGame(game) {
     return apiClient.post("/games", game);
   },
-  postData(player) {
+  /*postData(player) {
     console.log("test")
     return apiStore.post("/WordDataList", player);
-  }
+  }*/
 };

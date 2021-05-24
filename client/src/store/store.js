@@ -90,15 +90,6 @@ export default new Vuex.Store({
   },
   actions: {
     createPlayer({ commit }, { player }) {
-
-      EventService.postData(player)
-        .then(() => {
-          console.log("pass")
-        })
-        .catch(() => {
-          console.log("eror");
-        });
-      console.log("go further")
       EventService.postPlayer(player)
         .then(() => {
           commit("ADD_PLAYER", player);

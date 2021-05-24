@@ -127,7 +127,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      numberOfWord: [1, 2, 3, 4, 5],
+      numberOfWord: [1],
       idGame: null,
       player: { id: 0, name: "", list: [], team: null, gameId: null },
       formValidity: false,
@@ -212,6 +212,18 @@ export default {
     createPlayer() {
       this.soundButton.play();
       this.player.id = Math.floor(Math.random() * 10000000);
+      axios
+        .post("/api/WordDataList", this.player)
+        .then(() => {
+          console.log("ok");
+          //this.idGame = response.data.id;
+        })
+        .catch((error) => {
+          if (error.response.status === 404) {
+            console.log("error Mongodb");
+          }
+        });
+
       this.$store
         .dispatch("createPlayer", { player: this.player })
         /*this.$store
