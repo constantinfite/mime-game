@@ -177,8 +177,8 @@ export default {
   },
   created() {
     this.idGame = this.$route.params.idGame;
-    if  (this.$route.params.admin === "admin") {
-    this.player.gameId = this.$route.params.idGame;
+    if (this.$route.params.admin === "admin") {
+      this.player.gameId = this.$route.params.idGame;
     }
   },
 
