@@ -110,10 +110,10 @@
           <v-row v-if="showWord" justify="center">
             <v-col cols="12" sm="6" justify="center">
               <v-btn
+                :disabled="showButton"
                 color="green "
                 x-large
                 fab
-                dark
                 size="50"
                 class="mr-12 pa-10 white--text"
                 @click="nextWord"
@@ -138,7 +138,7 @@
           <span
             v-if="
               alcoolMode == 'alcool' &&
-              (finish || (mancheFinished && !gameFinished) || gameFinished)
+                (finish || (mancheFinished && !gameFinished) || gameFinished)
             "
             class="headline"
           >
@@ -219,6 +219,7 @@ export default {
       showWord: false,
       gameFinished: false,
       beginning: false,
+      showButton: false,
       switchTeamVisible: false,
       color: ["Bleu", "Rouge"],
       playerIndex: [0, 0],
@@ -365,11 +366,11 @@ export default {
       this.$store.commit("COUNT_DOWN");
       if (this.seconds > 0) {
         this.timeToGuess--;
-        console.log(this.seconds)
-        if (this.seconds ==3) {
+        console.log(this.seconds);
+        if (this.seconds == 3) {
           soundEffect.src = require("../assets/timer.mp3");
           soundEffect.play();
-          
+
           //this.soundEffect.currentTime =0
           //this.soundEffect.play();
         }
@@ -438,6 +439,7 @@ export default {
       }
     },
     nextWord() {
+      this.showButton = true;
       this.correctSound.currentTime = 0;
       this.correctSound.play();
       this.timeMinimum = Date.now();
@@ -458,6 +460,7 @@ export default {
         this.finish = true;
         this.stopTimer();
       }
+      setTimeout(this.disabledButton, 1000);
     },
     switchManche() {
       this.buttonSound.currentTime = 0;
@@ -504,10 +507,8 @@ export default {
       });
     },
 
-    wait(timeout) {
-      return new Promise((resolve) => {
-        setTimeout(resolve, timeout);
-      });
+    disabledButton() {
+      this.showButton = false
     },
     colorCard(found) {
       if (found) {

@@ -7,6 +7,11 @@
           <h3>Nombre de secondes pour deviner</h3>
           <v-text-field v-model="game.timeToGuess" required type="number"
                         placeholder="30 secondes" :rules="timeRule" />
+          <!--             
+          <h3>Nombre de mots à deviner</h3>
+          <v-text-field v-model="game.numberWords" required type="number"
+                        placeholder="5" :rules="wordRule" />
+                        -->
           <h3>Mode de jeu</h3>
           <v-radio-group v-model="game.mode" required row :rules="modeRule">
             <v-radio label="Mime" color="blue" value="mime" />
@@ -27,20 +32,24 @@
   </v-container>
 </template>
 <script>
+import EventService from "@/services/EventService.js";
 export default {
   data() {
     return {
       game: {
         id: null,
         //timeNow: Date.now(),
-        timeToGuess: null,
+        response: null,
+        timeToGuess: 30,
         mode: "",
+        //numberWords:5,
         alcool: null,
         scoreBleu: 0,
         scoreRouge: 0,
       },
       formValidity: false,
       modeRule: [(value) => !!value || "Choisis le mode"],
+      //wordRule: [(v) => v >= 3 || "Nombre de mots supérieur à 3 "],
       timeRule: [
         (v) => !!v || "Rentre le temps",
         (v) => v >= 0 || "Temps doit être supérieur à 30 secondes ",
@@ -48,13 +57,38 @@ export default {
       ],
     };
   },
-  created() {
-    //this.game.id=1
+  async created() {
+    this.game.id = Math.floor(Math.random() * (1000 - 100 + 1)) + 10;
 
-    this.game.id = Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
+    await EventService.getGame(this.game.id).then((response) => {
+      this.response = response.status;
+    });
+
+    while (this.response == 200) {
+      this.game.id = Math.floor(Math.random() * 4) + 1;
+      console.log("already exist");
+      await EventService.getGame(this.game.id).then((response) => {
+        this.response = response.status;
+      });
+    }
   },
   methods: {
     createGame() {
+      if (this.gameExist == true) {
+        this.game.id = 3;
+        console.log("while");
+        EventService.getGame(this.game.id)
+          .then(() => {
+            console.log("Already exist");
+          })
+          .catch((error) => {
+            if (error.response.status === 404) {
+              this.gameExist = false;
+              this.console.log("Doesn't exist");
+            }
+          });
+      }
+
       this.$store
         .dispatch("createGame", this.game)
         .then(() => {

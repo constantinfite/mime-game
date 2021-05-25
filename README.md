@@ -17,13 +17,13 @@ npm run serve
 json-server --watch db.json
 
 
-sound delay
 id game
+
 
 temps de réinitialisation
 css background
 mode alcool
-leaderboard
+
 
 
 

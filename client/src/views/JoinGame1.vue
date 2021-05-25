@@ -127,7 +127,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      numberOfWord: [1,2,3,4,5],
+      numberOfWord: [1, 2, 3, 4, 5],
       idGame: null,
       player: { id: 0, name: "", list: [], team: null, gameId: null },
       formValidity: false,
@@ -163,17 +163,6 @@ export default {
     soundButton() {
       return this.$store.state.soundButton;
     },
-    /*
-    evenNumbers() {
-      return this.numberOfWord.filter(function (number) {
-        return number % 2 === 0;
-      });
-    },
-    oddNumbers() {
-      return this.numberOfWord.filter(function (number) {
-        return number % 2 === 1;
-      });
-    },*/
   },
   created() {
     this.idGame = this.$route.params.idGame;
@@ -204,10 +193,12 @@ export default {
     createPlayer() {
       this.soundButton.play();
       this.player.id = Math.floor(Math.random() * 10000000);
+      //MONGODB POST DATA
+
       axios
         .post("/api/WordDataList", this.player)
         .then(() => {
-          console.log("ok");
+          console.log("Store in MongoDB");
         })
         .catch((error) => {
           if (error.response.status === 404) {

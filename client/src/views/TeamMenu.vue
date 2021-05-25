@@ -13,7 +13,7 @@
           </v-chip>
         </v-col>
 
-        <h3>Team Bleu</h3>
+        <h3>Team Ninja</h3>
         <v-sheet elevation="0" class="pa-4">
           <v-chip-group column active-class="primary--text">
             <v-chip
@@ -26,13 +26,13 @@
             >
           </v-chip-group>
         </v-sheet>
-        <h3>Team Rouge</h3>
+        <h3>Team Pirate</h3>
         <v-sheet elevation="0" class="pa-4">
           <v-chip-group column active-class="primary--text">
             <v-chip
               v-for="player in redTeam"
               :key="player.id"
-              color="red"
+              color="orange"
               text-color="white"
             >
               {{ player }}</v-chip

@@ -1,5 +1,4 @@
 import axios from "axios";
-//import { createLogger } from "vuex";
 
 const apiClient = axios.create({
   //baseURL: `http://localhost:3000/api`,
@@ -28,8 +27,5 @@ export default {
   postGame(game) {
     return apiClient.post("/games", game);
   },
-  /*postData(player) {
-    console.log("test")
-    return apiStore.post("/WordDataList", player);
-  }*/
+
 };
