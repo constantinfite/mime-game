@@ -6,9 +6,17 @@ module.exports = {
     proxy: {
       "/api": {
         target: "http://localhost:3000",
-        
+
       }
     }
+  },
+  chainWebpack: config => {
+    config.module
+      .rule('raw')
+      .test(/\.txt$/)
+      .use('raw-loader')
+      .loader('raw-loader')
+      .end()
   },
 
   transpileDependencies: ["vuetify"],

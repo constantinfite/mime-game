@@ -3,20 +3,20 @@
     <v-container>
       <v-row justify="center" class="mb-12">
         <v-col cols="8" align="center">
-          <h1>les Mimes</h1>
+          <h1>Liste des jeux</h1>
           <v-row justify="center" class="my-12">
             <v-btn
               x-large
               color="green darken-1"
               class="white--text"
-              @click="createGame"
+              @click="GoMotdepasse"
             >
-              Créer une partie
+              Mot de passe
             </v-btn>
           </v-row>
           <v-row justify="center">
-            <v-btn color="indigo" class="white--text" x-large @click="joinGame">
-              Rejoindre une partie
+            <v-btn color="indigo" class="white--text" x-large @click="GoTimesup">
+              Time's Up
             </v-btn>
           </v-row>
         </v-col>
@@ -36,17 +36,16 @@ export default {
     },
   },
   methods: {
-    createGame() {
+    GoMotdepasse() {
       this.soundButton.play();
       this.$router.push({
-        name: "CreateGame",
+        name: "Home_Motdepasse",
       });
     },
-    joinGame() {
+    GoTimesup() {
       this.soundButton.play();
       this.$router.push({
-        name: "JoinGame",
-        params: { idGame: 0, admin: "player" },
+        name: "Home_Timesup",
       });
     },
   },

@@ -1,10 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import Home_Timesup from "../views/Home_Timesup.vue";
+import Home_Motdepasse from "../views/Home_Motdepasse.vue";
 import TeamMenu from "../views/TeamMenu.vue";
 import DashBoard from "../views/DashBoard.vue";
 import JoinGame1 from "../views/JoinGame1.vue";
-import Game from "../views/Game.vue";
+import Game_Timesup from "../views/Game_Timesup.vue";
+import Game_Motdepasse from "../views/Game_Motdepasse.vue";
 import CreateGame from "../views/CreateGame"
 
 Vue.use(VueRouter);
@@ -14,6 +17,16 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home
+  },
+  {
+    path: "/Home_Motdepasse",
+    name: "Home_Motdepasse",
+    component: Home_Motdepasse
+  },
+  {
+    path: "/Home_Timesup",
+    name: "Home_Timesup",
+    component: Home_Timesup
   },
   {
     path: "/createGame",
@@ -38,11 +51,18 @@ const routes = [
     props: true
   },
   {
-    path: "/Game/:idGame",
-    name: "Game",
-    component: Game,
+    path: "/Game_Timesup/:idGame",
+    name: "Game_Timesup",
+    component: Game_Timesup,
+    props: true
+  },
+  {
+    path: "/Game_Motdepasse",
+    name: "Game_Motdepasse",
+    component: Game_Motdepasse,
     props: true
   }
+  
 ];
 
 const router = new VueRouter({

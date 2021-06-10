@@ -17,9 +17,6 @@ npm run serve
 json-server --watch db.json
 
 
-id game
-
-
 temps de réinitialisation
 css background
 mode alcool
