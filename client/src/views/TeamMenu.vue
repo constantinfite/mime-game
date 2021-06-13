@@ -89,7 +89,7 @@ export default {
   methods: {
     startGame() {
       this.$router.push({
-        name: "Game",
+        name: "Game_Timesup",
         params: { idGame: this.$route.params.idGame },
       });
     },
