@@ -45,9 +45,6 @@ export default {
       this.$router.push({
         name: "Game_Motdepasse",
       });
-      this.$store.dispatch("createGame", this.game).catch(() => {
-        console.log("error");
-      });
     },
   },
 };
