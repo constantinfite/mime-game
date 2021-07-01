@@ -6,6 +6,7 @@ module.exports = {
     proxy: {
       "/api": {
         target: "http://localhost:3000",
+        //change to 5000 to work in development mode
 
       }
     }

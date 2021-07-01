@@ -1,3 +1,13 @@
+#RASPBERRY
+
+EXPRESS PORT : 5000
+nodemon server.js
+JSON-SERVER PORT : 3000
+json-server --watch db.json
+
+
+
+#HEROKU
 To make into production :
 
 cd client
