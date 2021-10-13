@@ -1,17 +1,18 @@
-#RASPBERRY
+# RASPBERRY
 
 EXPRESS PORT : 5000
 nodemon server.js
 JSON-SERVER PORT : 3000
 json-server --watch db.json
 
+change api url to "http://localhost:3000"
 
 
-#HEROKU
+# HEROKU
 To make into production :
+change api url to "https://data-base-mime.herokuapp.com/"
 
 cd client
-change api url
 npm run build 
 
 at root
@@ -29,7 +30,6 @@ json-server --watch db.json
 
 temps de réinitialisation
 css background
-mode alcool
 
 
 

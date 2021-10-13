@@ -1,6 +1,7 @@
 const express = require('express');
 var history = require('connect-history-api-fallback');
 const app = express();
+require('dotenv').config()
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose")
