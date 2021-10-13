@@ -13,6 +13,7 @@ const apiClient = axios.create({
 
 export default {
   getGame(gameCode) {
+    
     return apiClient.get("/games/" + gameCode);
   },
 

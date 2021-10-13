@@ -65,8 +65,8 @@ export default {
     });
 
     while (this.response == 200) {
-      this.game.id = Math.floor(Math.random() * 4) + 1;
-      console.log("already exist");
+      this.game.id = Math.floor(Math.random() * (1000 - 100 + 1)) + 10;
+      //console.log("already exist");
       await EventService.getGame(this.game.id).then((response) => {
         this.response = response.status;
       });
