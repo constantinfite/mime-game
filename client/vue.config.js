@@ -5,8 +5,8 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
-        //change to 5000 to work in development mode
+        target: "http://localhost:5000",
+        //change to 5000 to work in development mode and 3000 for Raspberry
 
       }
     }

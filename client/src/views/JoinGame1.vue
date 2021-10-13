@@ -174,7 +174,7 @@ export default {
   methods: {
     check() {
       axios
-        .get(process.env.API_URI+"/games/" + this.player.gameId)
+        .get("https://data-base-mime.herokuapp.com/games/" + this.player.gameId)
         .then(() => {
           this.codeValidity = true;
         })
