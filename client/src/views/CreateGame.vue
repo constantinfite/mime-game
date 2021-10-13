@@ -74,20 +74,6 @@ export default {
   },
   methods: {
     createGame() {
-      if (this.gameExist == true) {
-        this.game.id = 3;
-        console.log("while");
-        EventService.getGame(this.game.id)
-          .then(() => {
-            console.log("Already exist");
-          })
-          .catch((error) => {
-            if (error.response.status === 404) {
-              this.gameExist = false;
-              this.console.log("Doesn't exist");
-            }
-          });
-      }
 
       this.$store
         .dispatch("createGame", this.game)

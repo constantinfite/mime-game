@@ -193,6 +193,7 @@ export default {
     createPlayer() {
       this.soundButton.play();
       this.player.id = Math.floor(Math.random() * 10000000);
+
       //MONGODB POST DATA
 
       axios
@@ -206,6 +207,8 @@ export default {
           }
         });
 
+      // post in data-base-mime.herokuapp.com
+      
       this.$store
         .dispatch("createPlayer", { player: this.player })
         .then(() => {

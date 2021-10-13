@@ -5,7 +5,7 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target: "http://localhost:5000", // 5000 for heroku
         //change to 5000 to work in development mode and 3000 for Raspberry
 
       }
