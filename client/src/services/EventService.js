@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiClient = axios.create({
   //baseURL: `http://localhost:3000`,
-  baseURL: "https://data-base-mime.herokuapp.com/",
+  baseURL: process.env.API_URI,
   //baseURL: "https://mime-project.herokuapp.com/api",
   withCredentials: false, // This is the default
   headers: {

@@ -174,7 +174,7 @@ export default {
   methods: {
     check() {
       axios
-        .get("http://localhost:3000/games/" + this.player.gameId)
+        .get(process.env.API_URI+"/games/" + this.player.gameId)
         .then(() => {
           this.codeValidity = true;
         })
